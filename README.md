@@ -35,6 +35,7 @@
 
 
 **Структура REST API**
+
 1.     Регистрация пользователя
 Метод: POST
 URL: /users
@@ -51,6 +52,7 @@ URL: /users
                    “token”:”/…”
     "message": "User registered successfully"
 }
+
 2.     Вход в систему
 Метод: POST
 URL: /users/login
@@ -62,6 +64,7 @@ URL: /users/login
 "status": "success",
  "user_id": 1
  }
+ 
 3. Создание рецепта (POST)
 Метод: POST
 URL: /recipes
@@ -87,6 +90,7 @@ URL: /recipes
     "id_recipe": 1,
     "message": "Recipe added successfully"
 }
+
 4. Получение списка рецептов (GET)
 Метод: GET
 URL: /recipes
@@ -104,6 +108,7 @@ URL: /recipes
     "title": "Салат Цезарь"
   }
 ]
+
 5. Получение конкретного рецепта 
 Метод: GET
 URL: /recipes/{recipe_id}
@@ -117,8 +122,6 @@ URL: /recipes/{recipe_id}
   "manual": "...",
   "time":...
 “picture”:...
-
-
 }
 
 6. Обновление рецепта 
@@ -155,14 +158,15 @@ URL: /recipes/{recipe_id}
    "status": "success",
     "message": "Recipe deleted  successfully"
 }
+
 8. Добавление рецепта в избранное
 Метод: POST
 URL: /users/{user_id}/favorites
 Ответ:
 {
 "message": "Favourite recipe added successfully."
- 
 }
+
 9. Удаление рецепта из избранного
 Метод: DELETE
 URL: /users/{user_id}/favorites/{recipe_id}
