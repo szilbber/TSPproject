@@ -35,185 +35,23 @@
 
 
 **Структура REST API**
-
-1.     Регистрация пользователя
-Метод: POST
-URL: /users
-Параметры запроса: {
-	"username": "name",
-	"email": "name@example.com",
-	“phone”: “89171119923”
-		“bday”: “11.22.3333”
-	"password": "pass"
-}
-Ответ: {
-    "status": "success",
-    "user_id": 1,
-                   “token”:”/…”
-    "message": "User registered successfully"
-}
-
-2.     Вход в систему
-Метод: POST
-URL: /users/login
-Параметры запроса: {
-	"username": "name",
-	"password": "pass"
-}
- Ответ: {
-"status": "success",
- "user_id": 1
- }
- 
-3. Создание рецепта (POST)
-Метод: POST
-URL: /recipes
-Параметры запроса: {
-  "title": "Паста с томатным соусом",
-  “categories”: “Второе”, 
-“description”: “Томатная паста пришла к нам из Италии….”
-  "ingredients": [
-{ ‘’title”: помидоры
-“quantity”: 200
-“unit”: грамм},
-{ ‘’title”: сливки
-“quantity”: 500
-“unit”: мл}
-  ],
-  "manual": "Отварите пасту. Обжарьте лук и чеснок на оливковом масле, добавьте помидоры и тушите. Смешайте с пастой и подавайте."
-“time”: “30 мин”
-“picture”
-}
-Ответ:
-{
-   "status": "success",
-    "id_recipe": 1,
-    "message": "Recipe added successfully"
-}
-
-4. Получение списка рецептов (GET)
-Метод: GET
-URL: /recipes
-Параметры запроса: {
-  “categories”: “Второе”, 
-}
-Ответ:
-[
-  {
-    "id": 1,
-    "title": "Паста с томатным соусом"
-  },
-  {
-    "id": 2,
-    "title": "Салат Цезарь"
-  }
-]
-
-5. Получение конкретного рецепта 
-Метод: GET
-URL: /recipes/{recipe_id}
-Ответ:
-{
-  "id_recipe": 1,
-  "title": "Паста с томатным соусом",
-“category”: “суп”,
-“description”: …,
-  "ingredients": [...],
-  "manual": "...",
-  "time":...
-“picture”:...
-}
-
-6. Обновление рецепта 
-Метод: PUT
-URL: /recipes/{recipe_id}
-Параметры запроса: {
-  "title": "Паста с томатным соусом",
-  “categories”: “Второе”, 
-“description”: “Томатная паста пришла к нам из Италии….”
-  "ingredients": [
-{ ‘’title”: помидоры
-“quantity”: 200
-“unit”: грамм},
-{ ‘’title”: сливки
-“quantity”: 500
-“unit”: мл}
-  ],
-  "manual": "...."
-“time”: “30 мин”
-“picture”
-}
-Ответ:
-{
-   "status": "success",
-    "id_recipe": 1,
-    "message": "Recipe updated  successfully"
-}
-
-7. Удаление рецепта 
-Метод: DELETE
-URL: /recipes/{recipe_id}
-Ответ:
-{
-   "status": "success",
-    "message": "Recipe deleted  successfully"
-}
-
-8. Добавление рецепта в избранное
-Метод: POST
-URL: /users/{user_id}/favorites
-Ответ:
-{
-"message": "Favourite recipe added successfully."
-}
-
-9. Удаление рецепта из избранного
-Метод: DELETE
-URL: /users/{user_id}/favorites/{recipe_id}
-Ответ:
-{
-   "status": "success",
-    "message": "Favourite recipe deleted  successfully."
-}
-
-10. Добавление ингредиента в список покупок
- Метод: POST
-URL: /users/{user_id}/grocery_list
-Параметры запроса: {
-“title”: “молоко”
-}
-
-Ответ:
-{
-   "status": "success",
-    "message": "Ingredient added successfully."
-}
-
-11. Удаление ингредиента в список покупок
-Метод: DELETE
-URL: /users/{user_id}/grocery_list/{ingredient_id}
-Ответ:
-{
-   "status": "success",
-    "message": "Ingredient deleted successfully."
-}
+| Метод      | Название метода               | URL                           | Параметры запроса                                                                                                                                                                                                                           | Ответ                                                                                     |
+|------------|-------------------------------|-------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+| POST       | Регистрация пользователя      | /users                        | {<br>  "username": "name",<br>  "email": "name@example.com",<br>  "phone": "89171119923",<br>  "bday": "11.22.3333",<br>  "password": "pass"<br>}                                                                                       | {<br>  "status": "success",<br>  "user_id": 1,<br>  "token": "/...",<br>  "message": "User registered successfully"<br>} |
+| POST       | Вход пользователя             | /users/login                  | {<br>  "username": "name",<br>  "password": "pass"<br>}                                                                                                                                                                                  | {<br>  "status": "success",<br>  "user_id": 1<br>}                                     |
+| POST       | Добавление рецепта           | /recipes                      | {<br>  "title": "Паста с томатным соусом",<br>  "categories": "Второе",<br>  "description": "Томатная паста пришла к нам из Италии….",<br>  "ingredients": [<br>    {<br>      "title": "помидоры",<br>      "quantity": 200,<br>      "unit": "грамм"<br>    },<br>    {<br>      "title": "сливки",<br>      "quantity": 500,<br>      "unit": "мл"<br>    }<br>  ],<br>  "manual": "Отварите пасту...",<br>  "time": "30 мин",<br>  "picture": "<...>"<br>} | {<br>  "status": "success",<br>  "id_recipe": 1,<br>  "message": "Recipe added successfully"<br>} |
+| GET        | Получение списка рецептов    | /recipes                      | {<br>  "categories": "Второе"<br>}                                                                                                                                                                                                         | [<br>  {<br>    "id": 1,<br>    "title": "Паста с томатным соусом"<br>  },<br>  {<br>    "id": 2,<br>    "title": "Салат Цезарь"<br>  }<br>] |
+| GET        | Получение рецепта по ID      | /recipes/{recipe_id}         |                                                                                                                                                                                                                                              | {<br>  "id_recipe": 1,<br>  "title": "Паста с томатным соусом",<br>  "category": "суп",<br>  "description": "...",<br>  "ingredients": [...],<br>  "manual": "...",<br>  "time": "...",<br>  "picture": "<...>"<br>} |
+| PUT        | Обновление рецепта           | /recipes/{recipe_id}         | {<br>  "title": "Паста с томатным соусом",<br>  "categories": "Второе",<br>  "description": "Томатная паста пришла к нам из Италии….",<br>  "ingredients": [<br>    {<br>      "title": "помидоры",<br>      "quantity": 200,<br>      "unit": "грамм"<br>    },<br>    {<br>      "title": "сливки",<br>      "quantity": 500,<br>      "unit": "мл"<br>    }<br>  ],<br>  "manual": "...",<br>  "time": "30 мин",<br>  "picture": "<...>"<br>} | {<br>  "status": "success",<br>  "id_recipe": 1,<br>  "message": "Recipe updated successfully"<br>} || DELETE     | Удаление рецепта             | /recipes/{recipe_id}         |                                                                                                                                                                                                                                              | {<br>  "status": "success",<br>  "message": "Recipe deleted successfully"<br>}          |
+| POST       | Добавление в избранное        | /users/{user_id}/favorites    |                                                                                                                                                                                                                                              | {<br>  "message": "Favourite recipe added successfully."<br>}                           |
+| DELETE     | Удаление из избранного        | /users/{user_id}/favorites/{recipe_id} |                                                                                                                                                                                                                                              | {<br>  "status": "success",<br>  "message": "Favourite recipe deleted successfully."<br>} |
+| POST       | Добавление в список покупок   | /users/{user_id}/grocery_list | {<br>  "title": "молоко"<br>}                                                                                                                                                                                                               | {<br>  "status": "success",<br>  "message": "Ingredient added successfully."<br>}     |
+| DELETE     | Удаление из списка покупок    | /users/{user_id}/grocery_list/{ingredient_id} |                                                                                                                                                                                                                                              | {<br>  "status": "success",<br>  "message": "Ingredient deleted successfully."<br>}   |
 
 
 
 
 
 **Стэк технологий**
-| Метод      | URL                           | Параметры запроса                                                                                                                                                                                                                           | Ответ                                                                                     |
-|------------|-------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
-| POST       | /users                        | {<br>  "username": "name",<br>  "email": "name@example.com",<br>  "phone": "89171119923",<br>  "bday": "11.22.3333",<br>  "password": "pass"<br>}                                                                                       | {<br>  "status": "success",<br>  "user_id": 1,<br>  "token": "/...",<br>  "message": "User registered successfully"<br>} |
-| POST       | /users/login                  | {<br>  "username": "name",<br>  "password": "pass"<br>}                                                                                                                                                                                  | {<br>  "status": "success",<br>  "user_id": 1<br>}                                     |
-| POST       | /recipes                      | {<br>  "title": "Паста с томатным соусом",<br>  "categories": "Второе",<br>  "description": "Томатная паста пришла к нам из Италии….",<br>  "ingredients": [<br>    {<br>      "title": "помидоры",<br>      "quantity": 200,<br>      "unit": "грамм"<br>    },<br>    {<br>      "title": "сливки",<br>      "quantity": 500,<br>      "unit": "мл"<br>    }<br>  ],<br>  "manual": "Отварите пасту...",<br>  "time": "30 мин",<br>  "picture": "<...>"<br>} | {<br>  "status": "success",<br>  "id_recipe": 1,<br>  "message": "Recipe added successfully"<br>} |
-| GET        | /recipes                      | {<br>  "categories": "Второе"<br>}                                                                                                                                                                                                         | [<br>  {<br>    "id": 1,<br>    "title": "Паста с томатным соусом"<br>  },<br>  {<br>    "id": 2,<br>    "title": "Салат Цезарь"<br>  }<br>] |
-| GET        | /recipes/{recipe_id}         |                                                                                                                                                                                                                                              | {<br>  "id_recipe": 1,<br>  "title": "Паста с томатным соусом",<br>  "category": "суп",<br>  "description": "...",<br>  "ingredients": [...],<br>  "manual": "...",<br>  "time": "...",<br>  "picture": "<...>"<br>} |
-| PUT        | /recipes/{recipe_id}         | {<br>  "title": "Паста с томатным соусом",<br>  "categories": "Второе",<br>  "description": "Томатная паста пришла к нам из Италии….",<br>  "ingredients": [<br>    {<br>      "title": "помидоры",<br>      "quantity": 200,<br>      "unit": "грамм"<br>    },<br>    {<br>      "title": "сливки",<br>      "quantity": 500,<br>      "unit": "мл"<br>    }<br>  ],<br>  "manual": "...",<br>  "time": "30 мин",<br>  "picture": "<...>"<br>} | {<br>  "status": "success",<br>  "id_recipe": 1,<br>  "message": "Recipe updated successfully"<br>} |
-| DELETE     | /recipes/{recipe_id}         |                                                                                                                                                                                                                                              | {<br>  "status": "success",<br>  "message": "Recipe deleted successfully"<br>}          || POST       | /users/{user_id}/favorites    |                                                                                                                                                                                                                                              | {<br>  "message": "Favourite recipe added successfully."<br>}                           |
-| DELETE     | /users/{user_id}/favorites/{recipe_id} |                                                                                                                                                                                                                                              | {<br>  "status": "success",<br>  "message": "Favourite recipe deleted successfully."<br>} |
-| POST       | /users/{user_id}/grocery_list | {<br>  "title": "молоко"<br>}                                                                                                                                                                                                               | {<br>  "status": "success",<br>  "message": "Ingredient added successfully."<br>}     |
-| DELETE     | /users/{user_id}/grocery_list/{ingredient_id} |                                                                                                                                                                                                                                              | {<br>  "status": "success",<br>  "message": "Ingredient deleted successfully."<br>}   |
 
 
