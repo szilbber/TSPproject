@@ -54,4 +54,7 @@
 
 **Стэк технологий**
 
+-PostgreSQL
+-Java + Spring 
+-HTML, CSS
 
