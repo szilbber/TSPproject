@@ -57,5 +57,5 @@
 
 - PostgreSQL
 - Java + Spring 
-- HTML, CSS
+- Android Studio
 
