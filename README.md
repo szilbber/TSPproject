@@ -35,6 +35,168 @@
 
 
 **Структура REST API**
+1.     Регистрация пользователя
+Метод: POST
+URL: /users
+Параметры запроса: {
+	"username": "name",
+	"email": "name@example.com",
+	“phone”: “89171119923”
+		“bday”: “11.22.3333”
+	"password": "pass"
+}
+Ответ: {
+    "status": "success",
+    "user_id": 1,
+                   “token”:”/…”
+    "message": "User registered successfully"
+}
+2.     Вход в систему
+Метод: POST
+URL: /users/login
+Параметры запроса: {
+	"username": "name",
+	"password": "pass"
+}
+ Ответ: {
+"status": "success",
+ "user_id": 1
+ }
+3. Создание рецепта (POST)
+Метод: POST
+URL: /recipes
+Параметры запроса: {
+  "title": "Паста с томатным соусом",
+  “categories”: “Второе”, 
+“description”: “Томатная паста пришла к нам из Италии….”
+  "ingredients": [
+{ ‘’title”: помидоры
+“quantity”: 200
+“unit”: грамм},
+{ ‘’title”: сливки
+“quantity”: 500
+“unit”: мл}
+  ],
+  "manual": "Отварите пасту. Обжарьте лук и чеснок на оливковом масле, добавьте помидоры и тушите. Смешайте с пастой и подавайте."
+“time”: “30 мин”
+“picture”
+}
+Ответ:
+{
+   "status": "success",
+    "id_recipe": 1,
+    "message": "Recipe added successfully"
+}
+4. Получение списка рецептов (GET)
+Метод: GET
+URL: /recipes
+Параметры запроса: {
+  “categories”: “Второе”, 
+}
+Ответ:
+[
+  {
+    "id": 1,
+    "title": "Паста с томатным соусом"
+  },
+  {
+    "id": 2,
+    "title": "Салат Цезарь"
+  }
+]
+5. Получение конкретного рецепта 
+Метод: GET
+URL: /recipes/{recipe_id}
+Ответ:
+{
+  "id_recipe": 1,
+  "title": "Паста с томатным соусом",
+“category”: “суп”,
+“description”: …,
+  "ingredients": [...],
+  "manual": "...",
+  "time":...
+“picture”:...
+
+
+}
+
+6. Обновление рецепта 
+Метод: PUT
+URL: /recipes/{recipe_id}
+Параметры запроса: {
+  "title": "Паста с томатным соусом",
+  “categories”: “Второе”, 
+“description”: “Томатная паста пришла к нам из Италии….”
+  "ingredients": [
+{ ‘’title”: помидоры
+“quantity”: 200
+“unit”: грамм},
+{ ‘’title”: сливки
+“quantity”: 500
+“unit”: мл}
+  ],
+  "manual": "...."
+“time”: “30 мин”
+“picture”
+}
+Ответ:
+{
+   "status": "success",
+    "id_recipe": 1,
+    "message": "Recipe updated  successfully"
+}
+
+7. Удаление рецепта 
+Метод: DELETE
+URL: /recipes/{recipe_id}
+Ответ:
+{
+   "status": "success",
+    "message": "Recipe deleted  successfully"
+}
+8. Добавление рецепта в избранное
+Метод: POST
+URL: /users/{user_id}/favorites
+Ответ:
+{
+"message": "Favourite recipe added successfully."
+ 
+}
+9. Удаление рецепта из избранного
+Метод: DELETE
+URL: /users/{user_id}/favorites/{recipe_id}
+Ответ:
+{
+   "status": "success",
+    "message": "Favourite recipe deleted  successfully."
+}
+
+10. Добавление ингредиента в список покупок
+ Метод: POST
+URL: /users/{user_id}/grocery_list
+Параметры запроса: {
+“title”: “молоко”
+}
+
+Ответ:
+{
+   "status": "success",
+    "message": "Ingredient added successfully."
+}
+
+11. Удаление ингредиента в список покупок
+Метод: DELETE
+URL: /users/{user_id}/grocery_list/{ingredient_id}
+Ответ:
+{
+   "status": "success",
+    "message": "Ingredient deleted successfully."
+}
+
+
+
+
 
 **Стэк технологий**
 
