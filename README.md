@@ -27,10 +27,10 @@
 **Сущности**
 - User(id_user,name ,password, bday, phone, mail): Хранит информацию о пользователях.
 - Recipe(id_recipe, id_user, title, id_category, description, manual, time, picture: Хранит информацию о рецептах.
-- Ingredients(id_ingridient, title): Хранит информацию об ингредиентах.
+- Ingredient(id_ingridient, title): Хранит информацию об ингредиентах.
 - Composition_recept(id_composition, id_recipes, id_ingridient, quantity, unit): Хранит информацию о том, какие ингредиенты входят в состав рецепта.
-- Categories(id_category, title): Хранит информацию о категориях.
-- Favorite_recipes(id_user, id_recipe): Хранит информацию о том, какие рецепты добавлены в избранное.
+- Categoriy(id_category, title): Хранит информацию о категориях.
+- Favorite_recipe(id_user, id_recipe): Хранит информацию о том, какие рецепты добавлены в избранное.
 - Shopping_list(id_user, id_ingridient, quantity, unit, status): Хранит информацию об ингредиентах, которые пользователь хочет купить.
 
 
