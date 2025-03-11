@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "composition_recipe")
-@IdClass(CompositionRecipe.class)  // Указываем класс составного ключа
+@IdClass(CompositionPrimaryKey.class)  // Указываем класс составного ключа
 public class CompositionRecipe {
 
     @Id

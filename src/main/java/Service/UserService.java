@@ -1,11 +1,10 @@
-package com.example.demo;
+package Service;
 
+import Repositories.UserRepository;
+import com.example.demo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.util.Date;
-
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -15,6 +14,10 @@ public class UserService {
 
     @Autowired
     private PasswordService passwordUtil;
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     // Регистрация пользователя
     public User registerUser(User user) {
@@ -29,4 +32,20 @@ public class UserService {
         User user = userRepository.findByMail(email);
         return passwordUtil.matches(rawPassword, user.getPassword());
     }
+
+    // Метод для поиска пользователя по email
+    public User getUserByEmail(String email) {
+        return userRepository.findByMail(email);
+    }
+
+    // Метод для поиска пользователя по имени
+    public Optional<User> getUserByName(String name) {
+        return userRepository.findUserByName(name);
+    }
+
+    // Метод для поиска пользователя по ID
+    public User getUserById(int id) {
+        return userRepository.findUserByUserId(id);
+    }
+
 }
