@@ -1,10 +1,14 @@
 package com.example.demo;
+import jakarta.persistence.Column;
 import java.io.Serializable;
 import java.util.Objects;
 
 public class CompositionPrimaryKey implements Serializable {
-    private int idRecipe;
+    @Column(name = "id_ingredient")
     private int idIngredient;
+
+    @Column(name = "id_recipe")
+    private int idRecipe;
 
     public CompositionPrimaryKey() {
     }

@@ -1,5 +1,5 @@
 package com.example.demo;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity

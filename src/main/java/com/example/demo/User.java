@@ -1,31 +1,36 @@
 package com.example.demo;
-
-import javax.persistence.*;
+import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Table;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "users")  // указываем имя таблицы в базе данных
+@Table(name = "users")
+ // указываем имя таблицы в базе данных
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // автоматически генерируем значение для id
-    @Column(name = "id_user")  // указываем имя столбца
     private int id_user;
-
-    @Column(name = "name")
     private String name;
-
-    @Column(name = "password")
     private String password;
-
-    @Column(name = "bday")
+    private String phone;
+    private String mail;
     private LocalDate bday;
 
-    @Column(name = "phone")
-    private String phone;
+    // Конструкторы, геттеры и сеттеры
+    public User() {}
 
-    @Column(name = "mail")
-    private String mail;
+    public User(String mail, String password, String name, String phone, LocalDate bday) {
+        this.mail = mail;
+        this.password = password;
+        this.name = name;
+        this.phone = phone;
+        this.bday = bday;
+    }
 
     // Геттеры и сеттеры
     public int getId_user() {

@@ -1,10 +1,11 @@
 package com.example.demo;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "ingredients")
 public class Ingredient {
+    //Первичный ключ
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_ingredient")
