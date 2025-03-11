@@ -6,33 +6,33 @@ import java.util.Objects;
 
 public class ShoppingListPrimaryKey implements Serializable {
     @Column(name = "id_user")
-    private int idUser;
+    private int user;
     @Column(name = "id_ingredient")
-    private int idIngredient;
+    private int ingredient;
 
     // Конструктор без аргументов
     public ShoppingListPrimaryKey() {}
 
     public ShoppingListPrimaryKey(int idUser, int idIngredient) {
-        this.idUser = idUser;
-        this.idIngredient = idIngredient;
+        this.user = idUser;
+        this.ingredient = idIngredient;
     }
 
     // Геттеры и сеттеры
     public int getIdUser() {
-        return idUser;
+        return user;
     }
 
     public void setIdUser(int idUser) {
-        this.idUser = idUser;
+        this.user = idUser;
     }
 
     public int getIdIngredient() {
-        return idIngredient;
+        return ingredient;
     }
 
     public void setIdIngredient(int idIngredient) {
-        this.idIngredient = idIngredient;
+        this.ingredient = idIngredient;
     }
 
     // Переопределенные equals() и hashCode()
@@ -41,11 +41,11 @@ public class ShoppingListPrimaryKey implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ShoppingListPrimaryKey that = (ShoppingListPrimaryKey) o;
-        return idUser == that.idUser && idIngredient == that.idIngredient;
+        return user == that.user && ingredient == that.ingredient;
     }
 
     @Override
     public int hashCode() {
-        return 31 * idUser + idIngredient;
+        return 31 * user + ingredient;
     }
 }
