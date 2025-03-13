@@ -1,6 +1,6 @@
 create table users(
   id_user int PRIMARY KEY,
-  name varchar(10) not null,
+  name varchar(30) not null,
   password text not null,
   bday date not null,
   phone varchar(30) not null,
@@ -18,7 +18,7 @@ create table recipes(
   description text ,
   manual text not null,
   time varchar(30) not null,
-  picture blob,
+  picture bytea,
   foreign key(id_user) references users(id_user),
   foreign key(id_category) references categories(id_category)
 );
@@ -26,7 +26,7 @@ create table recipes(
 create table ingredients(
   id_ingredient int PRIMARY KEY,
   title_ingredient varchar(15) not null,
-  unit_measure varchar(10) not null
+  unit_measure varchar(20) not null
 );
 
 create table favorite_recipes(

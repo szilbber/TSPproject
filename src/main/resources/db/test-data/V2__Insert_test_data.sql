@@ -1,9 +1,9 @@
 -- Вставка тестовых данных в таблицу users
 INSERT INTO users (id_user, name, password, bday, phone, mail)
 VALUES
-(1, 'John Doe', 'password123', '1990-01-15', '123-456-7890', 'john.doe@example.com'),
-(2, 'Jane Smith', 'password456', '1992-03-25', '098-765-4321', 'jane.smith@example.com'),
-(3, 'Alice Johnson', 'password789', '1985-07-20', '555-123-4567', 'alice.johnson@example.com');
+(1, 'John Doe', '$2a$12$s8AkDQ8Eg3NrPRRoO.70c.PPhRRskenfTuQTLyE0QBttGOX5ptDPe', '1990-01-15', '123-456-7890', 'john.doe@example.com'),
+(2, 'Jane Smith', '$2a$12$dIcYgpvnQ/0Q2SVvUl.6PeolHNReLZHx80iq//hFXpSPvBy3GkWq2', '1992-03-25', '098-765-4321', 'jane.smith@example.com'),
+(3, 'Alice Johnson', '$2a$12$sbCO7pkaw4zuSPc6Un.rc.tJ6dp7qSkkLWOqEFhxLVghUChw0tqCO', '1985-07-20', '555-123-4567', 'alice.johnson@example.com');
 
 -- Вставка тестовых данных в таблицу categories
 INSERT INTO categories (id_category, title)
