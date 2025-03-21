@@ -13,15 +13,18 @@ class UserServiceTest {
 
     @Autowired
     private UserService userService;  // Должен быть внедрен бин UserService
+    String mail = "mail@example.com";
+    String password = "password";
+    String name = "name";
+    String phone = "89179418337";
+    LocalDate bday = LocalDate.of(1985, 7, 20);
+    User user = new User(mail, password, name, phone, bday);
 
     @Test
     public void testRegisterUser() {
-        String mail = "mail@example.com";
-        String password = "password";
-        String name = "name";
-        String phone = "89179418337";
-        LocalDate bday = LocalDate.of(1985, 7, 20);
-        User user = new User(mail, password, name, phone, bday);
         assertNotNull(userService.registerUser(user).getId_user());
+        assertNotNull(userService.getUserByEmail("mail@example.com"));
     }
+
+
 }
