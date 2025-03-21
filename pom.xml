@@ -61,13 +61,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-database-postgresql</artifactId>
-            <version>10.20.1</version>
-            <scope>runtime</scope>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
         </dependency>
+
 
 
     </dependencies>
