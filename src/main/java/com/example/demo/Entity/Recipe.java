@@ -2,6 +2,8 @@ package com.example.demo.Entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "recipes")
 public class Recipe {
@@ -33,6 +35,20 @@ public class Recipe {
 
     @Column(name = "picture")
     private byte[] picture;
+
+    // Конструкторы
+    public Recipe() {}
+
+    public Recipe(User userId, Category category, String title, String description, String manual, String time, byte[] picture) {
+        this.userId = userId;
+        this.category = category;
+        this.title = title;
+        this.description = description;
+        this.manual = manual;
+        this.time = time;
+        this.picture = picture;
+    }
+
 
     // Геттеры и сеттеры
     public int getId_recipe() {

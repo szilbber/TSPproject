@@ -2,6 +2,8 @@ package com.example.demo.Entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "categories")
 public class Category {
@@ -13,6 +15,11 @@ public class Category {
     @Column(name = "title")
     private String title;
 
+    public Category() {}
+    public Category(String title) {
+
+        this.title = title;
+    }
     public int getId_category() {
         return id_category;
     }

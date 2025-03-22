@@ -22,7 +22,7 @@ class UserServiceTest {
     User user = new User( mail, password, name, phone, bday);
 
     @Test
-    public void testRegisterUser() {
+    public void testUser() {
         assertNotNull(userService.registerUser(user).getId_user());
         assertNotNull(userService.getUserByEmail("mail@example.com"));
         assertTrue(userService.checkPassword("password", "mail@example.com" ));

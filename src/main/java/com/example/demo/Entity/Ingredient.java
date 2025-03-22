@@ -17,6 +17,16 @@ public class Ingredient {
     @Column(name = "unit_measure")
     private String unit_measure;
 
+    // Конструктор без параметров
+    public Ingredient() {
+    }
+
+    // Конструктор с параметрами
+    public Ingredient(String title, String unit_measure) {
+        this.title = title;
+        this.unit_measure = unit_measure;
+    }
+
     public int getId_ingredient() {
         return id_ingredient;
     }

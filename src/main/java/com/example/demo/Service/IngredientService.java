@@ -1,10 +1,12 @@
 package com.example.demo.Service;
+import com.example.demo.Entity.Category;
 import com.example.demo.Repositories.IngredientRepository;
 import com.example.demo.Entity.Ingredient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -17,13 +19,16 @@ public class IngredientService {
         this.ingredientRepository = ingredientRepository;
     }
 
+    public Ingredient createIngredient(Ingredient ingredient) {
+        return ingredientRepository.save(ingredient);
+    }
     // Получить ингредиент по названию
-    public Ingredient getIngredientByTitle(String title) {
+    public Optional<Ingredient> getIngredientByTitle(String title) {
         return ingredientRepository.findByTitle(title);
     }
 
     // Получить ингредиент по id
-    public Ingredient getIngredientById(int id) {
+    public Optional<Ingredient> getIngredientById(Integer id) {
         return ingredientRepository.findById(id);
     }
 

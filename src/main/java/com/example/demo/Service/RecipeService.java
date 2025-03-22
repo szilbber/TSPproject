@@ -20,6 +20,9 @@ public class RecipeService {
         this.recipeRepository = recipeRepository;
     }
 
+    public Recipe createRecipe(Recipe recipe) {
+        return recipeRepository.save(recipe);
+    }
     // Метод для получения рецепта по его ID
     public Optional<Recipe> getRecipeById(int id) {
         return recipeRepository.findById(id);

@@ -3,12 +3,16 @@ import com.example.demo.Entity.Ingredient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface IngredientRepository extends JpaRepository<Ingredient, Integer> {
 
+
+    Optional<Ingredient> findById(Integer id);
+
     // Метод для поиска ингредиента по его названию
-    Ingredient findByTitle(String title);
+   Optional<Ingredient> findByTitle(String title);
 
     // Метод для поиска ингредиента по его id
     Ingredient findById(int id);

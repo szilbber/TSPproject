@@ -1,10 +1,12 @@
 package com.example.demo.Service;
+import com.example.demo.Entity.User;
 import com.example.demo.Repositories.CategoryRepository;
 import com.example.demo.Entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -17,13 +19,16 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
+    public Category createCategory(Category category) {
+        return categoryRepository.save(category);
+    }
     // Получить категорию по названию
-    public Category getCategoryByTitle(String title) {
+    public Optional<Category> getCategoryByTitle(String title) {
         return categoryRepository.findByTitle(title);
     }
 
     // Получить категорию по id
-    public Category getCategoryById(int id) {
+    public Optional<Category> getCategoryById(int id) {
         return categoryRepository.findById(id);
     }
 
