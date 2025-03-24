@@ -1,10 +1,9 @@
 package com.example.demo.Entity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -19,6 +18,14 @@ public class User {
     private String phone;
     private String mail;
     private LocalDate bday;
+
+    @ManyToMany
+    @JoinTable(
+            name = "favourite_recipe",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "recipe_id")
+    )
+    private Set<Recipe> fav_recipes = new HashSet<>();
 
     // Конструкторы, геттеры и сеттеры
     public User() {}

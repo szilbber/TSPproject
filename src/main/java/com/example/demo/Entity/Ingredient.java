@@ -2,6 +2,8 @@ package com.example.demo.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "ingredients")
 public class Ingredient {
@@ -10,6 +12,9 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_ingredient")
     private int id_ingredient;
+
+    @OneToMany(mappedBy = "ingredient", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CompositionRecipe> recipes;
 
     @Column(name = "title")
     private String title;

@@ -3,6 +3,8 @@ package com.example.demo.Entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "recipes")
@@ -20,6 +22,12 @@ public class Recipe {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_category")  // Название внешнего ключа в таблице
     private Category category;  // Поле, которое ссылается на сущность
+
+    @ManyToMany(mappedBy = "recipes") //список пользователей, которые добавили рецепт в избранное
+    private Set<User> fav_users = new HashSet<>();
+
+    @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CompositionRecipe> ingredients;
 
     @Column(name = "title")
     private String title;
