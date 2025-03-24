@@ -25,7 +25,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "recipe_id")
     )
-    private Set<Recipe> fav_recipes = new HashSet<>();
+    private Set<Recipe> recipes = new HashSet<>();
 
     // Конструкторы, геттеры и сеттеры
     public User() {}

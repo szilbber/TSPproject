@@ -23,11 +23,13 @@ public class Recipe {
     @JoinColumn(name = "id_category")  // Название внешнего ключа в таблице
     private Category category;  // Поле, которое ссылается на сущность
 
+
     @ManyToMany(mappedBy = "recipes") //список пользователей, которые добавили рецепт в избранное
     private Set<User> fav_users = new HashSet<>();
 
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CompositionRecipe> ingredients;
+
 
     @Column(name = "title")
     private String title;
@@ -59,6 +61,14 @@ public class Recipe {
 
 
     // Геттеры и сеттеры
+    public Set<CompositionRecipe> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(Set<CompositionRecipe> ingredients) {
+        this.ingredients = ingredients;
+    }
+
     public int getId_recipe() {
         return id;
     }

@@ -28,16 +28,19 @@ public class RecipeService {
         return recipeRepository.save(recipe);
     }
     // Метод для получения рецепта по его ID
+    @Transactional
     public Optional<Recipe> getRecipeById(int id) {
         return recipeRepository.findById(id);
     }
 
     // Метод для получения всех рецептов пользователя по его ID
+    @Transactional
     public Optional<List<Recipe>> getRecipesByUserId(User userId) {
         return recipeRepository.findByUserId(userId);
     }
 
     // Метод для получения всех рецептов по категории
+    @Transactional
     public Optional<List<Recipe>> getRecipesByCategoryId(Category categoryId) {
         return recipeRepository.findByCategory(categoryId);
     }
