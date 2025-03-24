@@ -51,4 +51,9 @@ public class CategoryService {
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
+
+    // Метод для удаления рецепта по его ID
+    public void deleteCategory(int id) {
+        categoryRepository.deleteById(id);
+    }
 }

@@ -20,4 +20,6 @@ public interface CompositionRecipeRepository extends JpaRepository<CompositionRe
 
     // Удалить состав рецепта по рецепту и ингредиенту
     void deleteByRecipeAndIngredient(Recipe recipe, Ingredient ingredient);
+
+
 }

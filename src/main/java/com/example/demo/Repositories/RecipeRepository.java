@@ -15,13 +15,13 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
     Optional<Recipe> findById(int id_recipe);
 
     // Метод для поиска рецептов по пользователю (id_user)
-    List<Recipe> findByUserId(User userId);
+    Optional<List<Recipe>> findByUserId(User userId);
 
     // Метод для поиска рецептов по категории (id_category)
-    List<Recipe> findByCategory(Category categoryId);
+    Optional<List<Recipe>> findByCategory(Category categoryId);
 
     // Метод для поиска рецептов по названию (с использованием LIKE для частичного совпадения)
-    List<Recipe> findByTitleContainingIgnoreCase(String title);
+    Optional<List<Recipe>> findByTitleContainingIgnoreCase(String title);
 
 
 //

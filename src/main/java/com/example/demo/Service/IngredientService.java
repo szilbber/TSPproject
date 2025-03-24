@@ -37,18 +37,16 @@ public class IngredientService {
         return ingredientRepository.findByTitleContainingIgnoreCase(title);
     }
 
-    // Сохранить или обновить ингредиент
-    public Ingredient saveIngredient(Ingredient ingredient) {
-        return ingredientRepository.save(ingredient);
+    // Метод для удаления ингредиента по его ID
+    public void deleteIngredient(int id) {
+        ingredientRepository.deleteById(id);
     }
-//
-//    // Удалить ингредиент по ID
-//    public void deleteIngredient(int id) {
-//        ingredientRepository.deleteById(id);
-//    }
-//
-//    // Получить все ингредиенты
-//    public List<Ingredient> getAllIngredients() {
-//        return ingredientRepository.findAll();
-//    }
+
+
+
+
+    // Получить все ингредиенты
+    public List<Ingredient> getAllIngredients() {
+        return ingredientRepository.findAll();
+    }
 }

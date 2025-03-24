@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -23,5 +24,7 @@ public class IngredientServiceTest {
         assertNotNull(ingredientService.createIngredient(ingredient).getId_ingredient());
         assertEquals(ingredientService.getIngredientByTitle("Мука").get().getId_ingredient(), ingredient.getId_ingredient());
         assertEquals(ingredientService.getIngredientById(ingredient.getId_ingredient()).get().getId_ingredient(), ingredient.getId_ingredient());
+        ingredientService.deleteIngredient(ingredient.getId_ingredient());
+        assertThat(ingredientService.getIngredientById(ingredient.getId_ingredient())).isEmpty();
     }
 }

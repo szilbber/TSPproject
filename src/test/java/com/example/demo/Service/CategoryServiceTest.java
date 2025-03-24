@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
@@ -21,5 +22,7 @@ public class CategoryServiceTest {
         assertNotNull(categoryService.createCategory(category).getId_category());
         assertEquals(categoryService.getCategoryByTitle("Выпечка").get().getId_category(), category.getId_category());
         assertEquals(categoryService.getCategoryById(category.getId_category()).get().getId_category(), category.getId_category());
+        categoryService.deleteCategory(category.getId_category());
+        assertThat(categoryService.getCategoryById(category.getId_category())).isEmpty();
     }
 }

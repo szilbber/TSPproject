@@ -2,6 +2,7 @@ package com.example.demo.Service;
 
 import com.example.demo.Repositories.UserRepository;
 import com.example.demo.Entity.User;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,4 +50,30 @@ public class UserService {
     public Optional<User> getUserById(int id) {
         return userRepository.findById(id);
     }
+
+    // Метод для удаления пользователя по его ID
+    public void deleteUser(int id) {
+        userRepository.deleteById(id);
+    }
+
+    public User updateUser(Integer id, User updatedUser) {
+        return getUserById(id)
+                .map(existingUser -> {
+                    // При изменении пароля – хэшируем заново
+                    if (!existingUser.getPassword().equals(updatedUser.getPassword())) {
+                        existingUser.setPassword(passwordUtil.encodePassword(updatedUser.getPassword()));
+                    }
+
+                    existingUser.setId_user(id);
+                    existingUser.setBday(updatedUser.getBday());
+                    existingUser.setMail(updatedUser.getMail());
+                    existingUser.setPhone(updatedUser.getPhone());
+                    existingUser.setName(updatedUser.getName());
+                    // при необходимости обновляем другие поля
+
+                    return userRepository.save(existingUser);
+                })
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+    }
+
 }

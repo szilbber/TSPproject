@@ -1,8 +1,11 @@
 package com.example.demo.Service;
 import com.example.demo.Entity.Category;
+import com.example.demo.Entity.CompositionRecipe;
 import com.example.demo.Entity.User;
+import com.example.demo.Repositories.CompositionRecipeRepository;
 import com.example.demo.Repositories.RecipeRepository;
 import com.example.demo.Entity.Recipe;
+import com.example.demo.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +17,7 @@ import java.util.Optional;
 @Transactional //в одной транзакции
 public class RecipeService {
     private final RecipeRepository recipeRepository;
+    private CompositionRecipeRepository compositionRecipeRepository;
 
     @Autowired
     public RecipeService(RecipeRepository recipeRepository) {
@@ -29,27 +33,27 @@ public class RecipeService {
     }
 
     // Метод для получения всех рецептов пользователя по его ID
-    public List<Recipe> getRecipesByUserId(User userId) {
+    public Optional<List<Recipe>> getRecipesByUserId(User userId) {
         return recipeRepository.findByUserId(userId);
     }
 
     // Метод для получения всех рецептов по категории
-    public List<Recipe> getRecipesByCategoryId(Category categoryId) {
+    public Optional<List<Recipe>> getRecipesByCategoryId(Category categoryId) {
         return recipeRepository.findByCategory(categoryId);
     }
 
     // Метод для поиска рецептов по части названия (с использованием LIKE)
-    public List<Recipe> searchRecipesByTitle(String title) {
+    public Optional<List<Recipe>>searchRecipesByTitle(String title) {
         return recipeRepository.findByTitleContainingIgnoreCase(title);
-    }
-
-    // Метод для создания или обновления рецепта
-    public Recipe saveRecipe(Recipe recipe) {
-        return recipeRepository.save(recipe);
     }
 
     // Метод для удаления рецепта по его ID
     public void deleteRecipe(int id) {
         recipeRepository.deleteById(id);
+    }
+
+    public void updateRecipe(Recipe recipe, Recipe updatedRecipe){
+
+
     }
 }
