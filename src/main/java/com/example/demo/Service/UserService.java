@@ -22,7 +22,7 @@ public class UserService {
     }
 
     @Transactional
-    // Регистрация пользователя
+    // Регистрация пользователя и обновление
     public User registerUser(User user) {
         // Хешируем пароль перед сохранением
         String encodedPassword = passwordUtil.encodePassword(user.getPassword());
@@ -30,7 +30,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    // Проверка пароля пользователя
+    // Проверка пароля пользователя, то есть вход
     public boolean checkPassword(String rawPassword, String email) {
         User user = userRepository.findByMail(email);
         return user != null && passwordUtil.matches(rawPassword, user.getPassword());
@@ -51,29 +51,10 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+
     // Метод для удаления пользователя по его ID
     public void deleteUser(int id) {
         userRepository.deleteById(id);
-    }
-
-    public User updateUser(Integer id, User updatedUser) {
-        return getUserById(id)
-                .map(existingUser -> {
-                    // При изменении пароля – хэшируем заново
-                    if (!existingUser.getPassword().equals(updatedUser.getPassword())) {
-                        existingUser.setPassword(passwordUtil.encodePassword(updatedUser.getPassword()));
-                    }
-
-                    existingUser.setId_user(id);
-                    existingUser.setBday(updatedUser.getBday());
-                    existingUser.setMail(updatedUser.getMail());
-                    existingUser.setPhone(updatedUser.getPhone());
-                    existingUser.setName(updatedUser.getName());
-                    // при необходимости обновляем другие поля
-
-                    return userRepository.save(existingUser);
-                })
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
     }
 
 }

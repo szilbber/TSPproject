@@ -23,14 +23,6 @@ public class Recipe {
     @JoinColumn(name = "id_category")  // Название внешнего ключа в таблице
     private Category category;  // Поле, которое ссылается на сущность
 
-
-    @ManyToMany(mappedBy = "recipes") //список пользователей, которые добавили рецепт в избранное
-    private Set<User> fav_users = new HashSet<>();
-
-    @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<CompositionRecipe> ingredients;
-
-
     @Column(name = "title")
     private String title;
 
@@ -43,20 +35,29 @@ public class Recipe {
     @Column(name = "time")
     private String time;
 
-    @Column(name = "picture")
-    private byte[] picture;
+
+    @ManyToMany(mappedBy = "recipes") //список пользователей, которые добавили рецепт в избранное
+    private Set<User> fav_users = new HashSet<>();
+
+    @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CompositionRecipe> ingredients;
+
+
+//    @Column(name = "picture")
+//    private byte[] picture;
 
     // Конструкторы
     public Recipe() {}
 
-    public Recipe(User userId, Category category, String title, String description, String manual, String time, byte[] picture) {
+    public Recipe(User userId, Category category, String title, String description, String manual, String time//, byte[] picture
+                   ) {
         this.userId = userId;
         this.category = category;
         this.title = title;
         this.description = description;
         this.manual = manual;
         this.time = time;
-        this.picture = picture;
+//        this.picture = picture;
     }
 
 
@@ -125,11 +126,11 @@ public class Recipe {
         this.time = time;
     }
 
-    public byte[] getPicture() {
-        return picture;
-    }
-
-    public void setPicture(byte[] picture) {
-        this.picture = picture;
-    }
+//    public byte[] getPicture() {
+//        return picture;
+//    }
+//
+//    public void setPicture(byte[] picture) {
+//        this.picture = picture;
+//    }
 }

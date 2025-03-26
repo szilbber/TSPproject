@@ -32,6 +32,16 @@ public class CompositionRecipe {
         this.quantity = quantity;
     }
     // Геттеры и сеттеры
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+
+
     public Recipe getRecipe() {
         return recipe;
     }

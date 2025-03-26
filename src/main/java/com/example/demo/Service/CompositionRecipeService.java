@@ -20,17 +20,11 @@ public class CompositionRecipeService {
 
     // Добавление ингредиента в рецепт
     @Transactional
-    public CompositionRecipe addIngredientToRecipe(Recipe recipe, Ingredient ingredient, double quantity) {
+    public CompositionRecipe createCompositionRecipe(CompositionRecipe compositionRecipe) {
         // Проверяем, если данный ингредиент уже существует в рецепте
-        CompositionRecipe compositionRecipe = compositionRecipeRepository.findByRecipeAndIngredient(recipe, ingredient);
-        if (compositionRecipe == null) {
-            compositionRecipe = new CompositionRecipe();
-            compositionRecipe.setRecipe(recipe);
-            compositionRecipe.setIngredient(ingredient);
-            compositionRecipe.setQuantity(quantity);
+
             return compositionRecipeRepository.save(compositionRecipe);
-        }
-        return null; // Если ингредиент уже в рецепте, ничего не делаем
+
     }
 
     // Удаление ингредиента из рецепта
@@ -48,4 +42,8 @@ public class CompositionRecipeService {
     public List<CompositionRecipe> getRecipesWithIngredient(Ingredient ingredient) {
         return compositionRecipeRepository.findByIngredient(ingredient);
     }
+    // Метод для удаления ингредиента из рецепта
+//    public void deleteCompose(int id) {
+//        CompositionRecipeRepository.(id);
+//    }
 }

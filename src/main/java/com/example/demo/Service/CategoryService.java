@@ -19,6 +19,7 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
+    //создание категории
     public Category createCategory(Category category) {
         return categoryRepository.save(category);
     }
@@ -37,15 +38,7 @@ public class CategoryService {
         return categoryRepository.findByTitleContainingIgnoreCase(title);
     }
 
-    // Сохранить или обновить категорию
-    public Category saveCategory(Category category) {
-        return categoryRepository.save(category);
-    }
 
-//    // Удалить категорию по ID
-//    public void deleteCategory(int id) {
-//        categoryRepository.deleteById(id);
-//    }
 
     // Получить все категории
     public List<Category> getAllCategories() {

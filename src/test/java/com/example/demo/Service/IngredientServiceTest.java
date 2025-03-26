@@ -19,11 +19,19 @@ public class IngredientServiceTest {
     String unit_measure="Граммы";
     Ingredient ingredient = new Ingredient(title,unit_measure);
 
+    String title_new = "Молоко";
+    String unit_measure_new="Милилитры";
+    Ingredient ingredient_new = new Ingredient(title_new,unit_measure_new);
+
     @Test
     public void testIngredient() {
         assertNotNull(ingredientService.createIngredient(ingredient).getId_ingredient());
         assertEquals(ingredientService.getIngredientByTitle("Мука").get().getId_ingredient(), ingredient.getId_ingredient());
         assertEquals(ingredientService.getIngredientById(ingredient.getId_ingredient()).get().getId_ingredient(), ingredient.getId_ingredient());
+
+        ingredient_new.setId_ingredient(ingredient.getId_ingredient());
+        assertEquals(ingredientService.createIngredient(ingredient_new).getTitle(), "Молоко");
+
         ingredientService.deleteIngredient(ingredient.getId_ingredient());
         assertThat(ingredientService.getIngredientById(ingredient.getId_ingredient())).isEmpty();
     }

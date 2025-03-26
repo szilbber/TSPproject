@@ -18,7 +18,7 @@ public class IngredientService {
     public IngredientService(IngredientRepository ingredientRepository) {
         this.ingredientRepository = ingredientRepository;
     }
-
+//Создание и обновление реецепта
     public Ingredient createIngredient(Ingredient ingredient) {
         return ingredientRepository.save(ingredient);
     }
