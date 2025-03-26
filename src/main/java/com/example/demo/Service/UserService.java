@@ -42,14 +42,18 @@ public class UserService {
     }
 
     // Метод для поиска пользователя по имени
-    public Optional<User> getUserByName(String name) {
-        return userRepository.findByName(name);
+    public User getUserByName(String name) {
+        return userRepository.findByName(name)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     // Метод для поиска пользователя по ID
-    public Optional<User> getUserById(int id) {
-        return userRepository.findById(id);
+    public User getUserById(int id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
+
+
 
 
     // Метод для удаления пользователя по его ID
