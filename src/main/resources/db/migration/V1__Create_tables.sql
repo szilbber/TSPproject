@@ -28,7 +28,13 @@ create table ingredients(
   title_ingredient varchar(15) not null,
   unit_measure varchar(20) not null
 );
-
+create table favorite_recipes(
+  id_user int,
+  id_recipe int,
+primary key (id_user, id_recipe),
+foreign key(id_user ) references users(id_user ),
+foreign key(id_recipe ) references recipes(id_recipe )
+);
 create table composition_recipe(
   id_recipe int,
   id_ingredient int,

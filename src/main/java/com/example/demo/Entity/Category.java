@@ -8,7 +8,7 @@ import java.time.LocalDate;
 @Table(name = "categories")
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_category")
     private int id_category;
 
@@ -18,15 +18,16 @@ public class Category {
     public Category() {}
     public Category(String title) {
 
+        //this.id_category = id;
         this.title = title;
+    }
+    public void setId_category(int id_category) {
+        this.id_category = id_category;
     }
     public int getId_category() {
         return id_category;
     }
 
-    public void setId_category(int id_category) {
-        this.id_category = id_category;
-    }
     public String getTitle() {
         return title;
     }

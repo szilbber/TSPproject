@@ -12,11 +12,17 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // автоматически генерируем значение для id
-    private Integer id;
+    @Column(name = "id_user")
+    private Integer id_user;
+    @Column(name = "name")
     private String name;
+    @Column(name = "password")
     private String password;
+    @Column(name = "phone")
     private String phone;
+    @Column(name = "mail")
     private String mail;
+    @Column(name = "bday")
     private LocalDate bday;
 
     @ManyToMany
@@ -41,11 +47,11 @@ public class User {
 
     // Геттеры и сеттеры
     public Integer getId_user() {
-        return id;
+        return id_user;
     }
 
     public void setId_user(Integer id_user) {
-        this.id= id_user;
+        this.id_user = id_user;
     }
 
     public String getName() {

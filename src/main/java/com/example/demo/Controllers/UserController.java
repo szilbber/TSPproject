@@ -33,14 +33,24 @@ public class UserController {
         return ResponseEntity.ok(user);  // Отправляем 200 OK с объектом user
     }
 
+    @DeleteMapping("/id/{id}")
+    public ResponseEntity<String> deleteUserById(@PathVariable(name = "id") int id) {
+        try {
+            userService.deleteUser(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Юзер успешно удален");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ошибка при удалении юреза: " + e.getMessage());
+        }
+    }
+
     // Получение пользователя по имени
     @GetMapping("/name/{name}")
     public ResponseEntity<User> getUserByName(@PathVariable String name) {
         return ResponseEntity.ok(userService.getUserByName(name));
     }
     // Получение пользователя по email
-    @GetMapping("/email")
-    public ResponseEntity<User> getUserByEmail(@RequestParam String email) {
+    @GetMapping("/email/{email}")
+    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
         User user = userService.getUserByEmail(email);
         if (user != null) {
             return new ResponseEntity<>(user, HttpStatus.OK);

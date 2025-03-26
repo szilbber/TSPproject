@@ -2,7 +2,9 @@ package com.example.demo.Service;
 
 import com.example.demo.Repositories.UserRepository;
 import com.example.demo.Entity.User;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,8 @@ public class UserService {
         this.passwordUtil = passwordUtil;
     }
 
+    @Autowired
+    private EntityManager entityManager;
     @Transactional
     // Регистрация пользователя и обновление
     public User registerUser(User user) {
@@ -53,11 +57,9 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
-
-
-
     // Метод для удаления пользователя по его ID
     public void deleteUser(int id) {
+
         userRepository.deleteById(id);
     }
 

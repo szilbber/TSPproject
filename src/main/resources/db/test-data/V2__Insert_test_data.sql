@@ -31,7 +31,11 @@ VALUES
 (7, 'Caesar Dressing', 'ml');
 
 -- Вставка тестовых данных в таблицу favorite_recipes
-
+INSERT INTO favorite_recipes (id_user, id_recipe)
+VALUES
+(1, 1),
+(2, 2),
+(3, 3);
 
 -- Вставка тестовых данных в таблицу composition_recipe
 INSERT INTO composition_recipe (id_recipe, id_ingredient, quantity)
