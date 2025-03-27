@@ -1,4 +1,5 @@
 package com.example.demo.Service;
+import com.example.demo.Entity.Category;
 import com.example.demo.Repositories.CompositionRecipeRepository;
 import com.example.demo.Entity.CompositionRecipe;
 import com.example.demo.Entity.Ingredient;
@@ -27,6 +28,11 @@ public class CompositionRecipeService {
 
     }
 
+    //Апдейт состава рецепта
+//    public CompositionRecipe updateCompRecipe(CompositionRecipe updatedCompRecipe) {
+//
+//    }
+
     // Удаление ингредиента из рецепта
     @Transactional
     public void removeIngredientFromRecipe(Recipe recipe, Ingredient ingredient) {
@@ -42,8 +48,4 @@ public class CompositionRecipeService {
     public List<CompositionRecipe> getRecipesWithIngredient(Ingredient ingredient) {
         return compositionRecipeRepository.findByIngredient(ingredient);
     }
-    // Метод для удаления ингредиента из рецепта
-//    public void deleteCompose(int id) {
-//        CompositionRecipeRepository.(id);
-//    }
 }

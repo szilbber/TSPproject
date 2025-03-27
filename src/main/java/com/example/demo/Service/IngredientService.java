@@ -18,7 +18,7 @@ public class IngredientService {
     public IngredientService(IngredientRepository ingredientRepository) {
         this.ingredientRepository = ingredientRepository;
     }
-//Создание и обновление реецепта
+    //Создание ингредиента
     public Ingredient createIngredient(Ingredient ingredient) {
         return ingredientRepository.save(ingredient);
     }
@@ -28,22 +28,25 @@ public class IngredientService {
     }
 
     // Получить ингредиент по id
-    public Optional<Ingredient> getIngredientById(Integer id) {
-        return ingredientRepository.findById(id);
+    public Ingredient getIngredientById(Integer id) {
+        return ingredientRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ingredient not found"));
     }
 
-    // Получить список ингредиентов по части названия
-    public List<Ingredient> searchIngredientsByTitle(String title) {
-        return ingredientRepository.findByTitleContainingIgnoreCase(title);
-    }
 
     // Метод для удаления ингредиента по его ID
     public void deleteIngredient(int id) {
         ingredientRepository.deleteById(id);
     }
 
+    //Апдейт ингредиента
+    public Ingredient updateIngredient(Ingredient updatedIngredient) {
 
-
+        Ingredient existingIngredient = getIngredientById(updatedIngredient.getId_ingredient());
+        existingIngredient.setTitle(updatedIngredient.getTitle());
+        existingIngredient.setUnitMeasure(updatedIngredient.getUnitMeasure());
+        return ingredientRepository.save(existingIngredient);
+    }
 
     // Получить все ингредиенты
     public List<Ingredient> getAllIngredients() {

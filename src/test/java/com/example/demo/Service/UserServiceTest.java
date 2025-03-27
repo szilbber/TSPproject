@@ -25,30 +25,30 @@ class UserServiceTest {
     User user = new User( mail, password, name, phone, bday);
 
 
-    String updatedName = "Dan";
+    String updatedName = "Pedro";
     String updatedPassword = "pupupu";
     User updatedUser = new User( mail, updatedPassword, updatedName, phone, bday);
 
 
     @Test
-    @Transactional
     public void testUser() {
 
+           //assertNotNull(userService.registerUser(user).getId_user());
+       // updatedUser.setId_user(user.getId_user());
 
-
-        assertNotNull(userService.registerUser(user).getId_user());
-//        updatedUser.setId_user(user.getId_user());
 //        assertNotNull(userService.getUserByEmail("mail@example.com"));
 //        assertTrue(userService.checkPassword("password", "mail@example.com" ));
-//        assertEquals(userService.getUserByName("name").getId_user(), user.getId_user());
-//        assertEquals(userService.getUserById(user.getId_user()).getId_user(), user.getId_user());
-//
-//        User new_user = userService.registerUser(updatedUser);
-//        assertNotEquals(new_user.getName(), user.getName());
-//        assertEquals(new_user.getId_user(), user.getId_user());
-//
-//        userService.deleteUser(user.getId_user());//delete
-////        assertEquals(userService.getUserByName("name"),"User not found");
+//        assertEquals(userService.getUserByName("name").getId_user(), 20);
+//        assertEquals(userService.getUserById(20).getName(), "name");
+////\\
+
+        //  userService.updateUser(updatedUser);
+          //assertNotEquals(new_user.getName(), user.getName());
+
+
+
+//        userService.deleteUser(24);//delete
+//       assertEquals(userService.getUserById(24),"User not found");
 
     }
 

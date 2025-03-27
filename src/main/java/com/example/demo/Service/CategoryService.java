@@ -29,8 +29,9 @@ public class CategoryService {
     }
 
     // Получить категорию по id
-    public Optional<Category> getCategoryById(int id) {
-        return categoryRepository.findById(id);
+    public Category getCategoryById(int id) {
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
     }
 
     // Получить список категорий по части названия
@@ -38,14 +39,20 @@ public class CategoryService {
         return categoryRepository.findByTitleContainingIgnoreCase(title);
     }
 
+    //Апдейт категории
+    public Category updateCategory(Category updatedCategory) {
 
+        Category existingCategory = getCategoryById(updatedCategory.getId_category());
+        existingCategory.setTitle(updatedCategory.getTitle());
+        return categoryRepository.save(existingCategory);
+    }
 
     // Получить все категории
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
 
-    // Метод для удаления рецепта по его ID
+    // Метод для удаления категории по его ID
     public void deleteCategory(int id) {
         categoryRepository.deleteById(id);
     }

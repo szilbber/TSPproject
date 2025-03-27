@@ -1,5 +1,5 @@
 create table users(
-  id_user int PRIMARY KEY,
+  id_user SERIAL PRIMARY KEY,
   name varchar(30) not null,
   password text not null,
   bday date not null,
@@ -7,11 +7,11 @@ create table users(
   mail varchar(30) not null
 );
 create table categories(
-  id_category int PRIMARY KEY,
+  id_category SERIAL PRIMARY KEY,
   title varchar(20) not null
 );
 create table recipes(
-  id_recipe int PRIMARY KEY,
+  id_recipe SERIAL PRIMARY KEY,
   id_user int,
   title varchar(30) not null,
   id_category int,
@@ -24,7 +24,7 @@ create table recipes(
 );
 
 create table ingredients(
-  id_ingredient int PRIMARY KEY,
+  id_ingredient SERIAL PRIMARY KEY,
   title_ingredient varchar(15) not null,
   unit_measure varchar(20) not null
 );

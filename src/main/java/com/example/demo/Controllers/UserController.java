@@ -32,7 +32,7 @@ public class UserController {
         User user = userService.getUserById(id);  // Получаем пользователя из базы
         return ResponseEntity.ok(user);  // Отправляем 200 OK с объектом user
     }
-
+    //Удаление пользователя
     @DeleteMapping("/id/{id}")
     public ResponseEntity<String> deleteUserById(@PathVariable(name = "id") int id) {
         try {
@@ -43,32 +43,41 @@ public class UserController {
         }
     }
 
-    // Получение пользователя по имени
-    @GetMapping("/name/{name}")
-    public ResponseEntity<User> getUserByName(@PathVariable String name) {
-        return ResponseEntity.ok(userService.getUserByName(name));
+    //Апдейт пользователя
+    @PutMapping("/{id}") // Добавляем путь для идентификатора пользователя
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<User> update(@RequestBody User user){
+        userService.updateUser(user);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
-    // Получение пользователя по email
-    @GetMapping("/email/{email}")
-    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
-        User user = userService.getUserByEmail(email);
-        if (user != null) {
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
+//    // Получение пользователя по имени
+//    @GetMapping("/name/{name}")
+//    public ResponseEntity<User> getUserByName(@PathVariable String name) {
+//        return ResponseEntity.ok(userService.getUserByName(name));
+//    }
+//    // Получение пользователя по email
+//    @GetMapping("/email/{email}")
+//    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
+//        User user = userService.getUserByEmail(email);
+//        if (user != null) {
+//            return new ResponseEntity<>(user, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//    }
 
-    // Проверка пароля пользователя по email
-    @PostMapping("/check-password")
-    public ResponseEntity<String> checkPassword(@RequestParam String email, @RequestParam String password) {
-        boolean isPasswordValid = userService.checkPassword(password, email);
-        if (isPasswordValid) {
-            return new ResponseEntity<>("Password is correct", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Password is incorrect", HttpStatus.BAD_REQUEST);
-        }
-    }
+//    // Проверка пароля пользователя по email
+//    @PostMapping("/check-password")
+//    public ResponseEntity<String> checkPassword(@RequestParam String email, @RequestParam String password) {
+//        boolean isPasswordValid = userService.checkPassword(password, email);
+//        if (isPasswordValid) {
+//            return new ResponseEntity<>("Password is correct", HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>("Password is incorrect", HttpStatus.BAD_REQUEST);
+//        }
+//    }
+
+
 
 
 

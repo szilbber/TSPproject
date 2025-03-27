@@ -16,7 +16,7 @@ public class Ingredient {
     @OneToMany(mappedBy = "ingredient", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CompositionRecipe> recipes;
 
-    @Column(name = "title")
+    @Column(name = "title_ingredient")
     private String title;
 
     @Column(name = "unit_measure")

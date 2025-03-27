@@ -8,7 +8,12 @@ import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.example.demo.Repositories.UserRepository;
+import com.example.demo.Entity.User;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
@@ -61,6 +66,21 @@ public class UserService {
     public void deleteUser(int id) {
 
         userRepository.deleteById(id);
+    }
+    public User updateUser(User updatedUser) {
+
+        User existingUser = getUserById(updatedUser.getId_user());
+        // При изменении пароля – хэшируем заново
+        if (!existingUser.getPassword().equals(updatedUser.getPassword())) {
+            existingUser.setPassword(passwordUtil.encodePassword(updatedUser.getPassword()));
+        }
+
+        existingUser.setBday(updatedUser.getBday());
+        existingUser.setMail(updatedUser.getMail());
+        existingUser.setPhone(updatedUser.getPhone());
+        existingUser.setName(updatedUser.getName());
+
+        return userRepository.save(existingUser);
     }
 
 }

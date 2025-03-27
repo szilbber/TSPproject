@@ -14,9 +14,4 @@ public interface IngredientRepository extends JpaRepository<Ingredient, Integer>
     // Метод для поиска ингредиента по его названию
    Optional<Ingredient> findByTitle(String title);
 
-    // Метод для поиска ингредиента по его id
-    Ingredient findById(int id);
-
-    // Метод для поиска ингредиентов по части названия (с использованием LIKE для частичного совпадения)
-    List<Ingredient> findByTitleContainingIgnoreCase(String title);
 }

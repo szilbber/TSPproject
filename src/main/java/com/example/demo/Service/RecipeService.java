@@ -29,8 +29,9 @@ public class RecipeService {
     }
     // Метод для получения рецепта по его ID
     @Transactional
-    public Optional<Recipe> getRecipeById(int id) {
-        return recipeRepository.findById(id);
+    public Recipe getRecipeById(int id) {
+        return recipeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Recipe not found"));
     }
 
     // Метод для получения всех рецептов пользователя по его ID
@@ -55,8 +56,14 @@ public class RecipeService {
         recipeRepository.deleteById(id);
     }
 
-    public void updateRecipe(Recipe recipe, Recipe updatedRecipe){
+    //Апдейт рецепта
+    public Recipe updateRecipe(Recipe updatedRecipe) {
 
-
+        Recipe existingRecipe = getRecipeById(updatedRecipe.getId_recipe());
+        existingRecipe.setTitle(updatedRecipe.getTitle());
+        existingRecipe.setDescription(updatedRecipe.getDescription());
+        existingRecipe.setManual(updatedRecipe.getManual());
+        existingRecipe.setTime(updatedRecipe.getTime());
+        return recipeRepository.save(existingRecipe);
     }
 }
