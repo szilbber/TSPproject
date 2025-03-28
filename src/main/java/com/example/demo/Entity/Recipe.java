@@ -1,5 +1,6 @@
 package com.example.demo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -49,6 +50,7 @@ public class Recipe {
     // Конструкторы
     public Recipe() {}
 
+   // @JsonCreator
     public Recipe(User userId, Category category, String title, String description, String manual, String time//, byte[] picture
                    ) {
         this.userId = userId;

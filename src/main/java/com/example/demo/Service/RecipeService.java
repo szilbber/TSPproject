@@ -17,6 +17,7 @@ import java.util.Optional;
 @Transactional //в одной транзакции
 public class RecipeService {
     private final RecipeRepository recipeRepository;
+    @Autowired
     private CompositionRecipeRepository compositionRecipeRepository;
 
     @Autowired
