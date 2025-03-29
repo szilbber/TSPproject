@@ -20,6 +20,7 @@ public class IngredientService {
     }
     //Создание ингредиента
     public Ingredient createIngredient(Ingredient ingredient) {
+
         return ingredientRepository.save(ingredient);
     }
     // Получить ингредиент по названию

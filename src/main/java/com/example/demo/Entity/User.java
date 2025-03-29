@@ -20,16 +20,16 @@ public class User {
     private String password;
     @Column(name = "phone")
     private String phone;
-    @Column(name = "mail")
+    @Column(name = "mail") //валидация//
     private String mail;
     @Column(name = "bday")
     private LocalDate bday;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "favourite_recipe",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "recipe_id")
+            name = "favourite_recipes",
+            joinColumns = @JoinColumn(name = "id_user"),
+            inverseJoinColumns = @JoinColumn(name = "id_recipe")
     )
     private Set<Recipe> recipes = new HashSet<>();
 

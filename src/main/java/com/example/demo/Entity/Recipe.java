@@ -41,7 +41,7 @@ public class Recipe {
     private Set<User> fav_users = new HashSet<>();
 
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<CompositionRecipe> ingredients;
+    private Set<CompositionRecipe> ingredients=new HashSet<>();
 
 
 //    @Column(name = "picture")

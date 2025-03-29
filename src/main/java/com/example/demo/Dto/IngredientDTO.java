@@ -2,7 +2,7 @@ package com.example.demo.Dto;
 
 public class IngredientDTO {
     private Integer ingredientId;
-    private double unit_measure;
+    private double quantity;
     public Integer getIngredientId() {
         return ingredientId;
     }
@@ -11,11 +11,11 @@ public class IngredientDTO {
         this.ingredientId = ingredientId;
     }
 
-    public double getUnit_measure() {
-        return unit_measure;
+    public double getQuantity() {
+        return quantity;
     }
 
-    public void setUnit_measure(double unit_measure) {
-        this.unit_measure = unit_measure;
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
     }
 }

@@ -1,7 +1,5 @@
 package com.example.demo.Dto;
 
-import com.example.demo.Dto.CompositionRecipeDTO;
-
 import java.util.List;
 
 public class RecipeDTO {
@@ -11,7 +9,7 @@ public class RecipeDTO {
     private String time;
     private Integer id_user; // Используем ID пользователя
     private Integer id_category; // Используем ID категории
-    private List<CompositionRecipeDTO> ingredients;
+    private List<IngredientDTO> ingredients;
 
     // Геттеры и сеттеры
     public String getTitle() {
@@ -62,11 +60,11 @@ public class RecipeDTO {
         this.id_category = categoryId;
     }
 
-    public List<CompositionRecipeDTO> getIngredients() {
+    public List<IngredientDTO> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<CompositionRecipeDTO> ingredients) {
+    public void setIngredients(List<IngredientDTO> ingredients) {
         this.ingredients = ingredients;
     }
 }

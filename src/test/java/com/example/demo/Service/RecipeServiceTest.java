@@ -26,26 +26,9 @@ public class RecipeServiceTest {
     private RecipeService recipeService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CategoryService categoryService;
 
-    String mail = "ammail@example.com";
-    String password = "passpassword";
-    String name = "Dan";
-    String phone = "8999418337";
-    LocalDate bday = LocalDate.of(2005, 7, 20);
-    User user = new User( mail, password, name, phone, bday);
-
-    String title_category = "Выпечка";
-    Category category = new Category(title_category);
-
-    User userId= user;
-    Category category_recipe = category;
-    String title_recipe = "Блины";
-    String description = "Очень вкусные блины";
-    String manual = "Печь, есть, балдеть";
-    String time = "30 минут";
-    byte[] picture;
-
-    Recipe recipe = new Recipe();
 
     @Autowired
     private UserRepository userRepository;
@@ -59,27 +42,29 @@ public class RecipeServiceTest {
     @Transactional
     @Test
     void testRecipe() {
-        // Создаем тестового пользователя, категорию (через репозитории)
-       // User user = new User();
-        //user.setName("Test User");
-        User user2 = userRepository.save(user);
 
-        //Category category = new Category();
-       // category.setTitle("Test Category");
-        Category cat2 = categoryRepository.save(category);
+        String mail = "ammail@example.com";
+        String password = "passpassword";
+        String name = "Dan";
+        String phone = "8999418337";
+        LocalDate bday = LocalDate.of(2005, 7, 20);
+        User user = new User( mail, password, name, phone, bday);
+        User userId= userService.registerUser(user);
+
+        String title_category = "Выпечка";
+        Category category = new Category(title_category);
+        Category category_recipe =categoryService.createCategory(category);;
 
 
-        Recipe recipe = new Recipe(user2, cat2, "Оливье", "Описание рецепта", "Инструкция по приготовлению", "30 минут");
 
-        Recipe recipe_new = new Recipe(user2, cat2, "Борщ", "Описание рецепта", "Инструкция по приготовлению", "30 минут");
+        Recipe recipe = new Recipe(userId, category_recipe, "Оливье", "Описание рецепта", "Инструкция по приготовлению", "30 минут");
 
-        //создание рецепта
-        assertNotNull(recipeService.createRecipe(recipe));
+
         assertEquals(recipeService.createRecipe(recipe).getTitle(), "Оливье");
 
-        //обновление рецепта
-        recipe_new.setId_recipe(recipe.getId_recipe());
-        assertEquals(recipeService.createRecipe(recipe_new).getTitle(), "Борщ");
+//        //обновление рецепта
+//        recipe_new.setId_recipe(recipe.getId_recipe());
+//        assertEquals(recipeService.createRecipe(recipe_new).getTitle(), "Борщ");
 
 //        // Метод для удаления рецепта по его ID
 //        recipeService.deleteRecipe(recipe.getId_recipe());

@@ -28,7 +28,7 @@ create table ingredients(
   title_ingredient varchar(15) not null,
   unit_measure varchar(20) not null
 );
-create table favorite_recipes(
+create table favourite_recipes(
   id_user int,
   id_recipe int,
 primary key (id_user, id_recipe),

@@ -2,6 +2,7 @@ package com.example.demo.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -14,7 +15,7 @@ public class Ingredient {
     private int id_ingredient;
 
     @OneToMany(mappedBy = "ingredient", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<CompositionRecipe> recipes;
+    private Set<CompositionRecipe> recipes=new HashSet<>();
 
     @Column(name = "title_ingredient")
     private String title;

@@ -1,13 +1,13 @@
 package com.example.demo.Controllers;
-import com.example.demo.Dto.CompositionRecipeDTO;
 import com.example.demo.Dto.IngredientDTO;
 import com.example.demo.Dto.RecipeDTO;
 import com.example.demo.Entity.*;
-import com.example.demo.Exeptions.ResourceNotFoundException;
 import com.example.demo.Repositories.*;
+import com.example.demo.Service.CategoryService;
+import com.example.demo.Service.IngredientService;
 import com.example.demo.Service.RecipeService;
+import com.example.demo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +37,15 @@ public class RecipeController {
     @Autowired
     private RecipeService recipeService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private IngredientService ingredientService;
+
     @PostMapping("/create")
     public ResponseEntity<Recipe> createRecipe(@RequestBody RecipeDTO request) {
         // Создаем основной объект рецепта
@@ -46,31 +55,32 @@ public class RecipeController {
         recipe.setManual(request.getManual());
         recipe.setTime(request.getTime());
 
-        User user = userRepository.findById(request.getUserId())
-                        .orElseThrow(() -> new RuntimeException("User not found"));
-        Category category = categoryRepository.findById(request.getCategoryId())
-                        .orElseThrow(()-> new RuntimeException("Category not found"));
+        // Получаем пользователя и категорию (предполагается, что они уже существуют)
+        User user = userService.getUserById(request.getUserId());
+        Category category = categoryService.getCategoryById(request.getCategoryId());
 
-        recipe.setUser(user); //вощвращшаем афди а нужно юзер
+        recipe.setUser(user);
         recipe.setCategory(category);
 
-        // Создаем список ингредиентов для рецепта
-        Set<CompositionRecipe> ingredients = new HashSet<>();
+        // Создаем список компонентов для рецепта
+        Set<CompositionRecipe> compositionRecipes = new HashSet<>();
 
-        // Для каждого ингредиента создаем объект CompositionRecipe
-        for (CompositionRecipeDTO ingredientRequest : request.getIngredients()) {
+        // Для каждого ингредиента создаем CompositionRecipe
+        for (IngredientDTO ingredient : request.getIngredients()) {
             CompositionRecipe composition = new CompositionRecipe();
-            Ingredient ingredient = ingredientRepository.findById(ingredientRequest.getIngredientId())
-                            .orElseThrow(()-> new RuntimeException("Ingredient not found"));
-            composition.setIngredient(ingredient);
-            composition.setQuantity(ingredientRequest.getQuantity());
+
+            // Получаем ингредиент из базы данных
+            Ingredient ingr = ingredientService.getIngredientById(ingredient.getIngredientId());
+
+            composition.setIngredient(ingr);
+            composition.setQuantity(ingredient.getQuantity());
             composition.setRecipe(recipe);
 
-            ingredients.add(composition);
+            compositionRecipes.add(composition);
         }
 
-        // Устанавливаем связь между рецептом и ингредиентами
-        recipe.setIngredients(ingredients);
+        // Устанавливаем связь с компонентами
+        recipe.setIngredients(compositionRecipes);
 
         // Сохраняем рецепт
         Recipe savedRecipe = recipeService.createRecipe(recipe);
@@ -78,4 +88,5 @@ public class RecipeController {
         return ResponseEntity.created(URI.create("/recipes/" + savedRecipe.getId_recipe()))
                 .body(savedRecipe);
     }
+
 }

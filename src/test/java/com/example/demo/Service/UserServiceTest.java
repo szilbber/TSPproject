@@ -19,7 +19,7 @@ class UserServiceTest {
 
     String mail = "mail@example.com";
     String password = "password";
-    String name = "name";
+    String name = "Sofia";
     String phone = "89179418337";
     LocalDate bday = LocalDate.of(1985, 7, 20);
     User user = new User( mail, password, name, phone, bday);
@@ -33,7 +33,7 @@ class UserServiceTest {
     @Test
     public void testUser() {
 
-           //assertNotNull(userService.registerUser(user).getId_user());
+           assertNotNull(userService.registerUser(user).getId_user());
        // updatedUser.setId_user(user.getId_user());
 
 //        assertNotNull(userService.getUserByEmail("mail@example.com"));

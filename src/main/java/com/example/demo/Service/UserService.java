@@ -67,9 +67,9 @@ public class UserService {
 
         userRepository.deleteById(id);
     }
-    public User updateUser(User updatedUser) {
+    public User updateUser(Integer id,User updatedUser) {
 
-        User existingUser = getUserById(updatedUser.getId_user());
+        User existingUser = getUserById(id);
         // При изменении пароля – хэшируем заново
         if (!existingUser.getPassword().equals(updatedUser.getPassword())) {
             existingUser.setPassword(passwordUtil.encodePassword(updatedUser.getPassword()));

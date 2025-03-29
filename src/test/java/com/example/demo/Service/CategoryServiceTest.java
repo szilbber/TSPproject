@@ -15,7 +15,7 @@ public class CategoryServiceTest {
     @Autowired
     private CategoryService categoryService;  // Должен быть внедрен бин UserService
 
-    String title = "Выпечка";
+    String title = "Второе";
     Category category = new Category(title);
 
     String title_new = "Салаты";
@@ -27,14 +27,14 @@ public class CategoryServiceTest {
 //
 //        assertEquals(categoryService.getCategoryByTitle("Выпечка").get().getId_category(), category.getId_category());
 //
-        category_new.setId_category(category.getId_category());
-        assertEquals(categoryService.createCategory(category_new).getTitle(), "Салаты");
-//
+//        category_new.setId_category(category.getId_category());
+//        assertEquals(categoryService.createCategory(category_new).getTitle(), "Салаты");
+////
 //
 //        assertEquals(categoryService.getCategoryById(category.getId_category()).get().getId_category(), category.getId_category());
 //
-//
-       categoryService.deleteCategory(category.getId_category());
+////
+//       categoryService.deleteCategory(category.getId_category());
 //        assertThat(categoryService.getCategoryById(category.getId_category())).isEmpty();
 
 

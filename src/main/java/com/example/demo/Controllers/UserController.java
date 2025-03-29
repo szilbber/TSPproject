@@ -26,7 +26,7 @@ public class UserController {
     }
 
 
-    // Получение пользователя по ID
+    // Получение пользователя по ID //обработать ошибку 500
     @GetMapping("id/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Integer id) {
         User user = userService.getUserById(id);  // Получаем пользователя из базы
@@ -34,7 +34,7 @@ public class UserController {
     }
     //Удаление пользователя
     @DeleteMapping("/id/{id}")
-    public ResponseEntity<String> deleteUserById(@PathVariable(name = "id") int id) {
+    public ResponseEntity<String> deleteUserById(@PathVariable int id) {
         try {
             userService.deleteUser(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Юзер успешно удален");
@@ -43,13 +43,14 @@ public class UserController {
         }
     }
 
-    //Апдейт пользователя
     @PutMapping("/{id}") // Добавляем путь для идентификатора пользователя
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<User> update(@RequestBody User user){
-        userService.updateUser(user);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    public ResponseEntity<User> update(@PathVariable Integer id, @RequestBody User user) {
+        userService.updateUser(id, user); // Передаем id для обновления конкретного пользователя
+//        user.setId_user(id);
+        return new ResponseEntity<>(user, HttpStatus.OK); // Возвращаем статус 200 OK
     }
+
 //    // Получение пользователя по имени
 //    @GetMapping("/name/{name}")
 //    public ResponseEntity<User> getUserByName(@PathVariable String name) {
