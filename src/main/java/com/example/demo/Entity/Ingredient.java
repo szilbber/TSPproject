@@ -21,7 +21,7 @@ public class Ingredient {
     private String title;
 
     @Column(name = "unit_measure")
-    private String unit_measure;
+    private String unitMeasure;
 
     // Конструктор без параметров
     public Ingredient() {
@@ -30,7 +30,7 @@ public class Ingredient {
     // Конструктор с параметрами
     public Ingredient(String title, String unit_measure) {
         this.title = title;
-        this.unit_measure = unit_measure;
+        this.unitMeasure = unit_measure;
     }
 
     public int getId_ingredient() {
@@ -48,10 +48,10 @@ public class Ingredient {
         this.title = title;
     }
     public String getUnitMeasure() {
-        return unit_measure;
+        return unitMeasure;
     }
 
     public void setUnitMeasure(String unit_measure) {
-        this.unit_measure = unit_measure;
+        this.unitMeasure = unit_measure;
     }
 }

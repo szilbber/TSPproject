@@ -3,12 +3,12 @@ package com.example.demo.Dto;
 import java.util.List;
 
 public class RecipeDTO {
+    private Integer userId; // Используем ID пользователя
+    private Integer categoryId; // Используем ID категории
     private String title;
     private String description;
     private String manual;
     private String time;
-    private Integer id_user; // Используем ID пользователя
-    private Integer id_category; // Используем ID категории
     private List<IngredientDTO> ingredients;
 
     // Геттеры и сеттеры
@@ -45,19 +45,19 @@ public class RecipeDTO {
     }
 
     public Integer getUserId() {
-        return id_user;
+        return userId;
     }
 
     public void setUserId(Integer userId) {
-        this.id_user = userId;
+        this.userId = userId;
     }
 
     public Integer getCategoryId() {
-        return id_category;
+        return categoryId;
     }
 
     public void setCategoryId(Integer categoryId) {
-        this.id_category = categoryId;
+        this.categoryId = categoryId;
     }
 
     public List<IngredientDTO> getIngredients() {
