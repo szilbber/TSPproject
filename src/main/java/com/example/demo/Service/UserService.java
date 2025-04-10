@@ -1,11 +1,13 @@
 package com.example.demo.Service;
 
+import com.example.demo.Entity.Role;
 import com.example.demo.Repositories.UserRepository;
 import com.example.demo.Entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.Repositories.UserRepository;
@@ -33,6 +35,15 @@ public class UserService {
     @Transactional
     // Регистрация пользователя и обновление
     public User registerUser(User user) {
+        if (userRepository.existsByUsername(user.getUsername())) {
+            // Заменить на свои исключения
+            throw new RuntimeException("Пользователь с таким именем уже существует");
+        }
+
+        if (userRepository.existsByEmail(user.getMail())) {
+            throw new RuntimeException("Пользователь с таким email уже существует");
+        }
+
         // Хешируем пароль перед сохранением
         String encodedPassword = passwordUtil.encodePassword(user.getPassword());
         user.setPassword(encodedPassword);
@@ -82,5 +93,27 @@ public class UserService {
 
         return userRepository.save(existingUser);
     }
+    /**
+     * Получение текущего пользователя
+     *
+     * @return текущий пользователь
+     */
+    public User getCurrentUser() {
+        // Получение имени пользователя из контекста Spring Security
+        var username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return getUserByName(username);
+    }
 
+
+    /**
+     * Выдача прав администратора текущему пользователю
+     * <p>
+     * Нужен для демонстрации
+     */
+    @Deprecated
+    public void getAdmin() {
+        var user = getCurrentUser();
+        user.setRole(Role.ROLE_ADMIN);
+        userRepository.save(user);
+    }
 }

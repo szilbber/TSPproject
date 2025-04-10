@@ -1,10 +1,16 @@
+CREATE TYPE "role_enum" AS ENUM (
+  'ROLE_USER',
+  'ROLE_ADMIN'
+);
+
 create table users(
   id_user SERIAL PRIMARY KEY,
   name varchar(30) not null,
   password text not null,
   bday date not null,
   phone varchar(30) not null,
-  mail varchar(30) not null
+  mail varchar(30) not null,
+  user_role role_enum
 );
 create table categories(
   id_category SERIAL PRIMARY KEY,
