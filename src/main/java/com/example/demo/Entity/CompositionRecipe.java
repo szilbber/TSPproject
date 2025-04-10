@@ -3,18 +3,21 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "composition_recipe")
-//@IdClass(CompositionPrimaryKey.class)  // Указываем класс составного ключа
+@IdClass(CompositionPrimaryKey.class)  // Указываем класс составного ключа
+//@IdClass(CompositionRecipeId.class)  // Класс для составного ключа
 public class CompositionRecipe {
 
-    @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+//    @Id
+//    @Column
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Integer id;
 
+    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_recipe")
     private Recipe recipe;  // Сущность Recipe, связывающаяся с таблицей recipes
 
+    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_ingredient")
     private Ingredient ingredient;  // Сущность Ingredient, связывающаяся с таблицей ingredients
@@ -32,13 +35,13 @@ public class CompositionRecipe {
         this.quantity = quantity;
     }
     // Геттеры и сеттеры
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+//    public Integer getId() {
+//        return id;
+//    }
+//
+//    public void setId(Integer id) {
+//        this.id = id;
+//    }
 
 
 

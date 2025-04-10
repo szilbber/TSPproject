@@ -85,7 +85,7 @@ public class RecipeController {
         // Сохраняем рецепт
         Recipe savedRecipe = recipeService.createRecipe(recipe);
 
-        return ResponseEntity.created(URI.create("/recipes/" + savedRecipe.getId_recipe()))
+        return ResponseEntity.created(URI.create("/recipes/" + savedRecipe.getId()))
                 .body(savedRecipe);
     }
 

@@ -13,12 +13,13 @@ public class Recipe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_recipe")
-    private int id;
+    @Column(name = "id")
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_user")  // Название внешнего ключа в таблице
-    private User userId;  // Поле, которое ссылается на сущность User
+    @JoinColumn(name = "id_user", nullable = false)  // Не допускаем NULL, но не каскадируем удаление
+    private User userId;  // Поле, которое ссылается на сущность User, автор рецепта
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_category")  // Название внешнего ключа в таблице
@@ -37,9 +38,8 @@ public class Recipe {
     private String time;
 
 
-    @ManyToMany(mappedBy = "recipes") //список пользователей, которые добавили рецепт в избранное
-    private Set<User> fav_users = new HashSet<>();
-
+    @ManyToMany(mappedBy = "favouriteRecipes")  // Указываем, что связь с User уже установлена в сущности User
+    private Set<User> usersWhoFavourited = new HashSet<>();  // Множество пользователей, которые добавили этот рецепт в избранное
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CompositionRecipe> ingredients=new HashSet<>();
 
@@ -72,11 +72,11 @@ public class Recipe {
         this.ingredients = ingredients;
     }
 
-    public int getId_recipe() {
+    public int getId() {
         return id;
     }
 
-    public void setId_recipe(int id_recipe) {
+    public void setId(int id_recipe) {
         this.id = id_recipe;
     }
 

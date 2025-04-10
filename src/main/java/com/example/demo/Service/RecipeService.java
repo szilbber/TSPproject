@@ -37,8 +37,10 @@ public class RecipeService {
 
     // Метод для получения всех рецептов пользователя по его ID
     @Transactional
-    public Optional<List<Recipe>> getRecipesByUserId(User userId) {
-        return recipeRepository.findByUserId(userId);
+    public List<Recipe> getRecipesByUserId(User userId) {
+
+        return recipeRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Recipes not found"));
     }
 
     // Метод для получения всех рецептов по категории
@@ -60,7 +62,7 @@ public class RecipeService {
     //Апдейт рецепта
     public Recipe updateRecipe(Recipe updatedRecipe) {
 
-        Recipe existingRecipe = getRecipeById(updatedRecipe.getId_recipe());
+        Recipe existingRecipe = getRecipeById(updatedRecipe.getId());
         existingRecipe.setTitle(updatedRecipe.getTitle());
         existingRecipe.setDescription(updatedRecipe.getDescription());
         existingRecipe.setManual(updatedRecipe.getManual());

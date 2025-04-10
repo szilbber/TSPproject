@@ -1,10 +1,16 @@
 package com.example.demo.Controllers;
+import com.example.demo.Entity.Recipe;
+import com.example.demo.Repositories.RecipeRepository;
+import com.example.demo.Repositories.UserRepository;
+import com.example.demo.Service.RecipeService;
 import com.example.demo.Service.UserService;
 import com.example.demo.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -12,6 +18,12 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
+    @Autowired
+    private RecipeService recipeService;
+    @Autowired
+    private RecipeRepository recipeRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     public UserController(UserService userService) {
@@ -51,6 +63,41 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK); // Возвращаем статус 200 OK
     }
 
+    // Метод для добавления рецепта в избранное
+    @PostMapping("/{userId}/favourite-recipes/{recipeId}")
+    public ResponseEntity<Void> addFavouriteRecipe(@PathVariable Integer userId, @PathVariable Integer recipeId) {
+        // Получаем пользователя и рецепт по ID
+        User user = userService.getUserById(userId);
+        Recipe recipe = recipeService.getRecipeById(recipeId);
+
+        // Добавляем рецепт в избранное пользователя
+        user.getFavouriteRecipes().add(recipe);
+
+        // Сохраняем изменения в базе данных
+        userService.registerUser(user);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/removeFavourite/{userId}/{recipeId}")
+    public ResponseEntity<String> removeFavouriteRecipe(@PathVariable Integer userId, @PathVariable Integer recipeId) {
+        // Получаем пользователя и рецепт из базы данных
+        User user = userService.getUserById(userId);
+        Recipe recipe = recipeService.getRecipeById(recipeId);
+
+        // Проверяем, есть ли рецепт в избранных
+        if (user.getFavouriteRecipes().contains(recipe)) {
+            // Удаляем рецепт из коллекции избранных рецептов
+            user.getFavouriteRecipes().remove(recipe);
+
+            // Сохраняем пользователя (Hibernate автоматически обновит таблицу связи)
+            userService.registerUser(user);
+
+            return ResponseEntity.ok("Recipe removed from favourites");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Recipe not found in favourites");
+        }
+    }
 //    // Получение пользователя по имени
 //    @GetMapping("/name/{name}")
 //    public ResponseEntity<User> getUserByName(@PathVariable String name) {

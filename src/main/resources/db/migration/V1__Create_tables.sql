@@ -11,7 +11,7 @@ create table categories(
   title varchar(20) not null
 );
 create table recipes(
-  id_recipe SERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   id_user int,
   title varchar(30) not null,
   id_category int,
@@ -19,8 +19,8 @@ create table recipes(
   manual text not null,
   time varchar(30) not null,
   picture bytea,
-  foreign key(id_user) references users(id_user),
-  foreign key(id_category) references categories(id_category)
+  foreign key(id_category) references categories(id_category),
+  foreign key(id_user) references users(id_user) ON DELETE SET NULL
 );
 
 create table ingredients(
@@ -33,14 +33,14 @@ create table favourite_recipes(
   id_recipe int,
 primary key (id_user, id_recipe),
 foreign key(id_user ) references users(id_user ),
-foreign key(id_recipe ) references recipes(id_recipe )
+foreign key(id_recipe ) references recipes(id)
 );
 create table composition_recipe(
   id_recipe int,
   id_ingredient int,
   quantity decimal(5,2),
   primary key (id_recipe, id_ingredient),
-  foreign key(id_recipe) references recipes(id_recipe),
+  foreign key(id_recipe) references recipes(id),
   foreign key(id_ingredient) references ingredients(id_ingredient)
 );
 

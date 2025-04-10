@@ -25,14 +25,33 @@ public class User {
     @Column(name = "bday")
     private LocalDate bday;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "favourite_recipes",
             joinColumns = @JoinColumn(name = "id_user"),
             inverseJoinColumns = @JoinColumn(name = "id_recipe")
     )
+    private Set<Recipe> favouriteRecipes = new HashSet<>();
+
+    @OneToMany(mappedBy = "userId", orphanRemoval = false)
     private Set<Recipe> recipes = new HashSet<>();
 
+// Конструкторы, геттеры и сеттеры
+
+    public Set<Recipe> getRecipes() {
+        return recipes;
+    }
+
+    public void setResipes(Set<Recipe> recipes) {
+        this.recipes= recipes;
+    }
+    public Set<Recipe> getFavouriteRecipes() {
+        return favouriteRecipes;
+    }
+
+    public void setFavouriteRecipes(Set<Recipe> favouriteRecipes) {
+        this.favouriteRecipes = favouriteRecipes;
+    }
     // Конструкторы, геттеры и сеттеры
     public User() {}
 
