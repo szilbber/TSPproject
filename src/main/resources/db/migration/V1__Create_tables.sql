@@ -1,10 +1,16 @@
+CREATE TYPE role_enum AS ENUM (
+  'USER',
+  'ADMIN'
+);
+
 create table users(
   id_user SERIAL PRIMARY KEY,
   name varchar(30) not null,
   password text not null,
   bday date not null,
   phone varchar(30) not null,
-  mail varchar(30) not null
+  mail varchar(30) not null,
+  user_role role_enum
 );
 create table categories(
   id_category SERIAL PRIMARY KEY,
@@ -52,4 +58,13 @@ create table shopping_list(
   primary key (id_user, id_ingredient),
   foreign key(id_user) references users(id_user),
   foreign key(id_ingredient) references ingredients(id_ingredient)
+);
+
+CREATE TABLE tokens(
+  id SERIAL PRIMARY KEY,
+  access_token varchar UNIQUE,
+  refresh_token varchar UNIQUE,
+  is_logged_out boolean,
+  user_id integer,
+  foreign key(user_id) references users(id_user)
 );

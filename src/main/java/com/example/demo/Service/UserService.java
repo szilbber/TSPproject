@@ -6,6 +6,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.Repositories.UserRepository;
@@ -17,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordService passwordUtil;
@@ -33,9 +36,18 @@ public class UserService {
     @Transactional
     // Регистрация пользователя и обновление
     public User registerUser(User user) {
+//        if (userRepository.existsByName(user.getUsername())) {
+//            // Заменить на свои исключения
+//            throw new RuntimeException("Пользователь с таким именем уже существует");
+//        }
+//
+//        if (userRepository.existsByMail(user.getMail())) {
+//            throw new RuntimeException("Пользователь с таким email уже существует");
+//        }
+
         // Хешируем пароль перед сохранением
-        String encodedPassword = passwordUtil.encodePassword(user.getPassword());
-        user.setPassword(encodedPassword);
+//        String encodedPassword = passwordUtil.encodePassword(user.getPassword());
+//        user.setPassword(encodedPassword);
         return userRepository.save(user);
     }
 
@@ -78,9 +90,30 @@ public class UserService {
         existingUser.setBday(updatedUser.getBday());
         existingUser.setMail(updatedUser.getMail());
         existingUser.setPhone(updatedUser.getPhone());
-        existingUser.setName(updatedUser.getName());
+        existingUser.setName(updatedUser.getUsername());
 
         return userRepository.save(existingUser);
     }
 
+
+//    public boolean existsByUsername(String username) {
+//        User user = userRepository.findByName(username).orElse(null);
+//        if (user != null) {
+//            return true;
+//        }
+//        return false;
+//    }
+//
+//    public boolean existsByEmail(String email) {
+//        User user = userRepository.findByEmail(email).orElse(null);
+//        if (user != null) {
+//            return true;
+//        }
+//        return false;
+//    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return null;
+    }
 }

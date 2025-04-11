@@ -30,12 +30,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    // Регистрация нового пользователя
-    @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        User createdUser = userService.registerUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
-    }
+//    // Регистрация нового пользователя
+//    @PostMapping("/register")
+//    public ResponseEntity<User> registerUser(@RequestBody User user) {
+//        User createdUser = userService.registerUser(user);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+//    }
 
 
     // Получение пользователя по ID //обработать ошибку 500
