@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "token_table")
+@Table(name = "tokens")
 @Getter
 @Setter
 public class Token {

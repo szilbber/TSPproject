@@ -21,7 +21,9 @@ public class CategoryController {
     // Регистрация новой категории
     @PostMapping("/create")
     public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+        System.out.println("создание категории1");
         Category createdCategory = categoryService.createCategory(category);
+        System.out.println("создание категории2");
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCategory);
     }
     // Получить все категории

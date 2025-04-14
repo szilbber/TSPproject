@@ -96,24 +96,25 @@ public class UserService implements UserDetailsService {
     }
 
 
-//    public boolean existsByUsername(String username) {
-//        User user = userRepository.findByName(username).orElse(null);
-//        if (user != null) {
-//            return true;
-//        }
-//        return false;
-//    }
-//
-//    public boolean existsByEmail(String email) {
-//        User user = userRepository.findByEmail(email).orElse(null);
-//        if (user != null) {
-//            return true;
-//        }
-//        return false;
-//    }
+    public boolean existsByUsername(String username) {
+        User user = userRepository.findByName(username).orElse(null);
+        if (user != null) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean existsByEmail(String email) {
+        User user = userRepository.findByMail(email);
+        if (user != null) {
+            return true;
+        }
+        return false;
+    }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+        return userRepository.findByName(name)
+                .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
     }
 }

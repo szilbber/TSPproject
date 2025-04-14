@@ -10,7 +10,7 @@ create table users(
   bday date not null,
   phone varchar(30) not null,
   mail varchar(30) not null,
-  user_role role_enum
+  user_role varchar(30) NOT NULL DEFAULT 'USER'
 );
 create table categories(
   id_category SERIAL PRIMARY KEY,

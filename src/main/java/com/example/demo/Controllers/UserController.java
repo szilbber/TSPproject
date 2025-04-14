@@ -8,6 +8,9 @@ import com.example.demo.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -64,17 +67,19 @@ public class UserController {
     }
 
     // Метод для добавления рецепта в избранное
-    @PostMapping("/{userId}/favourite-recipes/{recipeId}")
-    public ResponseEntity<Void> addFavouriteRecipe(@PathVariable Integer userId, @PathVariable Integer recipeId) {
+    @PostMapping("/favourite-recipes/{recipeId}")
+    public ResponseEntity<Void> addFavouriteRecipe(@PathVariable Integer recipeId) {
         // Получаем пользователя и рецепт по ID
-        User user = userService.getUserById(userId);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User currentUser = (User) userService.loadUserByUsername(userDetails.getUsername());
         Recipe recipe = recipeService.getRecipeById(recipeId);
 
         // Добавляем рецепт в избранное пользователя
-        user.getFavouriteRecipes().add(recipe);
+        currentUser.getFavouriteRecipes().add(recipe);
 
         // Сохраняем изменения в базе данных
-        userService.registerUser(user);
+        userRepository.save(currentUser);
 
         return ResponseEntity.ok().build();
     }

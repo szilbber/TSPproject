@@ -33,7 +33,7 @@ public class JwtService {
     public JwtService(TokenRepository tokenRepository) {
         this.tokenRepository = tokenRepository;
     }
-    private SecretKey getSgningKey() {
+    private SecretKey getSigningKey() {
 
         byte[] keyBytes = Decoders.BASE64URL.decode(secretKey);
 
@@ -44,7 +44,7 @@ public class JwtService {
                 .subject(user.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiryTime))
-                .signWith(getSgningKey());
+                .signWith(getSigningKey());
 
         return builder.compact();
     }
@@ -59,7 +59,7 @@ public class JwtService {
     private Claims extractAllClaims(String token) {
 
         JwtParserBuilder parser = Jwts.parser();
-        parser.verifyWith(getSgningKey());
+        parser.verifyWith(getSigningKey());
 
         return parser.build()
                 .parseSignedClaims(token)

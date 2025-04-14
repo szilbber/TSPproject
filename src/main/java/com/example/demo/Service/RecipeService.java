@@ -1,4 +1,6 @@
 package com.example.demo.Service;
+import com.example.demo.Dto.IngredientDTO;
+import com.example.demo.Dto.RecipeDTO;
 import com.example.demo.Entity.Category;
 import com.example.demo.Entity.CompositionRecipe;
 import com.example.demo.Entity.User;
@@ -69,4 +71,28 @@ public class RecipeService {
         existingRecipe.setTime(updatedRecipe.getTime());
         return recipeRepository.save(existingRecipe);
     }
+
+    public List<Recipe> searchRecipes(Long categoryId) {
+        return recipeRepository.findByFilters(categoryId);
+    }
+//    public List<RecipeDTO> searchRecipeDTOs(Long categoryId) {
+//        List<Recipe> recipes = recipeRepository.findByFilters(categoryId);
+//
+//        return recipes.stream().map(recipe -> {
+//            String categoryName = recipe.getCategory() != null ? recipe.getCategory().getTitle() : null;
+//
+//            List<IngredientDTO> ingredientTitles = recipe.getIngredients().stream()
+//                    .map(comp -> comp.getIngredient().getTitle())
+//                    .toList();
+//
+//            return new RecipeDTO(
+//                    recipe.getId(),
+//                    recipe.getTitle(),
+//                    recipe.getDescription(),
+//                    recipe.getManual(),
+//                    recipe.getTime(),
+//                    ingredientTitles
+//            );
+//        }).toList();
+//    }
 }

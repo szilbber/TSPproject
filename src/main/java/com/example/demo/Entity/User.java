@@ -38,6 +38,9 @@ public class User implements UserDetails {
     @Column(name  = "user_role")
     private Role role;
 
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
+
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "favourite_recipes",
@@ -57,6 +60,10 @@ public class User implements UserDetails {
 
     public void setResipes(Set<Recipe> recipes) {
         this.recipes= recipes;
+    }
+
+    public void setRoleAdmin(){
+        this.role = Role.ADMIN;
     }
     public Set<Recipe> getFavouriteRecipes() {
         return favouriteRecipes;
@@ -129,8 +136,9 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority((role.name())));
+        return List.of(new SimpleGrantedAuthority(("ROLE_"+ role.name())));
     }
+
 
     @Override
     public boolean isAccountNonExpired() {

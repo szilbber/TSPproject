@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,7 +28,7 @@ public class AuthenticationService {
 
     private final UserRepository userRepository;
 
-    private final UserService userService;
+   private final UserService userService;
 
     private final JwtService jwtService;
 
@@ -87,24 +89,27 @@ public class AuthenticationService {
         tokenRepository.save(token);
     }
     public AuthenticationResponseDto authenticate(LoginRequestDto request) {
-
+        System.out.println("pupupup");
+        System.out.println(request.getUsername());
+        System.out.println(request.getPassword());
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
                         request.getPassword()
                 )
         );
-
+        System.out.println("1010101");
         User user = userRepository.findByName(request.getUsername())
                 .orElseThrow();
-
         String accessToken = jwtService.generateAccessToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
 
         revokeAllToken(user);
-
+        System.out.println("106106");
         saveUserToken(accessToken, refreshToken, user);
-
+        System.out.println("108108108");
+        System.out.println(accessToken);
+        System.out.println(refreshToken);
         return new AuthenticationResponseDto(accessToken, refreshToken);
     }
 

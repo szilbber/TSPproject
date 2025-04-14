@@ -7,11 +7,6 @@ import jakarta.persistence.*;
 //@IdClass(CompositionRecipeId.class)  // Класс для составного ключа
 public class CompositionRecipe {
 
-//    @Id
-//    @Column
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Integer id;
-
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_recipe")

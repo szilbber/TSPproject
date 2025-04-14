@@ -1,5 +1,7 @@
 package com.example.demo.Dto;
 
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -8,8 +10,19 @@ import java.time.LocalDate;
 public class RegistrationRequestDto {
 
     private String username;
+    @Pattern(
+            regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).{8,}$",
+            message = "Пароль должен содержать хотя бы одну заглавную букву, одну строчную букву, одну цифру и один специальный символ. Длина пароля должна быть не менее 8 символов."
+    )
     private String password;
-    private String phone;
+    @Pattern(
+            regexp = "^\\+?[1-9]\\d{1,14}$",
+            message = "Номер телефона должен быть в правильном формате (например, +79991234567)"
+    ) private String phone;
+    @Pattern(
+            regexp = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$",
+            message = "Email адрес должен быть в правильном формате (например, user@example.com)"
+    )
     private String email;
     private LocalDate bday;
 

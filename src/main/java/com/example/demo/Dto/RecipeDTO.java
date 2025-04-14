@@ -6,13 +6,25 @@ import java.util.List;
 
 @Data
 public class RecipeDTO {
-    private Integer userId; // Используем ID пользователя
+    //private Integer userId; // Используем ID пользователя
     private Integer categoryId; // Используем ID категории
     private String title;
     private String description;
     private String manual;
     private String time;
     private List<IngredientDTO> ingredients;
+
+    public RecipeDTO
+            (int categoryId, String title, String description, String manual, String time, List<IngredientDTO> ingredientTitles)
+    {
+        this.categoryId =categoryId;
+        this.title = title;
+        this.description = description;
+        this.manual = manual;
+        this.time = time;
+        this.ingredients=ingredientTitles;
+    }
+
 
     // Геттеры и сеттеры
     public String getTitle() {
@@ -46,14 +58,14 @@ public class RecipeDTO {
     public void setTime(String time) {
         this.time = time;
     }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+//
+//    public Integer getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(Integer userId) {
+//        this.userId = userId;
+//    }
 
     public Integer getCategoryId() {
         return categoryId;
