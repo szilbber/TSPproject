@@ -101,11 +101,11 @@ public class RecipeController {
     @GetMapping("/search")
     public ResponseEntity<List<RecipeFilterDTO>> searchRecipes(
            @RequestParam(required = false) String title,
-            @RequestParam(required = false) Long categoryId
+           @RequestParam(required = false) Long categoryId,
+           @RequestParam(required = false) List<String> ingredients
            )
     {
-
-        List<RecipeFilterDTO> recipes = recipeService.searchRecipes(title,categoryId);
+        List<RecipeFilterDTO> recipes = recipeService.searchRecipes(title,categoryId, ingredients);
         return ResponseEntity.ok(recipes);
     }
 

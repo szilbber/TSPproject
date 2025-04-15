@@ -25,14 +25,27 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
     // Метод для поиска рецептов по названию (с использованием LIKE для частичного совпадения)
     Optional<List<Recipe>> findByTitleContainingIgnoreCase(String title);
 
-    @Query("SELECT r FROM Recipe r WHERE "
-            + "(:name IS NULL OR r.name = :name) AND "
-            + "(:categoryId IS NULL OR r.category.id = :categoryId)"
-//            + "(:tags IS NULL OR r.tag IN :tags)"
-)
-    List<Recipe> findByFilters(@Param("name") String name,
-                               @Param("categoryId") Long categoryId);
-//                               @Param("tags") List<String> tags);
-
-
+@Query("""
+    SELECT DISTINCT r FROM Recipe r
+    JOIN r.ingredients cr
+    JOIN cr.ingredient i
+    WHERE
+        (:title IS NULL OR r.title = :title) AND
+        (:categoryId IS NULL OR r.category.id = :categoryId) AND
+        (:ingredients IS NULL OR i.title IN :ingredients)
+""")
+//@Query("""
+//    SELECT r FROM Recipe r
+//    JOIN r.ingredients cr
+//    JOIN cr.ingredient i
+//    WHERE
+//        (:title IS NULL OR r.title = :title) AND
+//        (:categoryId IS NULL OR r.category.id = :categoryId) AND
+//        (:ingredients IS NULL OR i.title IN :ingredients)
+//    GROUP BY r
+//    HAVING COUNT(DISTINCT i.title) = :#{#ingredients == null ? 0 : #ingredients.size()}
+//""")
+    List<Recipe> findByFilters(@Param("title") String title,
+                               @Param("categoryId") Long categoryId,
+                               @Param("ingredients") List<String> ingredients);
 }

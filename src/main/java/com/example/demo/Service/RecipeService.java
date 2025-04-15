@@ -74,8 +74,8 @@ public class RecipeService {
         return recipeRepository.save(existingRecipe);
     }
 
-    public List<RecipeFilterDTO> searchRecipes(String title,Long categoryId) {
-        List<Recipe> recipes = recipeRepository.findByFilters(title,categoryId);
+    public List<RecipeFilterDTO> searchRecipes(String title,Long categoryId, List<String> ingredients) {
+        List<Recipe> recipes = recipeRepository.findByFilters(title,categoryId, ingredients);
         return recipes.stream()
                 .map(r -> new RecipeFilterDTO(r.getId(), r.getTitle(), r.getTime()))
                 .collect(Collectors.toList());

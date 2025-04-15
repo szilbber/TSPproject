@@ -41,7 +41,7 @@ public class SecurityConfig {
 
         // Настройка доступа
         http.authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/api/recipes/search/{id}","/a/login", "/a/registration", "/a/refresh_token").permitAll();  // Разрешаем доступ к этим эндпоинтам всем
+                    auth.requestMatchers("/api/recipes/search","/a/login", "/a/registration", "/a/refresh_token").permitAll();  // Разрешаем доступ к этим эндпоинтам всем
                     auth.requestMatchers("/api/categories/create", "/api/ingredients/create", "/api/categories/idCategory/{id}").hasRole("ADMIN");  // Только для админов
                     auth.anyRequest().authenticated();  // Для остальных запросов требуется аутентификация
                 })
