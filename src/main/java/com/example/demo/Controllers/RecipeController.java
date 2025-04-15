@@ -1,6 +1,7 @@
 package com.example.demo.Controllers;
 import com.example.demo.Dto.IngredientDTO;
 import com.example.demo.Dto.RecipeDTO;
+import com.example.demo.Dto.RecipeFilterDTO;
 import com.example.demo.Entity.*;
 import com.example.demo.Repositories.*;
 import com.example.demo.Service.CategoryService;
@@ -98,14 +99,13 @@ public class RecipeController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Recipe>> searchRecipes(
-           // @RequestParam(required = false) String title,
+    public ResponseEntity<List<RecipeFilterDTO>> searchRecipes(
+           @RequestParam(required = false) String title,
             @RequestParam(required = false) Long categoryId
-            //@RequestParam(required = false) List<String> ingredients
-    ) {
-        System.out.println("jjjjjjjjjj");
-        List<Recipe> recipes = recipeService.searchRecipes(categoryId);
-        System.out.println("aaaaaaaaaaalll");
+           )
+    {
+
+        List<RecipeFilterDTO> recipes = recipeService.searchRecipes(title,categoryId);
         return ResponseEntity.ok(recipes);
     }
 

@@ -42,10 +42,13 @@ public class UserController {
 
 
     // Получение пользователя по ID //обработать ошибку 500
-    @GetMapping("id/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Integer id) {
-        User user = userService.getUserById(id);  // Получаем пользователя из базы
-        return ResponseEntity.ok(user);  // Отправляем 200 OK с объектом user
+    @GetMapping("/profile")
+    public ResponseEntity<User> getUserById() {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            User currentUser = (User) userService.loadUserByUsername(userDetails.getUsername());
+            return ResponseEntity.ok(currentUser);  // Отправляем 200 OK с объектом user
+
     }
     //Удаление пользователя
     @DeleteMapping("/id/{id}")
@@ -84,54 +87,32 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/removeFavourite/{userId}/{recipeId}")
-    public ResponseEntity<String> removeFavouriteRecipe(@PathVariable Integer userId, @PathVariable Integer recipeId) {
-        // Получаем пользователя и рецепт из базы данных
-        User user = userService.getUserById(userId);
+    @DeleteMapping("/removeFavourite/{recipeId}")
+    public ResponseEntity<String> removeFavouriteRecipe( @PathVariable Integer recipeId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User currentUser = (User) userService.loadUserByUsername(userDetails.getUsername());
+
         Recipe recipe = recipeService.getRecipeById(recipeId);
 
         // Проверяем, есть ли рецепт в избранных
-        if (user.getFavouriteRecipes().contains(recipe)) {
+        if (currentUser.getFavouriteRecipes().contains(recipe)) {
             // Удаляем рецепт из коллекции избранных рецептов
-            user.getFavouriteRecipes().remove(recipe);
+            currentUser.getFavouriteRecipes().remove(recipe);
 
             // Сохраняем пользователя (Hibernate автоматически обновит таблицу связи)
-            userService.registerUser(user);
+            userService.registerUser(currentUser);
 
             return ResponseEntity.ok("Recipe removed from favourites");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Recipe not found in favourites");
         }
     }
-//    // Получение пользователя по имени
-//    @GetMapping("/name/{name}")
-//    public ResponseEntity<User> getUserByName(@PathVariable String name) {
-//        return ResponseEntity.ok(userService.getUserByName(name));
-//    }
-//    // Получение пользователя по email
-//    @GetMapping("/email/{email}")
-//    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
-//        User user = userService.getUserByEmail(email);
-//        if (user != null) {
-//            return new ResponseEntity<>(user, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
-
-//    // Проверка пароля пользователя по email
-//    @PostMapping("/check-password")
-//    public ResponseEntity<String> checkPassword(@RequestParam String email, @RequestParam String password) {
-//        boolean isPasswordValid = userService.checkPassword(password, email);
-//        if (isPasswordValid) {
-//            return new ResponseEntity<>("Password is correct", HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>("Password is incorrect", HttpStatus.BAD_REQUEST);
-//        }
-//    }
-
-
-
-
 
 }
+
+
+
+
+
+

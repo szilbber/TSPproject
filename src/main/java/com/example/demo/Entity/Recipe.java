@@ -40,6 +40,7 @@ public class Recipe {
 
     @ManyToMany(mappedBy = "favouriteRecipes")  // Указываем, что связь с User уже установлена в сущности User
     private Set<User> usersWhoFavourited = new HashSet<>();  // Множество пользователей, которые добавили этот рецепт в избранное
+
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CompositionRecipe> ingredients=new HashSet<>();
 

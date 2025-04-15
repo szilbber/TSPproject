@@ -25,21 +25,14 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
     // Метод для поиска рецептов по названию (с использованием LIKE для частичного совпадения)
     Optional<List<Recipe>> findByTitleContainingIgnoreCase(String title);
 
-    @Query("SELECT DISTINCT r FROM Recipe r " +
-            "LEFT JOIN r.ingredients cr " +
-            "LEFT JOIN cr.ingredient i " +
-            "WHERE (:categoryId IS NULL OR r.category.id = :categoryId) ")
-    List<Recipe> findByFilters(
-            //@Param("title") String title,
-            @Param("categoryId") Long categoryId
-           // @Param("ingredientNames") List<String> ingredientNames
-    );
-//
-//    // Пользовательский запрос для поиска рецептов по пользователю и названию с использованием LIKE
-//    @Query("SELECT r FROM Recipe r WHERE r.user.id = :userId AND r.title LIKE %:title%")
-//    List<Recipe> findByUserIdAndTitleLike(int userId, String title);
-//
-//    // Пользовательский запрос для поиска рецептов по описанию и времени
-//    @Query("SELECT r FROM Recipe r WHERE r.description LIKE %:description% AND r.time = :time")
-//    List<Recipe> findByDescriptionAndTime(String description, String time);
+    @Query("SELECT r FROM Recipe r WHERE "
+            + "(:name IS NULL OR r.name = :name) AND "
+            + "(:categoryId IS NULL OR r.category.id = :categoryId)"
+//            + "(:tags IS NULL OR r.tag IN :tags)"
+)
+    List<Recipe> findByFilters(@Param("name") String name,
+                               @Param("categoryId") Long categoryId);
+//                               @Param("tags") List<String> tags);
+
+
 }

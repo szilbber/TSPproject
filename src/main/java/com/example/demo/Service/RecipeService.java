@@ -1,6 +1,7 @@
 package com.example.demo.Service;
 import com.example.demo.Dto.IngredientDTO;
 import com.example.demo.Dto.RecipeDTO;
+import com.example.demo.Dto.RecipeFilterDTO;
 import com.example.demo.Entity.Category;
 import com.example.demo.Entity.CompositionRecipe;
 import com.example.demo.Entity.User;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional //в одной транзакции
@@ -72,9 +74,13 @@ public class RecipeService {
         return recipeRepository.save(existingRecipe);
     }
 
-    public List<Recipe> searchRecipes(Long categoryId) {
-        return recipeRepository.findByFilters(categoryId);
+    public List<RecipeFilterDTO> searchRecipes(String title,Long categoryId) {
+        List<Recipe> recipes = recipeRepository.findByFilters(title,categoryId);
+        return recipes.stream()
+                .map(r -> new RecipeFilterDTO(r.getId(), r.getTitle(), r.getTime()))
+                .collect(Collectors.toList());
     }
+
 //    public List<RecipeDTO> searchRecipeDTOs(Long categoryId) {
 //        List<Recipe> recipes = recipeRepository.findByFilters(categoryId);
 //

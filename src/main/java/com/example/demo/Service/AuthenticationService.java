@@ -89,27 +89,22 @@ public class AuthenticationService {
         tokenRepository.save(token);
     }
     public AuthenticationResponseDto authenticate(LoginRequestDto request) {
-        System.out.println("pupupup");
-        System.out.println(request.getUsername());
-        System.out.println(request.getPassword());
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
                         request.getPassword()
                 )
         );
-        System.out.println("1010101");
+
         User user = userRepository.findByName(request.getUsername())
                 .orElseThrow();
         String accessToken = jwtService.generateAccessToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
 
         revokeAllToken(user);
-        System.out.println("106106");
+
         saveUserToken(accessToken, refreshToken, user);
-        System.out.println("108108108");
-        System.out.println(accessToken);
-        System.out.println(refreshToken);
         return new AuthenticationResponseDto(accessToken, refreshToken);
     }
 

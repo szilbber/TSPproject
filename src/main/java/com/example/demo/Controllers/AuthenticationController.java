@@ -50,7 +50,7 @@ public class AuthenticationController {
     }
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponseDto> authenticate(@RequestBody LoginRequestDto request) {
-        System.out.println(",f,f,f,,f");
+
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
     @PostMapping("/refresh_token")
