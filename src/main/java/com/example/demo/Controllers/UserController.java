@@ -1,4 +1,6 @@
 package com.example.demo.Controllers;
+import com.example.demo.Dto.RecipeAnswerDTO;
+import com.example.demo.Dto.UserProfileDTO;
 import com.example.demo.Entity.Recipe;
 import com.example.demo.Repositories.RecipeRepository;
 import com.example.demo.Repositories.UserRepository;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
@@ -33,32 +37,31 @@ public class UserController {
         this.userService = userService;
     }
 
-//    // Регистрация нового пользователя
-//    @PostMapping("/register")
-//    public ResponseEntity<User> registerUser(@RequestBody User user) {
-//        User createdUser = userService.registerUser(user);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
-//    }
-
-
-    // Получение пользователя по ID //обработать ошибку 500
     @GetMapping("/profile")
-    public ResponseEntity<User> getUserById() {
+    public ResponseEntity<UserProfileDTO> getUserById() {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             User currentUser = (User) userService.loadUserByUsername(userDetails.getUsername());
-            return ResponseEntity.ok(currentUser);  // Отправляем 200 OK с объектом user
+            UserProfileDTO profileDTO=new UserProfileDTO();
+            profileDTO.setUsername(currentUser.getUsername());
+            profileDTO.setEmail(currentUser.getMail());
+            profileDTO.setPhone(currentUser.getPhone());
+            profileDTO.setBday(currentUser.getBday());
+
+            return ResponseEntity.ok(profileDTO);  // Отправляем 200 OK с объектом user
 
     }
     //Удаление пользователя
     @DeleteMapping("/id/{id}")
     public ResponseEntity<String> deleteUserById(@PathVariable int id) {
-        try {
-            userService.deleteUser(id);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Юзер успешно удален");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ошибка при удалении юреза: " + e.getMessage());
+        Optional<User> userOpt = userRepository.findById(id);
+        if (userOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Пользователь с id " + id + " не найден");
         }
+
+        userRepository.deleteById(id);
+        return ResponseEntity.noContent().build(); // 204, если успешно удалён
     }
 
     @PutMapping("/{id}") // Добавляем путь для идентификатора пользователя
@@ -86,6 +89,36 @@ public class UserController {
 
         return ResponseEntity.ok().build();
     }
+    @GetMapping("/myFavouriteRecipe")
+    public ResponseEntity<List<RecipeAnswerDTO>> getMyFavRecipe() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        User currentUser = (User) userService.loadUserByUsername(username);
+        Set<Recipe> recipes = currentUser.getFavouriteRecipes();
+
+        List<RecipeAnswerDTO> recipeDTOs = recipes.stream()
+                .map(r -> new RecipeAnswerDTO(r.getId(), r.getTitle(), r.getTime()))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(recipeDTOs);
+    }
+    @GetMapping("/myRecipe")
+    public ResponseEntity<List<RecipeAnswerDTO>> getMyRecipe() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        User currentUser = (User) userService.loadUserByUsername(username);
+        Set<Recipe> recipes = currentUser.getRecipes();
+
+        List<RecipeAnswerDTO> recipeDTOs = recipes.stream()
+                .map(r -> new RecipeAnswerDTO(r.getId(), r.getTitle(), r.getTime()))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(recipeDTOs);
+    }
+
+
 
     @DeleteMapping("/removeFavourite/{recipeId}")
     public ResponseEntity<String> removeFavouriteRecipe( @PathVariable Integer recipeId) {
@@ -103,9 +136,9 @@ public class UserController {
             // Сохраняем пользователя (Hibernate автоматически обновит таблицу связи)
             userService.registerUser(currentUser);
 
-            return ResponseEntity.ok("Recipe removed from favourites");
+            return ResponseEntity.ok("Рецепт удален из избранного");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Recipe not found in favourites");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Рецепт не удалось удалить из зибранного");
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.demo.Service;
 
 import com.example.demo.Dto.AuthenticationResponseDto;
+import com.example.demo.Dto.ChangePasswordDto;
 import com.example.demo.Dto.LoginRequestDto;
 import com.example.demo.Dto.RegistrationRequestDto;
 import com.example.demo.Entity.Role;
@@ -17,6 +18,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -139,5 +141,15 @@ public class AuthenticationService {
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
+    public void changePassword(ChangePasswordDto passwordDto){
+        String username = ((UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        User user = userRepository.findByName(username).orElseThrow(() -> new RuntimeException("Пользователь не найден"));
+        if(!passwordEncoder.matches(passwordDto.getOldPassword(), user.getPassword())){
+            throw new SecurityException("Старый пароль неверный");
+        }
 
+        String encodedPassword = passwordEncoder.encode(passwordDto.getNewPassword());
+        userRepository.updatePasswordById(user.getId_user(), encodedPassword);
+
+    }
 }

@@ -16,7 +16,7 @@ public class RegistrationRequestDto {
     )
     private String password;
     @Pattern(
-            regexp = "^\\+?[1-9]\\d{1,14}$",
+            regexp = "^7\\d{10}$",
             message = "Номер телефона должен быть в правильном формате (например, +79991234567)"
     ) private String phone;
     @Pattern(

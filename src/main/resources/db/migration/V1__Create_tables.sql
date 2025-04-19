@@ -5,7 +5,7 @@ CREATE TYPE role_enum AS ENUM (
 
 create table users(
   id_user SERIAL PRIMARY KEY,
-  name varchar(30) not null,
+  name varchar(30) not null UNIQUE,
   password text not null,
   bday date not null,
   phone varchar(30) not null,

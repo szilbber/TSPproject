@@ -34,18 +34,9 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
         (:categoryId IS NULL OR r.category.id = :categoryId) AND
         (:ingredients IS NULL OR i.title IN :ingredients)
 """)
-//@Query("""
-//    SELECT r FROM Recipe r
-//    JOIN r.ingredients cr
-//    JOIN cr.ingredient i
-//    WHERE
-//        (:title IS NULL OR r.title = :title) AND
-//        (:categoryId IS NULL OR r.category.id = :categoryId) AND
-//        (:ingredients IS NULL OR i.title IN :ingredients)
-//    GROUP BY r
-//    HAVING COUNT(DISTINCT i.title) = :#{#ingredients == null ? 0 : #ingredients.size()}
-//""")
-    List<Recipe> findByFilters(@Param("title") String title,
-                               @Param("categoryId") Long categoryId,
-                               @Param("ingredients") List<String> ingredients);
+List<Recipe> findByFilters(@Param("title") String title,
+                           @Param("categoryId") Long categoryId,
+                           @Param("ingredients") List<String> ingredients);
 }
+
+

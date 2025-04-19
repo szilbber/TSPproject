@@ -1,14 +1,10 @@
 package com.example.demo.Service;
-import com.example.demo.Dto.IngredientDTO;
-import com.example.demo.Dto.RecipeDTO;
-import com.example.demo.Dto.RecipeFilterDTO;
+import com.example.demo.Dto.RecipeAnswerDTO;
 import com.example.demo.Entity.Category;
-import com.example.demo.Entity.CompositionRecipe;
 import com.example.demo.Entity.User;
 import com.example.demo.Repositories.CompositionRecipeRepository;
 import com.example.demo.Repositories.RecipeRepository;
 import com.example.demo.Entity.Recipe;
-import com.example.demo.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,12 +70,13 @@ public class RecipeService {
         return recipeRepository.save(existingRecipe);
     }
 
-    public List<RecipeFilterDTO> searchRecipes(String title,Long categoryId, List<String> ingredients) {
+    public List<RecipeAnswerDTO> searchRecipes(String title, Long categoryId, List<String> ingredients) {
         List<Recipe> recipes = recipeRepository.findByFilters(title,categoryId, ingredients);
         return recipes.stream()
-                .map(r -> new RecipeFilterDTO(r.getId(), r.getTitle(), r.getTime()))
+                .map(r -> new RecipeAnswerDTO(r.getId(), r.getTitle(), r.getTime()))
                 .collect(Collectors.toList());
     }
+
 
 //    public List<RecipeDTO> searchRecipeDTOs(Long categoryId) {
 //        List<Recipe> recipes = recipeRepository.findByFilters(categoryId);

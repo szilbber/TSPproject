@@ -2,6 +2,7 @@ package com.example.demo.Config;
 
 import com.example.demo.Filter.JwtFilter;
 import com.example.demo.Handler.CustomAccessDeniedHandler;
+import com.example.demo.Handler.CustomAuthenticationEntryPoint;
 import com.example.demo.Handler.CustomLogoutHandler;
 import com.example.demo.Service.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -36,26 +38,31 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        // Отключаем CSRF для REST API
         http.csrf(AbstractHttpConfigurer::disable);
 
-        // Настройка доступа
-        http.authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/api/recipes/search","/a/login", "/a/registration", "/a/refresh_token").permitAll();  // Разрешаем доступ к этим эндпоинтам всем
-                    auth.requestMatchers("/api/categories/create", "/api/ingredients/create", "/api/categories/idCategory/{id}").hasRole("ADMIN");  // Только для админов
-                    auth.anyRequest().authenticated();  // Для остальных запросов требуется аутентификация
-                })
-                .userDetailsService(userService)  // Настройка кастомного сервиса для работы с пользователями
-                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))  // Статус сессии — без сохранения
-                .addFilterBefore(jwtFIlter, UsernamePasswordAuthenticationFilter.class)  // Добавляем JWT фильтр
-                .logout(log -> {
-                    log.logoutUrl("/logout");
-                    log.addLogoutHandler(customLogoutHandler);  // Обработчик логаута
-                    log.logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext());  // Очищаем контекст безопасности после логаута
-                });
+        http
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint(new CustomAuthenticationEntryPoint()) // 401 Unauthorized
+                        .accessDeniedHandler(new CustomAccessDeniedHandler())            // 403 Forbidden
+                );
+
+        http.authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/ingredients","/api/categories", "/api/recipes/search", "/a/login", "/a/registration", "/a/refresh_token").permitAll()
+                .requestMatchers("/api/categories/create", "/api/ingredients/create", "/api/users/id/{id}").hasRole("ADMIN")
+                .anyRequest().authenticated());
+
+        http
+                .userDetailsService(userService)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtFIlter, UsernamePasswordAuthenticationFilter.class)
+                .logout(log -> log.logoutUrl("/logout")
+                        .addLogoutHandler(customLogoutHandler)
+                        .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+                );
 
         return http.build();
     }
+
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

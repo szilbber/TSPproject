@@ -21,15 +21,22 @@ public class CategoryController {
     // Регистрация новой категории
     @PostMapping("/create")
     public ResponseEntity<Category> createCategory(@RequestBody Category category) {
-        System.out.println("создание категории1");
+
         Category createdCategory = categoryService.createCategory(category);
-        System.out.println("создание категории2");
+
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCategory);
     }
     // Получить все категории
     @GetMapping
-    public ResponseEntity<List<Category>> getAllCategories() {
+    public ResponseEntity<?> getAllCategories() {
         List<Category> categories = categoryService.getAllCategories();
-        return new ResponseEntity<>(categories, HttpStatus.OK); // Возвращаем список категорий со статусом 200 OK
+        try {
+            return new ResponseEntity<>(categories, HttpStatus.OK); // Возвращаем список категорий со статусом 200 OK
+        }
+         catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Ошибка сервера");
+        }
     }
 }

@@ -19,14 +19,24 @@ public class IngredientController {
 
     // Регистрация нового ингредиента
     @PostMapping("/create")
-    public ResponseEntity<Ingredient> createIngredient(@RequestBody Ingredient ingredient) {
-        Ingredient createdIngredient = ingredientService.createIngredient(ingredient);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdIngredient);
+    public ResponseEntity<?> createIngredient(@RequestBody Ingredient ingredient) {
+
+            Ingredient createdIngredient = ingredientService.createIngredient(ingredient);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdIngredient);
+
     }
     // Получить все ингредиенты
     @GetMapping
-    public ResponseEntity<List<Ingredient>> getAllIngredients() {
+    public ResponseEntity<?> getAllIngredients() {
         List<Ingredient> ingredients = ingredientService.getAllIngredients(); // Получаем список ингредиентов
-        return new ResponseEntity<>(ingredients, HttpStatus.OK); // Возвращаем список ингредиентов со статусом 200 OK
+        try {
+            return new ResponseEntity<>(ingredients, HttpStatus.OK); // Возвращаем список ингредиентов со статусом 200 OK
+
+        }
+        catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Произошла ошибка на сервере");
+        }
     }
 }
