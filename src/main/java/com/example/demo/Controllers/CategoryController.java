@@ -18,7 +18,7 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService; // Внедрение сервиса категорий
 
-    // Регистрация новой категории
+    // создание новой категории
     @PostMapping("/create")
     public ResponseEntity<Category> createCategory(@RequestBody Category category) {
 

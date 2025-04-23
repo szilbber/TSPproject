@@ -110,4 +110,11 @@ public class RecipeController {
         return ResponseEntity.ok(recipes);
     }
 
+    @GetMapping("/getRecipe/{id}")
+    public ResponseEntity<Recipe> getRecipe(@PathVariable int id)
+    {
+       Recipe recipe = recipeService.getRecipeById(id);
+        return ResponseEntity.ok(recipe);
+    }
+
 }

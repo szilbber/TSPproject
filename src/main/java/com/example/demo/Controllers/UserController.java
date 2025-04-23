@@ -37,7 +37,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/profile")
+    @GetMapping("/profile")//ппросмотр своего профиля
     public ResponseEntity<UserProfileDTO> getUserById() {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -89,7 +89,7 @@ public class UserController {
 
         return ResponseEntity.ok().build();
     }
-    @GetMapping("/myFavouriteRecipe")
+    @GetMapping("/myFavouriteRecipe")//мои любимые рецепты
     public ResponseEntity<List<RecipeAnswerDTO>> getMyFavRecipe() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -103,7 +103,7 @@ public class UserController {
 
         return ResponseEntity.ok(recipeDTOs);
     }
-    @GetMapping("/myRecipe")
+    @GetMapping("/myRecipe")//список моих рецептов
     public ResponseEntity<List<RecipeAnswerDTO>> getMyRecipe() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -120,7 +120,7 @@ public class UserController {
 
 
 
-    @DeleteMapping("/removeFavourite/{recipeId}")
+    @DeleteMapping("/removeFavourite/{recipeId}")//удаление рцеепта из избранного
     public ResponseEntity<String> removeFavouriteRecipe( @PathVariable Integer recipeId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();

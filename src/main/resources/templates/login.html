@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход</title>
+</head>
+<body>
+<h1>Вход</h1>
+<form id="loginForm" onsubmit="login(event)">
+    <label for="username">Имя пользователя:</label>
+    <input type="text" id="username" required><br/>
+
+    <label for="password">Пароль:</label>
+    <input type="password" id="password" required><br/>
+
+    <button type="submit">Войти</button>
+</form>
+
+<div id="loginResponse" style="color:red;"></div>
+
+<script>
+    async function login(event) {
+        event.preventDefault(); // отменяем стандартное поведение формы
+
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        const response = await fetch("/a/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password })
+        });
+
+        if (response.ok) {
+            // Переход на другую страницу после успешного входа
+            window.location.href = "/main";
+        } else {
+            const msg = await response.text();
+            document.getElementById("loginResponse").textContent = msg || "Ошибка входа";
+        }
+    }
+</script>
+</body>
+</html>

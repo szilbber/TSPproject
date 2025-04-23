@@ -17,7 +17,7 @@ public class IngredientController {
     @Autowired
     private IngredientService ingredientService; // Внедрение сервиса ингредиентов
 
-    // Регистрация нового ингредиента
+    // создание нового ингредиента
     @PostMapping("/create")
     public ResponseEntity<?> createIngredient(@RequestBody Ingredient ingredient) {
 

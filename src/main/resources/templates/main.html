@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding-top: 60px;
+            background-color: #f4f4f4;
+        }
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 15px 0;
+            z-index: 1000;
+        }
+        .nav-button {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s;
+        }
+        .nav-button:hover {
+            color: #ffa500;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <a class="nav-button" href="/main"><i class="fas fa-home"></i> Главная</a>
+    <a class="nav-button" href="/recipes"><i class="fas fa-book-open"></i> Рецепты</a>
+    <a class="nav-button" href="/favourite_recipes"><i class="fas fa-heart"></i> Любимые рецепты</a>
+    <a class="nav-button" href="/profile"><i class="fas fa-user"></i> Профиль</a>
+</div>
+
+<h1>Это главная страница рецептов</h1>
+
+</body>
+</html>
