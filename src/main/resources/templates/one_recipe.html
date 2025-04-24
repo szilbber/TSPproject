@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Рецепт</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .recipe-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            background-color: #ffffff;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .recipe-info {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            margin-top: 25px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #444;
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .heart-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 28px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            transition: transform 0.2s ease;
+        }
+
+        .heart-button:hover {
+            transform: scale(1.1);
+        }
+
+        .heart {
+            color: #ccc;
+            transition: color 0.3s ease;
+        }
+
+        .heart.liked {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<div class="recipe-container">
+    <!-- Сердечко -->
+    <button id="favouriteButton" class="heart-button">
+        <span id="heartIcon" class="heart">&#9825;</span> <!-- ♡ пустое / ♥ закрашенное -->
+    </button>
+
+    <!-- Контейнер с текстом рецепта -->
+    <div id="recipeContent">
+        <p>Загрузка рецепта...</p>
+    </div>
+</div>
+
+<script>
+    const recipeId = window.location.pathname.split('/')[2];
+    let liked = false;
+
+    document.addEventListener("DOMContentLoaded", () => {
+        fetchRecipe();
+        checkIfFavourite();
+        document.getElementById("favouriteButton").addEventListener("click", toggleFavourite);
+    });
+
+    // Функция для загрузки рецепта
+    async function fetchRecipe() {
+        try {
+            const response = await fetch(`/api/recipes/getRecipe/${recipeId}`);
+            const recipe = await response.json();
+
+            const html = `
+                <h1>${recipe.title}</h1>
+                <p><strong>Время приготовления:</strong> ${recipe.time}</p>
+                <p class="section-title">Описание:</p>
+                <p>${recipe.description}</p>
+                <p class="section-title">Инструкция:</p>
+                <p>${recipe.manual}</p>
+            `;
+            document.getElementById('recipeContent').innerHTML = html;
+        } catch (error) {
+            console.error('Ошибка загрузки рецепта:', error);
+            document.getElementById('recipeContent').innerHTML = '<p style="color: red;">Ошибка загрузки рецепта</p>';
+        }
+    }
+
+    // Функция для проверки, добавлен ли рецепт в избранное
+    async function checkIfFavourite() {
+        try {
+
+             const response = await fetch(`/api/users/isFavourite/${recipeId}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("accessToken") // Добавляем токен авторизации
+                }
+            });
+            liked = await response.json();
+            updateHeartIcon();
+        } catch (error) {
+            console.error('Ошибка проверки избранного:', error);
+        }
+    }
+
+    // Функция для добавления/удаления рецепта из избранного
+    async function toggleFavourite() {
+        const token = localStorage.getItem('token'); // Берем токен из localStorage
+        try {
+            console.log(`Запрос на добавление/удаление рецепта ${recipeId}`);
+            if (liked) {
+                console.log(`Удаляем рецепт ${recipeId} из избранного`);
+                await fetch(`/api/users/removeFavourite/${recipeId}`, {
+                    method: 'DELETE',
+                   headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("accessToken") // Добавляем токен авторизации
+                }
+                });
+                liked = false;
+            } else {
+                console.log(`Добавляем рецепт ${recipeId} в избранное`);
+                await fetch(`/api/users/favourite-recipes/${recipeId}`, {
+                    method: 'POST',
+                    headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("accessToken") // Добавляем токен авторизации
+                }
+                });
+                liked = true;
+            }
+            updateHeartIcon();
+        } catch (error) {
+            console.error('Ошибка при добавлении/удалении избранного:', error);
+        }
+    }
+
+    // Функция для обновления иконки сердечка
+    function updateHeartIcon() {
+        const heart = document.getElementById('heartIcon');
+        if (liked) {
+            heart.classList.add('liked');
+            heart.innerHTML = '&#9829;'; // ♥
+        } else {
+            heart.classList.remove('liked');
+            heart.innerHTML = '&#9825;'; // ♡
+        }
+    }
+</script>
+
+</body>
+</html>
+

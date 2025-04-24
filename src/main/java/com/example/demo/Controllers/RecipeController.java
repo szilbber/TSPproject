@@ -19,6 +19,7 @@ import java.net.URI;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/recipes")
@@ -111,10 +112,11 @@ public class RecipeController {
     }
 
     @GetMapping("/getRecipe/{id}")
-    public ResponseEntity<Recipe> getRecipe(@PathVariable int id)
+    public ResponseEntity<RecipeAnswerDTO> getRecipe(@PathVariable int id)
     {
-       Recipe recipe = recipeService.getRecipeById(id);
-        return ResponseEntity.ok(recipe);
+       Recipe r = recipeService.getRecipeById(id);
+        RecipeAnswerDTO recipeAnswerDTO= new RecipeAnswerDTO(r.getId(),(r.getCategory().getId_category()), r.getTitle(),r.getDescription(),r.getManual(), r.getTime());
+        return ResponseEntity.ok(recipeAnswerDTO);
     }
 
 }

@@ -99,7 +99,7 @@ public class UserController {
         Set<Recipe> recipes = currentUser.getFavouriteRecipes();
 
         List<RecipeAnswerDTO> recipeDTOs = recipes.stream()
-                .map(r -> new RecipeAnswerDTO(r.getId(), r.getTitle(), r.getTime()))
+                .map(r -> new RecipeAnswerDTO(r.getId(),(r.getCategory().getId_category()), r.getTitle(),r.getDescription(),r.getManual(), r.getTime()))
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(recipeDTOs);
@@ -113,7 +113,7 @@ public class UserController {
         Set<Recipe> recipes = currentUser.getRecipes();
 
         List<RecipeAnswerDTO> recipeDTOs = recipes.stream()
-                .map(r -> new RecipeAnswerDTO(r.getId(), r.getTitle(), r.getTime()))
+                .map(r -> new RecipeAnswerDTO(r.getId(),(r.getCategory().getId_category()), r.getTitle(),r.getDescription(),r.getManual(), r.getTime()))
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(recipeDTOs);
@@ -141,6 +141,17 @@ public class UserController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Рецепт не удалось удалить из зибранного");
         }
+    }
+
+    @GetMapping("/isFavourite/{recipeId}")
+    public ResponseEntity<Boolean> isFavourite(@PathVariable int recipeId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User currentUser = (User) userService.loadUserByUsername(userDetails.getUsername());
+        Recipe recipe = recipeService.getRecipeById(recipeId);
+
+        boolean isFavourite = currentUser.getFavouriteRecipes().contains(recipe);
+        return ResponseEntity.ok(isFavourite);
     }
 
 }

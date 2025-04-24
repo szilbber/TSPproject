@@ -63,6 +63,12 @@
                     <h3>${recipe.title}</h3>
                     <p>${recipe.time}</p>
                 `;
+
+                // Добавляем обработчик клика для перехода на страницу рецепта
+                card.addEventListener('click', () => {
+                    window.location.href = `/getRecipe/${recipe.id}`;
+                });
+
                 container.appendChild(card);
             });
 
@@ -75,6 +81,7 @@
     // Загружаем рецепты при загрузке страницы
     fetchRecipesByCategory();
 </script>
+
 
 </body>
 </html>

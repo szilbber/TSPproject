@@ -73,7 +73,7 @@ public class RecipeService {
     public List<RecipeAnswerDTO> searchRecipes(String title, Long categoryId, List<String> ingredients) {
         List<Recipe> recipes = recipeRepository.findByFilters(title,categoryId, ingredients);
         return recipes.stream()
-                .map(r -> new RecipeAnswerDTO(r.getId(), r.getTitle(), r.getTime()))
+                .map(r -> new RecipeAnswerDTO(r.getId(),(r.getCategory().getId_category()), r.getTitle(),r.getDescription(),r.getManual(), r.getTime()))
                 .collect(Collectors.toList());
     }
 

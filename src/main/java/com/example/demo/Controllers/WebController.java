@@ -45,4 +45,12 @@ public class WebController {
         // Возвращаем имя HTML-шаблона (например, category-recipes.html)
         return "recipes_category";
     }
+
+    // Веб-метод для отображения страницы рецепта
+    @RequestMapping("/getRecipe/{Id}")
+    public String getRecipePage(@PathVariable("Id") Long id) {
+
+        // Возвращаем имя HTML-шаблона (например, category-recipes.html)
+        return "one_recipe";
+    }
 }

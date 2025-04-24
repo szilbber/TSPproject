@@ -47,7 +47,7 @@ public class SecurityConfig {
                 );
 
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/recipes/category/{categoryId}","/recipes","/favourite_recipes","/profile","/main","/login","/registration","/api/ingredients","/api/categories", "/api/recipes/search","/api/recipes/getRecipe/{id}", "/a/login", "/a/registration", "/a/refresh_token").permitAll()
+                .requestMatchers("api/users/isFavourite/{recipeId}","/getRecipe/{Id}","/recipes/category/{categoryId}","/recipes","/favourite_recipes","/profile","/main","/login","/registration","/api/ingredients","/api/categories", "/api/recipes/search","/api/recipes/getRecipe/{id}", "/a/login", "/a/registration", "/a/refresh_token").permitAll()
                 .requestMatchers("/api/categories/create", "/api/ingredients/create", "/api/users/id/{id}").hasRole("ADMIN")
                 .anyRequest().authenticated());
 

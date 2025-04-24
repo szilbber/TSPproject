@@ -66,10 +66,81 @@
             transform: translateY(-5px);
             box-shadow: 0 8px 16px rgba(0,0,0,0.15);
         }
+
+        .filters {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .filters input[type="text"] {
+            padding: 10px;
+            font-size: 14px;
+            width: 80%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .filters button {
+            padding: 10px 15px;
+            font-size: 14px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .filters button:hover {
+            background-color: #45a049;
+        }
+
+        .filter-icon {
+            cursor: pointer;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+
+        /* Выпадающий список ингредиентов */
+        .ingredients-dropdown {
+            display: none;
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            margin-top: 5px;
+            width: 200px;
+        }
+
+        .ingredients-dropdown ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .ingredients-dropdown li {
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .ingredients-dropdown li:hover {
+            background-color: #f0f0f0;
+        }
+
     </style>
 </head>
 <body>
-
+<div class="filters">
+    <input type="text" id="titleInput" placeholder="Введите название рецепта..." />
+    <button onclick="searchByTitle()">Найти</button>
+</div>
+<!-- Выпадающий список ингредиентов -->
+<div class="ingredients-dropdown" id="ingredientsDropdown">
+    <ul id="ingredientList">
+        <!-- Ингредиенты будут загружаться сюда -->
+    </ul>
+</div>
 <div class="navbar">
     <a class="nav-button" href="/main"><i class="fas fa-home"></i> Главная</a>
     <a class="nav-button" href="/recipes"><i class="fas fa-book-open"></i> Рецепты</a>
