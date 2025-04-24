@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Любимые рецепты</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding-top: 60px;
+            background-color: #f4f4f4;
+        }
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 15px 0;
+            z-index: 1000;
+        }
+        .nav-button {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s;
+        }
+        .nav-button:hover {
+            color: #ffa500;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 100px;
+        }
+        .recipe-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .recipe-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            width: 200px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <a class="nav-button" href="/main"><i class="fas fa-home"></i> Главная</a>
+    <a class="nav-button" href="/recipes"><i class="fas fa-book-open"></i> Рецепты</a>
+    <a class="nav-button" href="/favourite_recipes"><i class="fas fa-heart"></i> Любимые рецепты</a>
+    <a class="nav-button" href="/profile"><i class="fas fa-user"></i> Профиль</a>
+</div>
+
+<h1>Ваши любимые рецепты</h1>
+
+<div class="recipe-list" id="recipeList">
+    <!-- Сюда будут добавляться рецепты через JavaScript -->
+</div>
+
+<script>
+    async function loadFavouriteRecipes() {
+        try {
+            // Получаем список любимых рецептов
+            const response = await fetch("/api/users/myFavouriteRecipe", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("accessToken") // Добавляем токен авторизации
+                }
+            });
+
+            if (response.ok) {
+                const recipes = await response.json(); // Получаем рецепты в формате JSON
+
+                // Получаем контейнер для рецептов
+                const recipeList = document.getElementById('recipeList');
+
+                // Если рецепты есть, выводим их
+                if (recipes.length > 0) {
+                    recipes.forEach(recipe => {
+                        const recipeCard = document.createElement('div');
+                        recipeCard.classList.add('recipe-card');
+
+                        recipeCard.innerHTML = `
+                            <h3>${recipe.title}</h3>
+                            <p>Время приготовления: ${recipe.time} минут</p>
+                        `;
+
+                        recipeList.appendChild(recipeCard);
+                    });
+                } else {
+                    recipeList.innerHTML = "<p>У вас нет любимых рецептов.</p>";
+                }
+            } else {
+                alert("Ошибка загрузки рецептов. Попробуйте позже.");
+            }
+        } catch (error) {
+            console.error("Ошибка при загрузке рецептов:", error);
+            alert("Произошла ошибка. Попробуйте позже.");
+        }
+    }
+
+    // Загружаем рецепты при загрузке страницы
+    window.onload = loadFavouriteRecipes;
+</script>
+
+</body>
+</html>

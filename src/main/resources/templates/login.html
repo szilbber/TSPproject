@@ -32,6 +32,11 @@
         });
 
         if (response.ok) {
+            const data = await response.json(); // токен приходит как JSON
+
+            // Сохраняем токен в localStorage
+            localStorage.setItem("accessToken", data.accessToken);
+
             // Переход на другую страницу после успешного входа
             window.location.href = "/main";
         } else {
