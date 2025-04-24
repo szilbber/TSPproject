@@ -64,10 +64,7 @@ public class RecipeController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         User currentUser = (User) userService.loadUserByUsername(userDetails.getUsername());
-
-        // Получаем пользователя и категорию (предполагается, что они уже существуют)
-       // User user = userService.getUserById(request.getUserId());
-        Category category = categoryService.getCategoryById(request.getCategoryId());
+        Category category = categoryService.getCategoryByTitle(request.getCategoryName());
 
         recipe.setUser(currentUser);
         recipe.setCategory(category);

@@ -149,17 +149,18 @@
 <div class="container">
     <div class="left-panel">
         <div class="profile-header">
-            <img src="https://via.placeholder.com/100" alt="Avatar">
             <div class="profile-info">
                 <h1 id="username">Загрузка...</h1>
                 <div class="profile-item"><strong>Email:</strong> <span id="email">Загрузка...</span></div>
                 <div class="profile-item"><strong>Телефон:</strong> <span id="phone">Загрузка...</span></div>
                 <div class="profile-item"><strong>Дата рождения:</strong> <span id="bday">Загрузка...</span></div>
             </div>
+            <!-- Профиль -->
+            <button class="btn" id="createRecipeButton" style="margin-top: 20px;">Создать рецепт</button>
+            <button class="btn" style="margin-top: 15px;" onclick="openPasswordModal()">Сменить пароль</button>
             <button id="logoutButton" style="margin-top: 20px; background-color: #d9534f; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
                 Выйти из профиля
             </button>
-            <button class="btn" style="margin-top: 15px;" onclick="openPasswordModal()">Сменить пароль</button>
 
             <!-- Модальное окно -->
             <div id="passwordModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -181,6 +182,24 @@
             </div>
             <div id="adminSection" style="margin-top: 30px; display: none;">
                 <button class="btn" onclick="openCategoryModal()">Создать категорию</button>
+                <button class="btn" style="margin-top: 15px;" onclick="openIngredientModal()">Создать ингредиент</button>
+            </div>
+
+            <!-- Модальное окно для ингредиента -->
+            <div id="ingredientModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; align-items: center;">
+                <div style="background: #fff; padding: 30px; border-radius: 10px; max-width: 400px; width: 100%; position: relative;">
+                    <h3>Создать ингредиент</h3>
+                    <label>Название ингредиента:</label>
+                    <input type="text" id="ingredientTitle" placeholder="Название ингредиента" style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;"><br/><br/>
+                    <label>Единица измерения:</label>
+                    <input type="text" id="unitMeasure" placeholder="Единица измерения" style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;"><br/><br/>
+                    <div id="ingredientError" style="color: red; margin-bottom: 10px;"></div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <button class="btn" onclick="submitIngredient()">Сохранить</button>
+                        <button class="btn" style="background-color: grey;" onclick="closeIngredientModal()">Отмена</button>
+                    </div>
+                </div>
             </div>
 
             <!-- Модальное окно для категории -->
@@ -197,6 +216,42 @@ background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; al
                     </div>
                 </div>
             </div>
+            <!-- Модальное окно для создания рецепта -->
+            <div id="recipeModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; align-items: center;">
+                <div style="background: #fff; padding: 30px; border-radius: 10px; max-width: 600px; width: 100%; position: relative;">
+                    <h3>Создать новый рецепт</h3>
+                    <label>Название рецепта:</label>
+                    <input type="text" id="recipeTitle" placeholder="Введите название рецепта" style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;"><br/><br/>
+
+                    <label>Описание:</label>
+                    <textarea id="recipeDescription" placeholder="Введите описание рецепта" style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;"></textarea><br/><br/>
+                    <label>Инструкция:</label>
+                    <textarea id="recipeManual" placeholder="Введите инструкцию" style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;"></textarea><br/><br/>
+
+                    <label>Время приготовления (в минутах):</label>
+                    <input type="number" id="recipeTime" placeholder="Введите время приготовления" style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;"><br/><br/>
+
+                    <label>Категория:</label>
+                    <select id="recipeCategory" style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;">
+                        <!-- Категории будут загружаться динамически -->
+                    </select><br/><br/>
+
+                    <label>Ингредиенты:</label>
+                    <div id="ingredientsList">
+                        <!-- Ингредиенты будут добавляться сюда -->
+                    </div>
+
+                    <button class="btn" style="margin-top: 15px;" onclick="addIngredientField()">Добавить ингредиент</button><br/><br/>
+
+                    <div id="recipeError" style="color: red; margin-bottom: 10px;"></div>
+
+                    <div style="display: flex; justify-content: space-between;">
+                        <button class="btn" onclick="submitRecipe()">Создать</button>
+                        <button class="btn" style="background-color: grey;" onclick="closeRecipeModal()">Отмена</button>
+                    </div>
+                </div>
+            </div>
+
 
         </div>
     </div>
@@ -243,12 +298,13 @@ background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; al
             if (data.length) {
                 recipeList.innerHTML = '';
                 data.forEach(recipe => {
-                    recipeList.innerHTML += `
-                        <div class="recipe-item">
-                            <strong>${recipe.title}</strong><br>
-                            Время приготовления: <span>${recipe.time} минут</span><br>
-                            <a href="/recipe/${recipe.id}" class="btn">Перейти к рецепту</a>
-                        </div>`;
+                     recipeList.innerHTML += `
+    <div class="recipe-item">
+        <strong>${recipe.title}</strong><br>
+        Время приготовления: <span>${recipe.time} минут</span><br>
+        <a href="/recipe/${recipe.id}" class="btn">Перейти к рецепту</a>
+    </div>`;
+
                 });
             } else {
                 recipeList.innerHTML = '<p>У вас нет созданных рецептов.</p>';
@@ -346,7 +402,188 @@ function closeCategoryModal() {
         errorDiv.textContent = message || "Ошибка при создании категории.";
     }
 }
+// Функция для открытия модального окна для ингредиента
+function openIngredientModal() {
+    document.getElementById("ingredientModal").style.display = "flex";
+}
 
+// Функция для закрытия модального окна для ингредиента
+function closeIngredientModal() {
+    document.getElementById("ingredientModal").style.display = "none";
+    document.getElementById("ingredientError").textContent = "";
+    document.getElementById("ingredientTitle").value = "";
+    document.getElementById("unitMeasure").value = "";
+}
+
+// Функция для отправки данных на сервер для создания ингредиента
+async function submitIngredient() {
+    const title = document.getElementById("ingredientTitle").value.trim();  // Получаем значение поля "ingredientTitle"
+    const unitMeasure = document.getElementById("unitMeasure").value.trim();  // Получаем значение поля "unitMeasure"
+    const errorDiv = document.getElementById("ingredientError");
+
+    // Проверяем, чтобы оба поля не были пустыми
+    if (!title || !unitMeasure) {
+        errorDiv.textContent = "Название ингредиента и единица измерения не могут быть пустыми.";
+        return;
+    }
+
+    const response = await fetch("/api/ingredients/create", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({ title, unitMeasure })  // передаем в запросе title и unitMeasure
+    });
+
+    if (response.ok) {
+        alert("Ингредиент успешно создан!");
+        closeIngredientModal();
+    } else {
+        const message = await response.text();
+        errorDiv.textContent = message || "Ошибка при создании ингредиента.";
+    }
+}
+///////////////////////////////////////////////////////////////////////////////////////
+// Открыть модальное окно для создания рецепта
+document.getElementById("createRecipeButton").addEventListener("click", () => {
+    loadCategories(); // Загрузим категории перед открытием окна
+    document.getElementById("recipeModal").style.display = "flex";
+});
+
+// Закрыть модальное окно для создания рецепта
+function closeRecipeModal() {
+    document.getElementById("recipeModal").style.display = "none";
+    document.getElementById("recipeError").textContent = "";
+    document.getElementById("recipeTitle").value = "";
+    document.getElementById("recipeDescription").value = "";
+    document.getElementById("recipeManual").value = "";
+    document.getElementById("recipeTime").value = "";
+    document.getElementById("recipeCategory").value = "";
+    document.getElementById("ingredientsList").innerHTML = "";
+}
+
+// Загрузка категорий для выпадающего списка
+async function loadCategories() {
+    fetch("/api/categories", {
+        headers: { "Authorization": "Bearer " + token }
+    })
+    .then(res => res.json())
+    .then(data => {
+        const select = document.getElementById("recipeCategory");
+        select.innerHTML = "";
+        data.forEach(category => {
+            const option = document.createElement("option");
+            option.value = category.title;
+            option.textContent = category.title;
+            select.appendChild(option);
+        });
+    });
+}
+
+// Добавить поле для ингредиента
+function addIngredientField() {
+    const ingredientDiv = document.createElement("div");
+    ingredientDiv.style.marginBottom = "10px";
+
+    const ingredientSelect = document.createElement("select");
+    ingredientSelect.style.width = "100%";
+    ingredientSelect.style.padding = "8px";
+    ingredientSelect.style.marginTop = "5px";
+    ingredientSelect.style.borderRadius = "5px";
+    ingredientSelect.style.border = "1px solid #ccc";
+    ingredientSelect.classList.add("ingredientSelect");
+    ingredientDiv.appendChild(ingredientSelect);
+
+    const quantityInput = document.createElement("input");
+    quantityInput.type = "number";
+    quantityInput.placeholder = "Количество";
+    quantityInput.style.width = "100%";
+    quantityInput.style.padding = "8px";
+    quantityInput.style.marginTop = "5px";
+    quantityInput.style.borderRadius = "5px";
+    quantityInput.style.border = "1px solid #ccc";
+    ingredientDiv.appendChild(quantityInput);
+
+    document.getElementById("ingredientsList").appendChild(ingredientDiv);
+    loadIngredients(ingredientSelect); // загружаем ингредиенты
+}
+
+// Загрузка ингредиентов для выбора
+async function loadIngredients(selectElement) {
+    const response = await fetch("/api/ingredients", {
+        headers: { "Authorization": "Bearer " + token }
+    });
+    const ingredients = await response.json();
+
+    ingredients.forEach(ingredient => {
+        const option = document.createElement("option");
+        option.value = ingredient.id;
+        option.textContent = ingredient.title;
+        selectElement.appendChild(option);
+    });
+}
+
+// Отправка данных рецепта на сервер
+async function submitRecipe() {
+    const title = document.getElementById("recipeTitle").value.trim();
+    const description = document.getElementById("recipeDescription").value.trim();
+    const manual = document.getElementById("recipeManual").value.trim();
+    const time = document.getElementById("recipeTime").value.trim();
+    const category = document.getElementById("recipeCategory").value;
+
+    if (!title || !description || !time || !category || !manual) {
+        document.getElementById("recipeError").textContent = "Пожалуйста, заполните все обязательные поля.";
+        return;
+    }
+
+    const ingredients = [];
+    const ingredientFields = document.querySelectorAll(".ingredientSelect");
+    ingredientFields.forEach((field, index) => {
+        const ingredientId = field.value;
+        const quantity = field.nextElementSibling.value;
+        if (ingredientId && quantity) {
+            ingredients.push({ ingredientId, quantity });
+        }
+    });
+
+
+if (!category) {
+    document.getElementById("recipeError").textContent = "Пожалуйста, выберите категорию!";
+    return;
+}
+
+const recipeData = {
+    title,
+    description,
+    manual,
+    time: parseInt(time),
+    category, // Это должно быть не null
+    ingredients: ingredients.map(i => ({
+        ingredientId: parseInt(i.ingredientId),
+        quantity: parseFloat(i.quantity)
+    }))
+};
+
+
+    const response = await fetch("/api/recipes/create", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify(recipeData)
+    });
+
+    if (response.ok) {
+        alert("Рецепт успешно создан!");
+        closeRecipeModal();
+        location.reload(); // Перезагружаем страницу, чтобы отобразить новый рецепт
+    } else {
+        const message = await response.text();
+        document.getElementById("recipeError").textContent = message || "Ошибка при создании рецепта.";
+    }
+}
 
 </script>
 

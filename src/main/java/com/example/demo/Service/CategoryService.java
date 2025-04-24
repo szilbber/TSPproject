@@ -24,9 +24,14 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
     // Получить категорию по названию
-    public Optional<Category> getCategoryByTitle(String title) {
-        return categoryRepository.findByTitle(title);
+    public Category getCategoryByTitle(String title) {
+        Optional<Category> categoryOpt = categoryRepository.findByTitle(title);
+        if (categoryOpt.isEmpty()) {
+            throw new RuntimeException("Category not found: " + title);
+        }
+        return categoryOpt.get();
     }
+
 
     // Получить категорию по id
     public Category getCategoryById(int id) {
