@@ -1,147 +1,5 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="ru">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Профиль</title>-->
-<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">-->
-<!--    <style>-->
-<!--        body {-->
-<!--            font-family: Arial, sans-serif;-->
-<!--            margin: 0;-->
-<!--            padding-top: 60px;-->
-<!--            background-color: #f4f4f4;-->
-<!--        }-->
-<!--        .navbar {-->
-<!--            position: fixed;-->
-<!--            top: 0;-->
-<!--            width: 100%;-->
-<!--            background-color: #333;-->
-<!--            display: flex;-->
-<!--            justify-content: center;-->
-<!--            gap: 40px;-->
-<!--            padding: 15px 0;-->
-<!--            z-index: 1000;-->
-<!--        }-->
-<!--        .nav-button {-->
-<!--            color: white;-->
-<!--            text-decoration: none;-->
-<!--            font-size: 16px;-->
-<!--            display: flex;-->
-<!--            align-items: center;-->
-<!--            gap: 8px;-->
-<!--            transition: color 0.3s;-->
-<!--        }-->
-<!--        .nav-button:hover {-->
-<!--            color: #ffa500;-->
-<!--        }-->
-<!--        .profile-container {-->
-<!--            max-width: 600px;-->
-<!--            margin: 80px auto;-->
-<!--            background-color: white;-->
-<!--            padding: 20px;-->
-<!--            border-radius: 10px;-->
-<!--            box-shadow: 0 0 10px rgba(0,0,0,0.1);-->
-<!--        }-->
-<!--        .profile-item {-->
-<!--            margin-bottom: 15px;-->
-<!--            font-size: 18px;-->
-<!--        }-->
-<!--        h1 {-->
-<!--            text-align: center;-->
-<!--        }-->
-<!--        .recipe-list {-->
-<!--            margin-top: 30px;-->
-<!--        }-->
-<!--        .recipe-item {-->
-<!--            background-color: #fff;-->
-<!--            padding: 10px;-->
-<!--            border: 1px solid #ddd;-->
-<!--            margin: 5px 0;-->
-<!--            border-radius: 5px;-->
-<!--        }-->
-<!--    </style>-->
-<!--</head>-->
-<!--<body>-->
 
-<!--<div class="navbar">-->
-<!--    <a class="nav-button" href="/main"><i class="fas fa-home"></i> Главная</a>-->
-<!--    <a class="nav-button" href="/recipes"><i class="fas fa-book-open"></i> Рецепты</a>-->
-<!--    <a class="nav-button" href="/favourite_recipes"><i class="fas fa-heart"></i> Любимые рецепты</a>-->
-<!--    <a class="nav-button" href="/profile"><i class="fas fa-user"></i> Профиль</a>-->
-<!--</div>-->
-
-<!--<div class="profile-container">-->
-<!--    <h1>Профиль пользователя</h1>-->
-<!--    <div class="profile-item"><strong>Имя пользователя:</strong> <span id="username"></span></div>-->
-<!--    <div class="profile-item"><strong>Email:</strong> <span id="email"></span></div>-->
-<!--    <div class="profile-item"><strong>Телефон:</strong> <span id="phone"></span></div>-->
-<!--    <div class="profile-item"><strong>Дата рождения:</strong> <span id="bday"></span></div>-->
-
-<!--    <div class="recipe-list">-->
-<!--        <h2>Мои рецепты</h2>-->
-<!--        <div id="recipeList">-->
-<!--            &lt;!&ndash; Здесь будут отображаться рецепты &ndash;&gt;-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
-<!--<script>-->
-<!--    const token = localStorage.getItem("accessToken");-->
-
-<!--    // Получаем данные профиля пользователя-->
-<!--    fetch('/api/users/profile', {-->
-<!--        headers: {-->
-<!--            "Authorization": "Bearer " + token-->
-<!--        }-->
-<!--    })-->
-<!--    .then(response => {-->
-<!--        if (!response.ok) throw new Error("Ошибка загрузки профиля");-->
-<!--        return response.json();-->
-<!--    })-->
-<!--    .then(data => {-->
-<!--        document.getElementById('username').textContent = data.username;-->
-<!--        document.getElementById('email').textContent = data.email;-->
-<!--        document.getElementById('phone').textContent = data.phone;-->
-<!--        document.getElementById('bday').textContent = data.bday;-->
-<!--    })-->
-<!--    .catch(error => {-->
-<!--        console.error("Ошибка:", error);-->
-<!--    });-->
-
-<!--    // Получаем рецепты, созданные пользователем-->
-<!--    fetch('/api/users/myRecipe', {-->
-<!--        headers: {-->
-<!--            "Authorization": "Bearer " + token-->
-<!--        }-->
-<!--    })-->
-<!--    .then(response => {-->
-<!--        if (!response.ok) throw new Error("Ошибка загрузки рецептов");-->
-<!--        return response.json();-->
-<!--    })-->
-<!--    .then(data => {-->
-<!--        const recipeListContainer = document.getElementById('recipeList');-->
-
-<!--        if (data.length > 0) {-->
-<!--            data.forEach(recipe => {-->
-<!--                const recipeItem = document.createElement('div');-->
-<!--                recipeItem.classList.add('recipe-item');-->
-<!--                recipeItem.innerHTML = `-->
-<!--                    <strong>${recipe.title}</strong><br>-->
-<!--                    Время приготовления: ${recipe.time} минут-->
-<!--                `;-->
-<!--                recipeListContainer.appendChild(recipeItem);-->
-<!--            });-->
-<!--        } else {-->
-<!--            recipeListContainer.innerHTML = "<p>У вас нет созданных рецептов.</p>";-->
-<!--        }-->
-<!--    })-->
-<!--    .catch(error => {-->
-<!--        console.error("Ошибка:", error);-->
-<!--    });-->
-<!--</script>-->
-
-<!--</body>-->
-<!--</html>-->
+<!-- profile.html -->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -207,9 +65,9 @@
 
         .profile-header {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 20px;
-            margin-bottom: 30px;
+            text-align: center;
         }
 
         .profile-header img {
@@ -219,14 +77,10 @@
             object-fit: cover;
         }
 
-        .profile-info {
-            flex: 1;
-        }
-
         .profile-info h1 {
             font-size: 24px;
             font-weight: 600;
-            margin: 0;
+            margin: 10px 0;
             color: #333;
         }
 
@@ -234,10 +88,6 @@
             margin: 10px 0;
             font-size: 18px;
             color: #555;
-        }
-
-        .profile-item strong {
-            font-weight: 600;
         }
 
         .recipe-list {
@@ -258,12 +108,6 @@
             border-radius: 8px;
             border: 1px solid #f0f0f0;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .recipe-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
         }
 
         .recipe-item strong {
@@ -276,7 +120,7 @@
             font-size: 16px;
         }
 
-        .recipe-item .btn {
+        .btn {
             padding: 8px 16px;
             background-color: #ff6600;
             color: #fff;
@@ -286,18 +130,10 @@
             font-size: 14px;
             margin-top: 10px;
             display: inline-block;
-            transition: background-color 0.3s ease;
         }
 
-        .recipe-item .btn:hover {
+        .btn:hover {
             background-color: #e55d00;
-        }
-
-        .no-recipes {
-            font-size: 18px;
-            color: #888;
-            text-align: center;
-            padding: 20px;
         }
     </style>
 </head>
@@ -311,7 +147,6 @@
 </div>
 
 <div class="container">
-    <!-- Левый панель с информацией о пользователе -->
     <div class="left-panel">
         <div class="profile-header">
             <img src="https://via.placeholder.com/100" alt="Avatar">
@@ -321,80 +156,74 @@
                 <div class="profile-item"><strong>Телефон:</strong> <span id="phone">Загрузка...</span></div>
                 <div class="profile-item"><strong>Дата рождения:</strong> <span id="bday">Загрузка...</span></div>
             </div>
+            <button id="logoutButton" style="margin-top: 20px; background-color: #d9534f; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                Выйти из профиля
+            </button>
         </div>
     </div>
 
-    <!-- Правая панель с рецептами -->
     <div class="right-panel">
         <div class="recipe-list">
             <h2>Мои рецепты</h2>
-            <div id="recipeList" class="no-recipes">
-                Загрузка рецептов...
-            </div>
+            <div id="recipeList" class="no-recipes">Загрузка рецептов...</div>
         </div>
     </div>
 </div>
 
 <script>
+    // Получаем токен из localStorage
     const token = localStorage.getItem("accessToken");
 
-    // Получаем данные профиля пользователя
-    fetch('/api/users/profile', {
-        headers: {
-            "Authorization": "Bearer " + token
-        }
-    })
-    .then(response => {
-        if (!response.ok) throw new Error("Ошибка загрузки профиля");
-        return response.json();
-    })
-    .then(data => {
-        document.getElementById('username').textContent = data.username;
-        document.getElementById('email').textContent = data.email;
-        document.getElementById('phone').textContent = data.phone;
-        document.getElementById('bday').textContent = data.bday;
-        // Проверка роли пользователя
-        if (data.role === 'ADMIN') {
-            document.getElementById('adminActions').style.display = 'block'; // Показываем кнопки для ADMIN
+    // Если токена нет, перенаправляем на страницу входа
+    if (!token) {
+        window.location.href = "/login";
+    } else {
+        // Если токен есть, выполняем запросы для получения данных профиля
+        fetch('/api/users/profile', {
+            headers: { "Authorization": "Bearer " + token }
+        })
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('username').textContent = data.username;
+            document.getElementById('email').textContent = data.email;
+            document.getElementById('phone').textContent = data.phone;
+            document.getElementById('bday').textContent = data.bday;
+        });
+
+        fetch('/api/users/myRecipe', {
+            headers: { "Authorization": "Bearer " + token }
+        })
+        .then(res => res.json())
+        .then(data => {
+            const recipeList = document.getElementById('recipeList');
+            if (data.length) {
+                recipeList.innerHTML = '';
+                data.forEach(recipe => {
+                    recipeList.innerHTML += `
+                        <div class="recipe-item">
+                            <strong>${recipe.title}</strong><br>
+                            Время приготовления: <span>${recipe.time} минут</span><br>
+                            <a href="/recipe/${recipe.id}" class="btn">Перейти к рецепту</a>
+                        </div>`;
+                });
+            } else {
+                recipeList.innerHTML = '<p>У вас нет созданных рецептов.</p>';
+            }
+        });
     }
-    })
-    .catch(error => {
-        console.error("Ошибка:", error);
+
+    // Обработчик для выхода из профиля
+    document.getElementById("logoutButton").addEventListener("click", () => {
+        fetch("/logout", {
+            method: "POST",
+            headers: { "Authorization": "Bearer " + token }
+        }).then(response => {
+            if (response.ok) {
+                localStorage.removeItem("accessToken");
+                window.location.href = "/login";
+            }
+        });
     });
-
-    // Получаем рецепты, созданные пользователем
-    fetch('/api/users/myRecipe', {
-        headers: {
-            "Authorization": "Bearer " + token
-        }
-    })
-    .then(response => {
-        if (!response.ok) throw new Error("Ошибка загрузки рецептов");
-        return response.json();
-    })
-    .then(data => {
-        const recipeListContainer = document.getElementById('recipeList');
-
-        if (data.length > 0) {
-            recipeListContainer.innerHTML = ''; // Очистить текст "Загрузка рецептов..."
-            data.forEach(recipe => {
-                const recipeItem = document.createElement('div');
-                recipeItem.classList.add('recipe-item');
-                recipeItem.innerHTML = `
-                    <strong>${recipe.title}</strong><br>
-                    Время приготовления: <span>${recipe.time} минут</span><br>
-                    <a href="/recipe/${recipe.id}" class="btn">Перейти к рецепту</a>
-                `;
-                recipeListContainer.appendChild(recipeItem);
-            });
-        } else {
-            recipeListContainer.innerHTML = "<p>У вас нет созданных рецептов.</p>";
-        }
-    })
-    .catch(error => {
-        console.error("Ошибка:", error);
-    });
-
 </script>
 
 </body>

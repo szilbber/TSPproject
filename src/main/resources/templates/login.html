@@ -3,24 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <title>Вход</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding-top: 60px;
+            background-color: #f4f7fc;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 15px 0;
+            z-index: 1000;
+        }
+
+        .nav-button {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s;
+        }
+
+        .nav-button:hover {
+            color: #ffa500;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-container h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .login-container label {
+            display: block;
+            margin-top: 15px;
+            font-weight: 500;
+            color: #444;
+        }
+
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 25px;
+            background-color: #ff6600;
+            border: none;
+            color: white;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-container button:hover {
+            background-color: #e55d00;
+        }
+
+        #loginResponse {
+            color: red;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .register-link a {
+            text-decoration: none;
+            color: #ff6600;
+            font-size: 16px;
+        }
+
+        .register-link a:hover {
+            color: #e55d00;
+        }
+    </style>
 </head>
 <body>
-<h1>Вход</h1>
-<form id="loginForm" onsubmit="login(event)">
-    <label for="username">Имя пользователя:</label>
-    <input type="text" id="username" required><br/>
 
-    <label for="password">Пароль:</label>
-    <input type="password" id="password" required><br/>
+<div class="navbar">
+    <a class="nav-button" href="/main"><i class="fas fa-home"></i> Главная</a>
+    <a class="nav-button" href="/recipes"><i class="fas fa-book-open"></i> Рецепты</a>
+    <a class="nav-button" href="/favourite_recipes"><i class="fas fa-heart"></i> Любимые рецепты</a>
+    <a class="nav-button" href="#" onclick="goToProfile()"><i class="fas fa-user"></i> Профиль</a>
+</div>
 
-    <button type="submit">Войти</button>
-</form>
+<div class="login-container">
+    <h1>Вход</h1>
+    <form id="loginForm" onsubmit="login(event)">
+        <label for="username">Имя пользователя:</label>
+        <input type="text" id="username" required>
 
-<div id="loginResponse" style="color:red;"></div>
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" required>
+
+        <button type="submit">Войти</button>
+
+        <div id="loginResponse"></div>
+    </form>
+
+    <div class="register-link">
+        <p>Нет аккаунта? <a href="/registration">Зарегистрироваться</a></p>
+    </div>
+</div>
 
 <script>
+    if (localStorage.getItem("accessToken")) {
+        window.location.href = "/profile";
+    }
+
     async function login(event) {
-        event.preventDefault(); // отменяем стандартное поведение формы
+        event.preventDefault();
 
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
@@ -32,18 +157,20 @@
         });
 
         if (response.ok) {
-            const data = await response.json(); // токен приходит как JSON
-
-            // Сохраняем токен в localStorage
+            const data = await response.json();
             localStorage.setItem("accessToken", data.accessToken);
-
-            // Переход на другую страницу после успешного входа
-            window.location.href = "/main";
+            window.location.href = "/profile";
         } else {
             const msg = await response.text();
             document.getElementById("loginResponse").textContent = msg || "Ошибка входа";
         }
     }
+
+    function goToProfile() {
+        const token = localStorage.getItem("accessToken");
+        window.location.href = token ? "/profile" : "/login";
+    }
 </script>
+
 </body>
 </html>
