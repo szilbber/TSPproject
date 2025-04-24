@@ -179,6 +179,24 @@
                     </div>
                 </div>
             </div>
+            <div id="adminSection" style="margin-top: 30px; display: none;">
+                <button class="btn" onclick="openCategoryModal()">Создать категорию</button>
+            </div>
+
+            <!-- Модальное окно для категории -->
+            <div id="categoryModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; align-items: center;">
+                <div style="background: #fff; padding: 30px; border-radius: 10px; max-width: 400px; width: 100%; position: relative;">
+                    <h3>Создать категорию</h3>
+                    <label>Название категории:</label>
+                    <input type="text" id="title" placeholder="Название категории"style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;"><br/><br/>
+                    <div id="categoryError" style="color: red; margin-bottom: 10px;"></div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <button class="btn" onclick="submitCategory()">Сохранить</button>
+                        <button class="btn" style="background-color: grey;" onclick="closeCategoryModal()">Отмена</button>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
@@ -205,11 +223,16 @@
         })
         .then(res => res.json())
         .then(data => {
-            document.getElementById('username').textContent = data.username;
-            document.getElementById('email').textContent = data.email;
-            document.getElementById('phone').textContent = data.phone;
-            document.getElementById('bday').textContent = data.bday;
-        });
+    document.getElementById('username').textContent = data.username;
+    document.getElementById('email').textContent = data.email;
+    document.getElementById('phone').textContent = data.phone;
+    document.getElementById('bday').textContent = data.bday;
+
+    if (data.role === "ADMIN") {
+        document.getElementById("adminSection").style.display = "block";
+    }
+    });
+
 
         fetch('/api/users/myRecipe', {
             headers: { "Authorization": "Bearer " + token }
@@ -288,6 +311,42 @@ async function submitPasswordChange() {
         errorDiv.textContent = message;
     }
 }
+function openCategoryModal() {
+    document.getElementById("categoryModal").style.display = "flex";
+}
+
+function closeCategoryModal() {
+    document.getElementById("categoryModal").style.display = "none";
+    document.getElementById("categoryError").textContent = "";
+    document.getElementById("title").value = "";
+}
+    async function submitCategory() {
+    const title = document.getElementById("title").value.trim();  // Получаем значение поля "title"
+    const errorDiv = document.getElementById("categoryError");
+
+    if (!title) {
+        errorDiv.textContent = "Название категории не может быть пустым.";
+        return;
+    }
+
+    const response = await fetch("/api/categories/create", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({ title })  // передаем в запросе только title
+    });
+
+    if (response.ok) {
+        alert("Категория успешно создана!");
+        closeCategoryModal();
+    } else {
+        const message = await response.text();
+        errorDiv.textContent = message || "Ошибка при создании категории.";
+    }
+}
+
 
 </script>
 

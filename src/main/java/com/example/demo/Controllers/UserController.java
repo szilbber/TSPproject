@@ -47,6 +47,7 @@ public class UserController {
             profileDTO.setEmail(currentUser.getMail());
             profileDTO.setPhone(currentUser.getPhone());
             profileDTO.setBday(currentUser.getBday());
+            profileDTO.setRole(currentUser.getRole());
 
             return ResponseEntity.ok(profileDTO);  // Отправляем 200 OK с объектом user
 

@@ -1,5 +1,6 @@
 package com.example.demo.Dto;
 
+import com.example.demo.Entity.Role;
 import jakarta.validation.constraints.Pattern;
 
 import java.time.LocalDate;
@@ -9,6 +10,7 @@ public class UserProfileDTO {
     private String phone;
     private String email;
     private LocalDate bday;
+    private Role role;
 
     // Конструктор без параметров
     public UserProfileDTO() {
@@ -22,7 +24,9 @@ public class UserProfileDTO {
         this.phone = phone;
     }
 
-
+    // Геттеры и сеттеры
+    public Role getRole() { return role; }
+    public void setRole(Role role) { this.role = role; }
     public String getUsername() {
         return username;
     }
