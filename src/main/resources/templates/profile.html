@@ -159,6 +159,27 @@
             <button id="logoutButton" style="margin-top: 20px; background-color: #d9534f; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
                 Выйти из профиля
             </button>
+            <button class="btn" style="margin-top: 15px;" onclick="openPasswordModal()">Сменить пароль</button>
+
+            <!-- Модальное окно -->
+            <div id="passwordModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; align-items: center;">
+                <div style="background: #fff; padding: 30px; border-radius: 10px; max-width: 400px; width: 100%; position: relative;">
+                    <h3>Сменить пароль</h3>
+                    <label>Старый пароль:</label>
+                    <input type="password" id="oldPassword" style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;"><br/><br/>
+                    <label>Новый пароль:</label>
+                    <input type="password" id="newPassword" style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;"><br/><br/>
+                    <label>Подтверждение:</label>
+                    <input type="password" id="confirmPassword" style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;"><br/><br/>
+                    <div id="passwordError" style="color: red; margin-bottom: 10px;"></div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <button class="btn" onclick="submitPasswordChange()">Сохранить</button>
+                        <button class="btn" style="background-color: grey;" onclick="closePasswordModal()">Отмена</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -224,6 +245,50 @@
             }
         });
     });
+
+    function openPasswordModal() {
+    document.getElementById("passwordModal").style.display = "flex";
+}
+
+function closePasswordModal() {
+    document.getElementById("passwordModal").style.display = "none";
+    document.getElementById("passwordError").textContent = "";
+}
+
+async function submitPasswordChange() {
+    const oldPassword = document.getElementById("oldPassword").value;
+    const newPassword = document.getElementById("newPassword").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+    const errorDiv = document.getElementById("passwordError");
+
+    if (newPassword !== confirmPassword) {
+        errorDiv.textContent = "Новые пароли не совпадают!";
+        return;
+    }
+
+    const response = await fetch("/a/password_change", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({
+            oldPassword: oldPassword,
+            newPassword: newPassword
+        })
+    });
+
+    const message = await response.text();
+
+    if (response.ok) {
+        alert("Пароль успешно изменён!");
+        closePasswordModal();
+    } else {
+        errorDiv.textContent = message;
+    }
+}
+
 </script>
 
 </body>
