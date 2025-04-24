@@ -5,6 +5,7 @@ import com.example.demo.Entity.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -36,5 +37,12 @@ public class WebController {
     @RequestMapping("/profile")
     public String showMyProfile() {
         return "profile"; // thymeleaf найдет main.html
+    }
+    // Веб-метод для отображения страницы с рецептами категории
+    @RequestMapping("/recipes/category/{categoryId}")
+    public String getCategoryPage(@PathVariable("categoryId") Long categoryId) {
+
+        // Возвращаем имя HTML-шаблона (например, category-recipes.html)
+        return "recipes_category";
     }
 }

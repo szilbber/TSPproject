@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Категории рецептов</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f4f8;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .category-card {
+            background-color: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+    </style>
+</head>
+<body>
+
+<h1>Категории рецептов</h1>
+
+<div class="categories" id="categoriesContainer">
+    <!-- Карточки категорий загрузятся сюда -->
+</div>
+
+<script>
+    async function fetchCategories() {
+        try {
+            const response = await fetch('/api/categories');
+            const categories = await response.json();
+
+            const container = document.getElementById('categoriesContainer');
+            container.innerHTML = '';
+
+            categories.forEach(category => {
+                const card = document.createElement('div');
+                card.className = 'category-card';
+                card.textContent = category.title;
+                card.onclick = () => window.location.href = `/recipes/category/${category.id_category}`;
+                container.appendChild(card);
+            });
+
+        } catch (error) {
+            console.error("Ошибка загрузки категорий:", error);
+            document.getElementById('categoriesContainer').innerHTML = '<p style="color: red;">Ошибка загрузки данных</p>';
+        }
+    }
+
+    fetchCategories();
+</script>
+
+</body>
+</html>

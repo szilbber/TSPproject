@@ -29,14 +29,12 @@ public class CategoryController {
     // Получить все категории
     @GetMapping
     public ResponseEntity<?> getAllCategories() {
-        List<Category> categories = categoryService.getAllCategories();
         try {
-            return new ResponseEntity<>(categories, HttpStatus.OK); // Возвращаем список категорий со статусом 200 OK
-        }
-         catch (Exception e) {
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Ошибка сервера");
+            List<Category> categories = categoryService.getAllCategories();
+            return new ResponseEntity<>(categories, HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ошибка сервера");
         }
     }
+
 }
