@@ -17,7 +17,7 @@ public class RecipeAnswerDTO {
 
         // конструктор
         public RecipeAnswerDTO
-        (int id,int categoryId,String title, String description,String manual,String time)
+        (int id,int categoryId,String title, String description,String manual,String time, List<IngredientDTO> ingredients)
         {
             this.id =id;
             this.categoryId=categoryId;
@@ -25,21 +25,21 @@ public class RecipeAnswerDTO {
             this.description=description;
             this.manual=manual;
             this.time = time;
-
+            this.ingredients=ingredients;
         }
 
 
 public int getId() {
     return id;
 }
-    public int getCategoryId() {
+public int getCategoryId() {
         return categoryId;
     }
 
 public String getTitle() {
     return title;
 }
-    public String getDescription() {
+public String getDescription() {
         return description;
     }
 
@@ -47,9 +47,12 @@ public String getManual() {
         return manual;
         }
 
-public String getTime() {
-    return time;
+public List<IngredientDTO> getIngredients() {
+    return ingredients;
 }
+    public String getTime() {
+        return time;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -73,5 +76,8 @@ public String getTime() {
 
     public void setTime(String time) {
         this.time = time;
+    }
+    public void setIngredients(List<IngredientDTO> ingredients) {
+        this.ingredients = ingredients;
     }
 }

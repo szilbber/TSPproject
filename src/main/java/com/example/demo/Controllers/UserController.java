@@ -1,4 +1,5 @@
 package com.example.demo.Controllers;
+import com.example.demo.Dto.IngredientDTO;
 import com.example.demo.Dto.RecipeAnswerDTO;
 import com.example.demo.Dto.UserProfileDTO;
 import com.example.demo.Entity.Recipe;
@@ -90,7 +91,7 @@ public class UserController {
 
         return ResponseEntity.ok().build();
     }
-    @GetMapping("/myFavouriteRecipe")//мои любимые рецепты
+    @GetMapping("/myFavouriteRecipe") // мои любимые рецепты
     public ResponseEntity<List<RecipeAnswerDTO>> getMyFavRecipe() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -99,12 +100,34 @@ public class UserController {
         Set<Recipe> recipes = currentUser.getFavouriteRecipes();
 
         List<RecipeAnswerDTO> recipeDTOs = recipes.stream()
-                .map(r -> new RecipeAnswerDTO(r.getId(),(r.getCategory().getId_category()), r.getTitle(),r.getDescription(),r.getManual(), r.getTime()))
+                .map(r -> {
+                    List<IngredientDTO> ingredientDTOs = r.getIngredients().stream()
+                            .map(comp -> {
+                                IngredientDTO dto = new IngredientDTO();
+                                dto.setIngredientId(comp.getIngredient().getId_ingredient());
+                                dto.setIngredientTitle(comp.getIngredient().getTitle());
+                                dto.setIngredientUnit(comp.getIngredient().getUnitMeasure());
+                                dto.setQuantity(comp.getQuantity());
+                                return dto;
+                            })
+                            .collect(Collectors.toList());
+
+                    return new RecipeAnswerDTO(
+                            r.getId(),
+                            r.getCategory().getId_category(),
+                            r.getTitle(),
+                            r.getDescription(),
+                            r.getManual(),
+                            r.getTime(),
+                            ingredientDTOs
+                    );
+                })
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(recipeDTOs);
     }
-    @GetMapping("/myRecipe")//список моих рецептов
+
+    @GetMapping("/myRecipe")
     public ResponseEntity<List<RecipeAnswerDTO>> getMyRecipe() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -113,11 +136,33 @@ public class UserController {
         Set<Recipe> recipes = currentUser.getRecipes();
 
         List<RecipeAnswerDTO> recipeDTOs = recipes.stream()
-                .map(r -> new RecipeAnswerDTO(r.getId(),(r.getCategory().getId_category()), r.getTitle(),r.getDescription(),r.getManual(), r.getTime()))
+                .map(r -> {
+                    List<IngredientDTO> ingredientDTOs = r.getIngredients().stream()
+                            .map(comp -> {
+                                IngredientDTO dto = new IngredientDTO();
+                                dto.setIngredientId(comp.getIngredient().getId_ingredient());
+                                dto.setIngredientTitle(comp.getIngredient().getTitle());
+                                dto.setIngredientUnit(comp.getIngredient().getUnitMeasure());
+                                dto.setQuantity(comp.getQuantity());
+                                return dto;
+                            })
+                            .collect(Collectors.toList());
+
+                    return new RecipeAnswerDTO(
+                            r.getId(),
+                            r.getCategory().getId_category(),
+                            r.getTitle(),
+                            r.getDescription(),
+                            r.getManual(),
+                            r.getTime(),
+                            ingredientDTOs
+                    );
+                })
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(recipeDTOs);
     }
+
 
 
 

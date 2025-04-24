@@ -1,4 +1,5 @@
 package com.example.demo.Service;
+import com.example.demo.Dto.IngredientDTO;
 import com.example.demo.Dto.RecipeAnswerDTO;
 import com.example.demo.Entity.Category;
 import com.example.demo.Entity.User;
@@ -71,11 +72,36 @@ public class RecipeService {
     }
 
     public List<RecipeAnswerDTO> searchRecipes(String title, Long categoryId, List<String> ingredients) {
-        List<Recipe> recipes = recipeRepository.findByFilters(title,categoryId, ingredients);
+        List<Recipe> recipes = recipeRepository.findByFilters(title, categoryId, ingredients);
+
         return recipes.stream()
-                .map(r -> new RecipeAnswerDTO(r.getId(),(r.getCategory().getId_category()), r.getTitle(),r.getDescription(),r.getManual(), r.getTime()))
+                .map(r -> {
+                    // Преобразуем CompositionRecipe в IngredientDTO
+                    List<IngredientDTO> ingredientDTOs = r.getIngredients().stream()
+                            .map(comp -> {
+                                IngredientDTO dto = new IngredientDTO();
+                                dto.setIngredientId(comp.getIngredient().getId_ingredient());
+                                dto.setIngredientTitle(comp.getIngredient().getTitle());
+                                dto.setIngredientUnit(comp.getIngredient().getUnitMeasure());
+                                dto.setQuantity(comp.getQuantity());
+                                return dto;
+                            })
+                            .collect(Collectors.toList());
+
+                    // Возвращаем рецепт с ингредиентами
+                    return new RecipeAnswerDTO(
+                            r.getId(),
+                            r.getCategory().getId_category(),
+                            r.getTitle(),
+                            r.getDescription(),
+                            r.getManual(),
+                            r.getTime(),
+                            ingredientDTOs
+                    );
+                })
                 .collect(Collectors.toList());
     }
+
 
 
 //    public List<RecipeDTO> searchRecipeDTOs(Long categoryId) {

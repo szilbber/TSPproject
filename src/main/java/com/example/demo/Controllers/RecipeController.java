@@ -115,8 +115,30 @@ public class RecipeController {
     public ResponseEntity<RecipeAnswerDTO> getRecipe(@PathVariable int id)
     {
        Recipe r = recipeService.getRecipeById(id);
-        RecipeAnswerDTO recipeAnswerDTO= new RecipeAnswerDTO(r.getId(),(r.getCategory().getId_category()), r.getTitle(),r.getDescription(),r.getManual(), r.getTime());
-        return ResponseEntity.ok(recipeAnswerDTO);
+        // Преобразуем CompositionRecipe в IngredientDTO
+        List<IngredientDTO> ingredientDTOs = r.getIngredients().stream()
+                .map(comp -> {
+                    IngredientDTO dto = new IngredientDTO();
+                    dto.setIngredientId(comp.getIngredient().getId_ingredient());
+                    dto.setIngredientTitle(comp.getIngredient().getTitle());
+                    dto.setIngredientUnit(comp.getIngredient().getUnitMeasure());
+                    dto.setQuantity(comp.getQuantity());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+
+        // Возвращаем DTO с ингредиентами
+        RecipeAnswerDTO recipeAnswerDTO = new RecipeAnswerDTO(
+                r.getId(),
+                r.getCategory().getId_category(),
+                r.getTitle(),
+                r.getDescription(),
+                r.getManual(),
+                r.getTime(),
+                ingredientDTOs
+        );
+
+       return ResponseEntity.ok(recipeAnswerDTO);
     }
 
 }
