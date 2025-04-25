@@ -17,13 +17,14 @@ public class RegistrationRequestDto {
     private String password;
     @Pattern(
             regexp = "^7\\d{10}$",
-            message = "Номер телефона должен быть в правильном формате (например, +79991234567)"
+            message = "Номер телефона должен быть в правильном формате (например, 79991234567)"
     ) private String phone;
     @Pattern(
             regexp = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$",
             message = "Email адрес должен быть в правильном формате (например, user@example.com)"
     )
     private String email;
+
     private LocalDate bday;
 
     // Конструктор без параметров

@@ -82,7 +82,6 @@
 </head>
 
 <body>
-
 <div class="register-container">
     <h1>Регистрация</h1>
     <form id="registrationForm" onsubmit="sendRegistration(event)">
@@ -91,7 +90,7 @@
         <div id="usernameError" class="error"></div>
 
         <label for="password">Пароль:</label>
-        <input type="password" id="password" required>
+        <input type="text" id="password" required>
         <div id="passwordError" class="error"></div>
 
         <label for="phone">Телефон:</label>
@@ -99,7 +98,7 @@
         <div id="phoneError" class="error"></div>
 
         <label for="email">Почта:</label>
-        <input type="email" id="email" required>
+        <input type="text" id="email" required>
         <div id="emailError" class="error"></div>
 
         <label for="bday">Дата рождения:</label>
@@ -149,22 +148,14 @@
             document.getElementById("bdayError").textContent = '';
 
             result.forEach(error => {
-                // Показываем ошибки на странице
-                const errorDiv = document.createElement('div');
-                errorDiv.textContent = error;
-                container.appendChild(errorDiv);
 
                 // Отображаем ошибки возле соответствующих полей
-                if (error.includes('Имя пользователя')) {
-                    document.getElementById('usernameError').textContent = error;
-                } else if (error.includes('Пароль')) {
+                if (error.includes('Пароль')) {
                     document.getElementById('passwordError').textContent = error;
-                } else if (error.includes('Телефон')) {
-                    document.getElementById('phoneError').textContent = error;
+                } else if (error.includes('Номер')) {
+                    document.getElementById('phoneError').textContent = error
                 } else if (error.includes('Email')) {
                     document.getElementById('emailError').textContent = error;
-                } else if (error.includes('Дата рождения')) {
-                    document.getElementById('bdayError').textContent = error;
                 }
             });
         } else {
