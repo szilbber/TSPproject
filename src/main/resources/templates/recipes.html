@@ -127,20 +127,31 @@
         .ingredients-dropdown li:hover {
             background-color: #f0f0f0;
         }
+#ingredientList li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    padding: 4px 0;
+}
 
     </style>
 </head>
 <body>
+
 <div class="filters">
     <input type="text" id="titleInput" placeholder="Введите название рецепта..." />
+    <div style="position: relative;">
+        <button type="button" onclick="toggleIngredients()">Ингредиенты <i class="fas fa-caret-down"></i></button>
+        <div class="ingredients-dropdown" id="ingredientsDropdown">
+            <ul id="ingredientList">
+                <!-- Ингредиенты появятся тут -->
+            </ul>
+        </div>
+    </div>
     <button onclick="searchByTitle()">Найти</button>
 </div>
-<!-- Выпадающий список ингредиентов -->
-<div class="ingredients-dropdown" id="ingredientsDropdown">
-    <ul id="ingredientList">
-        <!-- Ингредиенты будут загружаться сюда -->
-    </ul>
-</div>
+
 <div class="navbar">
     <a class="nav-button" href="/main"><i class="fas fa-home"></i> Главная</a>
     <a class="nav-button" href="/recipes"><i class="fas fa-book-open"></i> Рецепты</a>
@@ -152,6 +163,10 @@
 
 <div class="categories" id="categoriesContainer">
     <!-- Карточки категорий загрузятся сюда -->
+</div>
+<h2 style="text-align: center;">Результаты поиска</h2>
+<div class="categories" id="searchResultsContainer">
+    <!-- Результаты поиска будут здесь -->
 </div>
 
 <script>
@@ -167,7 +182,9 @@
                 const card = document.createElement('div');
                 card.className = 'category-card';
                 card.textContent = category.title;
-                card.onclick = () => window.location.href = `/recipes/category/${category.id_category}`;
+<!--                card.onclick = () => window.location.href = `/recipes/category/${category.id_category}`;-->
+                card.onclick = () => window.location.href = `/recipes/category/${category.id_category}?name=${encodeURIComponent(category.title)}`;
+
                 container.appendChild(card);
             });
 
@@ -178,6 +195,79 @@
     }
 
     fetchCategories();
+    ///////////////////////
+// Показать/скрыть список ингредиентов
+    function toggleIngredients() {
+        const dropdown = document.getElementById('ingredientsDropdown');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Загрузка ингредиентов с сервера
+    async function fetchIngredients() {
+    try {
+        const response = await fetch('/api/ingredients');
+        const ingredients = await response.json();
+        const list = document.getElementById('ingredientList');
+
+        ingredients.forEach(ing => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <input type="checkbox" value="${ing.title}" id="ingredient-${ing.id_ingredient}">
+                <label for="ingredient-${ing.id_ingredient}">${ing.title}</label>
+            `;
+            list.appendChild(li);
+        });
+    } catch (e) {
+        console.error('Ошибка при загрузке ингредиентов:', e);
+    }
+}
+
+
+    // Модифицированная функция поиска
+    async function searchByTitle() {
+        const title = document.getElementById('titleInput').value;
+
+        // Собираем выбранные ингредиенты
+        const selectedIngredients = Array.from(document.querySelectorAll('#ingredientList input:checked'))
+            .map(cb => cb.value);
+
+        const params = new URLSearchParams();
+        if (title) params.append('title', title);
+        selectedIngredients.forEach(ing => params.append('ingredients', ing));
+
+        try {
+            const response = await fetch(`/api/recipes/search?${params.toString()}`);
+            const recipes = await response.json();
+            const resultsContainer = document.getElementById('searchResultsContainer');
+            resultsContainer.innerHTML = '';
+
+            if (recipes.length === 0) {
+                resultsContainer.innerHTML = '<p style="text-align:center; color: gray;">Рецепты не найдены</p>';
+                return;
+            }
+
+            recipes.forEach(recipe => {
+                const card = document.createElement('div');
+                card.className = 'category-card';
+                card.innerHTML = `
+                    <strong>${recipe.title}</strong>
+                    <p style="font-size: 14px;">${recipe.description || ''}</p>
+                    <p style="font-size: 12px; color: #666;">Время приготовления: ${recipe.time || 'не указано'}</p>
+                `;
+                card.onclick = () => window.location.href = `/recipes/${recipe.id}`;
+                resultsContainer.appendChild(card);
+            });
+        } catch (error) {
+            console.error("Ошибка при поиске рецептов:", error);
+            document.getElementById('searchResultsContainer').innerHTML = '<p style="color: red;">Ошибка при загрузке рецептов</p>';
+        }
+    }
+
+    // Загружаем ингредиенты при загрузке страницы
+    window.onload = () => {
+        fetchCategories();  // уже существующий вызов
+        fetchIngredients(); // наш новый
+    };
 </script>
 
 </body>

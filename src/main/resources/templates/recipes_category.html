@@ -3,17 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <title>Рецепты по категории</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* Стили для страницы */
         body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding-top: 60px;
             background-color: #f0f4f8;
         }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 15px 0;
+            z-index: 1000;
+        }
+
+        .nav-button {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s;
+        }
+
+        .nav-button:hover {
+            color: #ffa500;
+        }
+
         h1 {
             text-align: center;
             margin-bottom: 30px;
         }
+
+        .filters {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .filters input[type="text"] {
+            padding: 10px;
+            font-size: 14px;
+            width: 80%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .filters button {
+            padding: 10px 15px;
+            font-size: 14px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .filters button:hover {
+            background-color: #45a049;
+        }
+
+        .ingredients-dropdown {
+            display: none;
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            margin-top: 5px;
+            width: 200px;
+        }
+
+        .ingredients-dropdown ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .ingredients-dropdown li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            padding: 4px 0;
+        }
+
         .recipe-card {
             background-color: #fff;
             border-radius: 16px;
@@ -24,10 +107,12 @@
             transition: transform 0.2s, box-shadow 0.2s;
             cursor: pointer;
         }
+
         .recipe-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 16px rgba(0,0,0,0.15);
         }
+
         .recipes-container {
             display: flex;
             flex-wrap: wrap;
@@ -38,17 +123,42 @@
 </head>
 <body>
 
-<h1>Рецепты категории</h1>
+<!-- Навигационная панель -->
+<div class="navbar">
+    <a class="nav-button" href="/main"><i class="fas fa-home"></i> Главная</a>
+    <a class="nav-button" href="/recipes"><i class="fas fa-book-open"></i> Рецепты</a>
+    <a class="nav-button" href="/favourite_recipes"><i class="fas fa-heart"></i> Любимые рецепты</a>
+    <a class="nav-button" href="/profile"><i class="fas fa-user"></i> Профиль</a>
+</div>
+
+<!-- Фильтры -->
+<div class="filters">
+    <input type="text" id="titleInput" placeholder="Введите название рецепта..." />
+    <div style="position: relative;">
+        <button type="button" onclick="toggleIngredients()">Ингредиенты <i class="fas fa-caret-down"></i></button>
+        <div class="ingredients-dropdown" id="ingredientsDropdown">
+            <ul id="ingredientList">
+                <!-- Ингредиенты появятся тут -->
+            </ul>
+        </div>
+    </div>
+    <button onclick="searchByTitle()">Найти</button>
+</div>
+
+<h1 id="categoryTitle">Рецепты категории</h1>
 
 <div class="recipes-container" id="recipesContainer">
-    <!-- Здесь будут отображаться рецепты -->
+    <!-- Рецепты отобразятся здесь -->
 </div>
 
 <script>
-    // Получаем categoryId из URL
     const categoryId = window.location.pathname.split('/')[3];
+const urlParams = new URLSearchParams(window.location.search);
+const categoryName = urlParams.get('name');
+if (categoryName) {
+    document.getElementById('categoryTitle').textContent = `Рецепты категории "${categoryName}"`;
+}
 
-    // Функция для загрузки рецептов по категории
     async function fetchRecipesByCategory() {
         try {
             const response = await fetch(`/api/recipes/search?categoryId=${categoryId}`);
@@ -63,25 +173,83 @@
                     <h3>${recipe.title}</h3>
                     <p>${recipe.time}</p>
                 `;
-
-                // Добавляем обработчик клика для перехода на страницу рецепта
                 card.addEventListener('click', () => {
                     window.location.href = `/getRecipe/${recipe.id}`;
                 });
-
                 container.appendChild(card);
             });
-
         } catch (error) {
             console.error("Ошибка загрузки рецептов:", error);
-            document.getElementById('recipesContainer').innerHTML = '<p style="color: red;">Ошибка загрузки данных</p>';
         }
     }
 
-    // Загружаем рецепты при загрузке страницы
-    fetchRecipesByCategory();
+    function toggleIngredients() {
+        const dropdown = document.getElementById('ingredientsDropdown');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    async function fetchIngredients() {
+        try {
+            const response = await fetch('/api/ingredients');
+            const ingredients = await response.json();
+            const list = document.getElementById('ingredientList');
+
+            ingredients.forEach(ing => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <input type="checkbox" value="${ing.title}" id="ingredient-${ing.id_ingredient}">
+                    <label for="ingredient-${ing.id_ingredient}">${ing.title}</label>
+                `;
+                list.appendChild(li);
+            });
+        } catch (e) {
+            console.error('Ошибка при загрузке ингредиентов:', e);
+        }
+    }
+
+    async function searchByTitle() {
+        const title = document.getElementById('titleInput').value;
+        const selectedIngredients = Array.from(document.querySelectorAll('#ingredientList input:checked'))
+            .map(cb => cb.value);
+
+        const params = new URLSearchParams();
+        if (title) params.append('title', title);
+        if (categoryId) params.append('categoryId', categoryId);
+        selectedIngredients.forEach(ing => params.append('ingredients', ing));
+
+        try {
+            const response = await fetch(`/api/recipes/search?${params.toString()}`);
+            const recipes = await response.json();
+            const container = document.getElementById('recipesContainer');
+            container.innerHTML = '';
+
+            if (recipes.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color: gray;">Рецепты не найдены</p>';
+                return;
+            }
+
+            recipes.forEach(recipe => {
+                const card = document.createElement('div');
+                card.className = 'recipe-card';
+                card.innerHTML = `
+                    <h3>${recipe.title}</h3>
+                    <p>${recipe.time}</p>
+                `;
+                card.addEventListener('click', () => {
+                    window.location.href = `/getRecipe/${recipe.id}`;
+                });
+                container.appendChild(card);
+            });
+        } catch (error) {
+            console.error("Ошибка поиска рецептов:", error);
+        }
+    }
+
+    // Инициализация
+    window.onload = () => {
+        fetchIngredients();
+        fetchRecipesByCategory();
+    };
 </script>
-
-
 </body>
 </html>
