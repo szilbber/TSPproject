@@ -64,7 +64,7 @@ public class RecipeController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         User currentUser = (User) userService.loadUserByUsername(userDetails.getUsername());
-        Category category = categoryService.getCategoryByTitle(request.getCategoryName());
+        Category category = categoryService.getCategoryById(request.getCategoryId());
 
         recipe.setUser(currentUser);
         recipe.setCategory(category);

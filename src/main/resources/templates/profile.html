@@ -138,7 +138,7 @@
     </style>
 </head>
 <body>
-
+<!--Шапка--->
 <div class="navbar">
     <a class="nav-button" href="/main"><i class="fas fa-home"></i> Главная</a>
     <a class="nav-button" href="/recipes"><i class="fas fa-book-open"></i> Рецепты</a>
@@ -146,6 +146,7 @@
     <a class="nav-button" href="/profile"><i class="fas fa-user"></i> Профиль</a>
 </div>
 
+<!-- Профиль -->
 <div class="container">
     <div class="left-panel">
         <div class="profile-header">
@@ -155,7 +156,7 @@
                 <div class="profile-item"><strong>Телефон:</strong> <span id="phone">Загрузка...</span></div>
                 <div class="profile-item"><strong>Дата рождения:</strong> <span id="bday">Загрузка...</span></div>
             </div>
-            <!-- Профиль -->
+
             <button class="btn" id="createRecipeButton" style="margin-top: 20px;">Создать рецепт</button>
             <button class="btn" style="margin-top: 15px;" onclick="openPasswordModal()">Сменить пароль</button>
             <button id="logoutButton" style="margin-top: 20px; background-color: #d9534f; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
@@ -185,7 +186,7 @@
                 <button class="btn" style="margin-top: 15px;" onclick="openIngredientModal()">Создать ингредиент</button>
             </div>
 
-            <!-- Модальное окно для ингредиента -->
+            <!-- Модальное окно для создания ингредиента -->
             <div id="ingredientModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
 background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; align-items: center;">
                 <div style="background: #fff; padding: 30px; border-radius: 10px; max-width: 400px; width: 100%; position: relative;">
@@ -202,7 +203,7 @@ background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; al
                 </div>
             </div>
 
-            <!-- Модальное окно для категории -->
+            <!-- Модальное окно для создания категории -->
             <div id="categoryModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
 background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; align-items: center;">
                 <div style="background: #fff; padding: 30px; border-radius: 10px; max-width: 400px; width: 100%; position: relative;">
@@ -225,6 +226,7 @@ background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; al
 
                     <label>Описание:</label>
                     <textarea id="recipeDescription" placeholder="Введите описание рецепта" style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;"></textarea><br/><br/>
+
                     <label>Инструкция:</label>
                     <textarea id="recipeManual" placeholder="Введите инструкцию" style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;"></textarea><br/><br/>
 
@@ -232,8 +234,8 @@ background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; al
                     <input type="number" id="recipeTime" placeholder="Введите время приготовления" style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;"><br/><br/>
 
                     <label>Категория:</label>
-                    <select id="recipeCategory" style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;">
-                        <!-- Категории будут загружаться динамически -->
+                    <select id="categorySelect" style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;">
+                        <option disabled selected>Загрузка...</option>
                     </select><br/><br/>
 
                     <label>Ингредиенты:</label>
@@ -255,13 +257,14 @@ background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; al
 
         </div>
     </div>
-
+<!-----Мои рецепты--->
     <div class="right-panel">
         <div class="recipe-list">
             <h2>Мои рецепты</h2>
             <div id="recipeList" class="no-recipes">Загрузка рецептов...</div>
         </div>
     </div>
+
 </div>
 
 <script>
@@ -302,7 +305,7 @@ background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; al
     <div class="recipe-item">
         <strong>${recipe.title}</strong><br>
         Время приготовления: <span>${recipe.time} минут</span><br>
-        <a href="/recipe/${recipe.id}" class="btn">Перейти к рецепту</a>
+        <a href="/getRecipe/${recipe.id}" class="btn">Перейти к рецепту</a>
     </div>`;
 
                 });
@@ -444,10 +447,12 @@ async function submitIngredient() {
         errorDiv.textContent = message || "Ошибка при создании ингредиента.";
     }
 }
+
+
 ///////////////////////////////////////////////////////////////////////////////////////
 // Открыть модальное окно для создания рецепта
-document.getElementById("createRecipeButton").addEventListener("click", () => {
-    loadCategories(); // Загрузим категории перед открытием окна
+document.getElementById("createRecipeButton").addEventListener("click", async () => {
+    await fetchCategories(); // Ждем загрузки категорий
     document.getElementById("recipeModal").style.display = "flex";
 });
 
@@ -459,26 +464,31 @@ function closeRecipeModal() {
     document.getElementById("recipeDescription").value = "";
     document.getElementById("recipeManual").value = "";
     document.getElementById("recipeTime").value = "";
-    document.getElementById("recipeCategory").value = "";
+    document.getElementById("categorySelect").value = "";
     document.getElementById("ingredientsList").innerHTML = "";
 }
 
 // Загрузка категорий для выпадающего списка
-async function loadCategories() {
-    fetch("/api/categories", {
-        headers: { "Authorization": "Bearer " + token }
-    })
-    .then(res => res.json())
-    .then(data => {
-        const select = document.getElementById("recipeCategory");
-        select.innerHTML = "";
-        data.forEach(category => {
-            const option = document.createElement("option");
-            option.value = category.title;
-            option.textContent = category.title;
+async function fetchCategories() {
+    try {
+        const response = await fetch('/api/categories'); // <-- путь к твоему контроллеру
+        const categories = await response.json();
+
+        const select = document.getElementById('categorySelect');
+        select.innerHTML = ''; // очищаем старые опции
+
+        categories.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat.id_category; // предполагаю, что поле так называется
+            option.textContent = cat.title; // и тут, если у категории есть название
             select.appendChild(option);
         });
-    });
+
+    } catch (error) {
+        console.error("Ошибка при загрузке категорий:", error);
+        const select = document.getElementById('categorySelect');
+        select.innerHTML = '<option disabled selected>Ошибка загрузки</option>';
+    }
 }
 
 // Добавить поле для ингредиента
@@ -518,7 +528,7 @@ async function loadIngredients(selectElement) {
 
     ingredients.forEach(ingredient => {
         const option = document.createElement("option");
-        option.value = ingredient.id;
+        option.value = ingredient.id_ingredient;
         option.textContent = ingredient.title;
         selectElement.appendChild(option);
     });
@@ -530,9 +540,12 @@ async function submitRecipe() {
     const description = document.getElementById("recipeDescription").value.trim();
     const manual = document.getElementById("recipeManual").value.trim();
     const time = document.getElementById("recipeTime").value.trim();
-    const category = document.getElementById("recipeCategory").value;
+   const categoryId = parseInt(document.getElementById("categorySelect").value, 10);
 
-    if (!title || !description || !time || !category || !manual) {
+
+
+
+    if (!title || !description || !time || !categoryId || !manual) {
         document.getElementById("recipeError").textContent = "Пожалуйста, заполните все обязательные поля.";
         return;
     }
@@ -548,7 +561,7 @@ async function submitRecipe() {
     });
 
 
-if (!category) {
+if (!categoryId) {
     document.getElementById("recipeError").textContent = "Пожалуйста, выберите категорию!";
     return;
 }
@@ -558,22 +571,25 @@ const recipeData = {
     description,
     manual,
     time: parseInt(time),
-    category, // Это должно быть не null
+    categoryId,
     ingredients: ingredients.map(i => ({
         ingredientId: parseInt(i.ingredientId),
         quantity: parseFloat(i.quantity)
     }))
 };
 
+console.log("рецепт:", recipeData);  // Это покажет выбранный ID категории
+console.log("отправляемый categoryId:", categoryId, "тип:", typeof category);
 
-    const response = await fetch("/api/recipes/create", {
+    const response = await fetch(`/api/recipes/create`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
+            "Authorization": "Bearer " + localStorage.getItem("accessToken")
         },
         body: JSON.stringify(recipeData)
     });
+
 
     if (response.ok) {
         alert("Рецепт успешно создан!");

@@ -7,7 +7,7 @@ import java.util.List;
 @Data
 public class RecipeDTO {
 
-    private String categoryName; // Используем ID категории
+    private Integer categoryId; // Используем ID категории
     private String title;
     private String description;
     private String manual;
@@ -15,9 +15,9 @@ public class RecipeDTO {
     private List<IngredientDTO> ingredients;
 
     public RecipeDTO
-            (String categoryName, String title, String description, String manual, String time, List<IngredientDTO> ingredientTitles)
+            (Integer categoryId, String title, String description, String manual, String time, List<IngredientDTO> ingredientTitles)
     {
-        this.categoryName =categoryName;
+        this.categoryId =categoryId;
         this.title = title;
         this.description = description;
         this.manual = manual;
@@ -67,12 +67,12 @@ public class RecipeDTO {
 //        this.userId = userId;
 //    }
 
-    public String  getCategoryName() {
-        return categoryName;
+    public Integer  getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 
     public List<IngredientDTO> getIngredients() {

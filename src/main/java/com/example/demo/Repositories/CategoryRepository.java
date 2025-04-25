@@ -13,7 +13,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     Optional<Category> findByTitle(String title);
 
     // Метод для поиска категории по id
-   Optional<Category> findById(Integer id);
+   Optional<Category> findById(int id);
 
     // Метод для поиска категорий по части названия (с использованием LIKE для частичного совпадения)
     List<Category> findByTitleContainingIgnoreCase(String title);
