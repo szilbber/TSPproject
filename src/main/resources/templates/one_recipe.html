@@ -152,8 +152,17 @@
             const response = await fetch(`/api/recipes/getRecipe/${recipeId}`);
             const recipe = await response.json();
 
+            const categoryId =  parseInt(recipe.categoryId);
+
+        console.log("Ответ от /getCategory:", categoryId);
+          const response_c = await fetch(`/api/categories/getCategory/${categoryId}`);
+            const category = await response_c.json();
+
+
+
             const html = `
                 <h1>${recipe.title}</h1>
+                 <p><strong>Категория блюда:</strong> ${category.title}</p>
                 <p><strong>Время приготовления:</strong> ${recipe.time}</p>
                  <p class="section-title">Ингредиенты:</p>
                  <ul>

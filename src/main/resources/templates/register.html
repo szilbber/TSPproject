@@ -74,27 +74,37 @@
             margin-top: 15px;
             color: red;
         }
+        .error {
+        color: red;
+        font-size: 12px;
+    }
     </style>
 </head>
+
 <body>
 
 <div class="register-container">
     <h1>Регистрация</h1>
-    <form onsubmit="sendRegistration(event)">
+    <form id="registrationForm" onsubmit="sendRegistration(event)">
         <label for="username">Имя пользователя:</label>
         <input type="text" id="username" required>
+        <div id="usernameError" class="error"></div>
 
         <label for="password">Пароль:</label>
         <input type="password" id="password" required>
+        <div id="passwordError" class="error"></div>
 
         <label for="phone">Телефон:</label>
         <input type="text" id="phone" required>
+        <div id="phoneError" class="error"></div>
 
         <label for="email">Почта:</label>
         <input type="email" id="email" required>
+        <div id="emailError" class="error"></div>
 
         <label for="bday">Дата рождения:</label>
         <input type="text" id="bday" required>
+        <div id="bdayError" class="error"></div>
 
         <button type="submit">Зарегистрироваться</button>
     </form>
@@ -102,11 +112,8 @@
     <div id="response"></div>
 </div>
 
-<script>
-    function isValidJWT(token) {
-        return typeof token === 'string' && token.split('.').length === 3;
-    }
 
+<script>
     async function sendRegistration(event) {
         event.preventDefault();
 
@@ -118,6 +125,7 @@
             bday: document.getElementById("bday").value
         };
 
+        // Отправляем данные на сервер
         const response = await fetch("/a/registration", {
             method: "POST",
             headers: {
@@ -129,13 +137,44 @@
         const result = await response.json();
         const container = document.getElementById("response");
 
-        if (response.ok) {
-            window.location.href = "/login";
+        // Если сервер вернул ошибки, показываем их
+        if (!response.ok) {
+            container.innerHTML = '';
+
+            // Очищаем все ошибки
+            document.getElementById("usernameError").textContent = '';
+            document.getElementById("passwordError").textContent = '';
+            document.getElementById("phoneError").textContent = '';
+            document.getElementById("emailError").textContent = '';
+            document.getElementById("bdayError").textContent = '';
+
+            result.forEach(error => {
+                // Показываем ошибки на странице
+                const errorDiv = document.createElement('div');
+                errorDiv.textContent = error;
+                container.appendChild(errorDiv);
+
+                // Отображаем ошибки возле соответствующих полей
+                if (error.includes('Имя пользователя')) {
+                    document.getElementById('usernameError').textContent = error;
+                } else if (error.includes('Пароль')) {
+                    document.getElementById('passwordError').textContent = error;
+                } else if (error.includes('Телефон')) {
+                    document.getElementById('phoneError').textContent = error;
+                } else if (error.includes('Email')) {
+                    document.getElementById('emailError').textContent = error;
+                } else if (error.includes('Дата рождения')) {
+                    document.getElementById('bdayError').textContent = error;
+                }
+            });
         } else {
-            container.innerHTML = `<p>${result.join('<br/>')}</p>`;
+            // Успешная регистрация - редирект на страницу входа
+            window.location.href = "/login";
         }
     }
 </script>
 
 </body>
+
+
 </html>

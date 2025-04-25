@@ -38,28 +38,26 @@
             text-align: center;
             margin-top: 100px;
         }
+        .recipe-card {
+            background-color: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
         .recipe-list {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
             justify-content: center;
         }
-
-        .recipe-card {
-    background-color: #fff;
-    border-radius: 16px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    padding: 20px;
-    width: 200px;
-    text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
-    cursor: pointer;
-}
-.recipe-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-}
-
     </style>
 </head>
 <body>
@@ -80,38 +78,38 @@
 <script>
     async function loadFavouriteRecipes() {
         try {
+            // Получаем список любимых рецептов
             const response = await fetch("/api/users/myFavouriteRecipe", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": "Bearer " + localStorage.getItem("accessToken")
+                    "Authorization": "Bearer " + localStorage.getItem("accessToken") // Добавляем токен авторизации
                 }
             });
 
             if (response.ok) {
-                const recipes = await response.json();
+                const recipes = await response.json(); // Получаем рецепты в формате JSON
+
+                // Получаем контейнер для рецептов
                 const recipeList = document.getElementById('recipeList');
 
+                // Если рецепты есть, выводим их
                 if (recipes.length > 0) {
-                    recipeList.innerHTML = ''; // Очищаем, на всякий случай
-
                     recipes.forEach(recipe => {
-                        const recipeCard = document.createElement('div');
-                        recipeCard.classList.add('recipe-card');
-                        recipeCard.style.cursor = 'pointer'; // Указатель при наведении
+                const card = document.createElement('div');
+                card.className = 'recipe-card';
+                card.innerHTML = `
+                    <h3>${recipe.title}</h3>
+                    <p>${recipe.time}</p>
+                `;
 
-                        recipeCard.innerHTML = `
-                            <h3>${recipe.title}</h3>
-                            <p>Время приготовления: ${recipe.time} минут</p>
-                        `;
+                // Добавляем обработчик клика для перехода на страницу рецепта
+                card.addEventListener('click', () => {
+                    window.location.href = `/getRecipe/${recipe.id}`;
+                });
 
-                        // Добавляем обработчик клика для перехода
-                        recipeCard.addEventListener('click', () => {
-                            window.location.href = `/getRecipe/${recipe.id}`;
-                        });
-
-                        recipeList.appendChild(recipeCard);
-                    });
+                recipeList.appendChild(card);
+            });
                 } else {
                     recipeList.innerHTML = "<p>У вас нет любимых рецептов.</p>";
                 }
@@ -124,9 +122,9 @@
         }
     }
 
+    // Загружаем рецепты при загрузке страницы
     window.onload = loadFavouriteRecipes;
 </script>
-
 
 </body>
 </html>

@@ -45,7 +45,7 @@ public class AuthenticationController {
                     .stream()
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)
                     .collect(Collectors.toList());
-            return ResponseEntity.badRequest().body(errors);
+            return ResponseEntity.badRequest().body(errors);  // Возвращаем ошибки
         }
 
         try {
@@ -57,6 +57,7 @@ public class AuthenticationController {
                     .body(Collections.singletonList("Ошибка сервера при регистрации"));
         }
     }
+
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody LoginRequestDto request) {
         try {

@@ -37,4 +37,10 @@ public class CategoryController {
         }
     }
 
+    @GetMapping("/getCategory/{id}")
+    public ResponseEntity<Category> getCategoryById(@PathVariable Integer id){
+        Category category = categoryService.getCategoryById(id);
+        return ResponseEntity.ok(category);
+    }
+
 }
