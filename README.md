@@ -54,7 +54,7 @@
 | GET    | Получение любимых рецептов          | /api/users/myFavouriteRecipe           |                                                                                                                                                                                                                                              | `[ { "id_recipe": 1, "title": "..."} ]`                                                |
 | POST   | Добавление рецепта в избранное      | /api/users/favourite-recipes/{recipeId}|                                                                                                                                                                                                                                              | `{ "status":"success", "message":"Recipe added to favourites" }`                        |
 | DELETE | Удаление рецепта из избранного      | /api/users/removeFavourite/{recipeId}   |                                                                                                                                                                                                                                              | `{ "status":"success", "message":"Recipe removed from favourites" }`                     |
-                                             |
+                                             
                                                                                                                             
 
 
