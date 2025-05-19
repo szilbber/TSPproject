@@ -56,4 +56,5 @@
 - PostgreSQL
 - Java + Spring 
 - HTML + JavaScript
+- DevOps: Docker, Docker Compose
 
