@@ -21,7 +21,8 @@
 
 **Схема базы данных**
 
-![image](https://github.com/user-attachments/assets/8876b76d-b948-4262-bd8d-7ba31a3d8b71)
+![image](https://github.com/user-attachments/assets/78e4eae9-8cdd-4e9b-8d25-1701c48ae650)
+
 
 
 **Сущности**
