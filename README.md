@@ -21,7 +21,8 @@
 
 **Схема базы данных**
 
-![image](https://github.com/user-attachments/assets/8876b76d-b948-4262-bd8d-7ba31a3d8b71)
+![image](https://github.com/user-attachments/assets/78e4eae9-8cdd-4e9b-8d25-1701c48ae650)
+
 
 
 **Сущности**
@@ -35,9 +36,6 @@
 
 
 **Структура REST API**
-
-Извините за путаницу! Давайте исправим форматирование таблицы, убрав `<br>` и сделав её более читабельной:
-
 | Метод  | Название метода                      | URL                                     | Параметры запроса                                                                                                                                                                                                                           | Ответ                                                                                     |
 |--------|--------------------------------------|-----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
 | POST   | Регистрация пользователя             | /a/registration                         | `{ "username": "name", "email": "name@example.com", "phone": "89171119923", "bday": "11.22.3333", "password": "pass" }`                                                                                                           | `{ "status": "success", "user_id": 1, "token": "/...", "message": "User registered successfully" }` |
@@ -56,12 +54,15 @@
 | GET    | Получение любимых рецептов          | /api/users/myFavouriteRecipe           |                                                                                                                                                                                                                                              | `[ { "id_recipe": 1, "title": "..."} ]`                                                |
 | POST   | Добавление рецепта в избранное      | /api/users/favourite-recipes/{recipeId}|                                                                                                                                                                                                                                              | `{ "status":"success", "message":"Recipe added to favourites" }`                        |
 | DELETE | Удаление рецепта из избранного      | /api/users/removeFavourite/{recipeId}   |                                                                                                                                                                                                                                              | `{ "status":"success", "message":"Recipe removed from favourites" }`                     |
+                                             
+                                                                                                                            
 
-Если есть дополнительные изменения или вопросы, дайте знать!
 
 **Стек технологий**
 
 - PostgreSQL
 - Java + Spring 
 - HTML + JavaScript
+- DevOps: Docker, Docker Compose
+
 
