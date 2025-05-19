@@ -62,6 +62,7 @@
 </head>
 <body>
 
+
 <div class="navbar">
     <a class="nav-button" href="/main"><i class="fas fa-home"></i> Главная</a>
     <a class="nav-button" href="/recipes"><i class="fas fa-book-open"></i> Рецепты</a>
@@ -69,11 +70,14 @@
     <a class="nav-button" href="/profile"><i class="fas fa-user"></i> Профиль</a>
 </div>
 
+
 <h1>Ваши любимые рецепты</h1>
+
 
 <div class="recipe-list" id="recipeList">
     <!-- Сюда будут добавляться рецепты через JavaScript -->
 </div>
+
 
 <script>
     async function loadFavouriteRecipes() {
@@ -87,11 +91,14 @@
                 }
             });
 
+
             if (response.ok) {
                 const recipes = await response.json(); // Получаем рецепты в формате JSON
 
+
                 // Получаем контейнер для рецептов
                 const recipeList = document.getElementById('recipeList');
+
 
                 // Если рецепты есть, выводим их
                 if (recipes.length > 0) {
@@ -103,10 +110,12 @@
                     <p>${recipe.time}</p>
                 `;
 
+
                 // Добавляем обработчик клика для перехода на страницу рецепта
                 card.addEventListener('click', () => {
                     window.location.href = `/getRecipe/${recipe.id}`;
                 });
+
 
                 recipeList.appendChild(card);
             });
@@ -122,9 +131,11 @@
         }
     }
 
+
     // Загружаем рецепты при загрузке страницы
     window.onload = loadFavouriteRecipes;
 </script>
+
 
 </body>
 </html>

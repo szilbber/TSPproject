@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:latest
+    container_name: book_recipe_1
+    environment:
+      POSTGRES_DB: book_recipe3
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 222
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - demo-network
+
+  app:
+    build: .
+    container_name: interesting_sanderson_1
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/book_recipe3
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 222
+    depends_on:
+      - db
+    networks:
+      - demo-network
+
+volumes:
+  pgdata:
+
+networks:
+  demo-network:

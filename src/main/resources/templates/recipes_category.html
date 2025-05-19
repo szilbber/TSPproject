@@ -13,6 +13,7 @@
             background-color: #f0f4f8;
         }
 
+
         .navbar {
             position: fixed;
             top: 0;
@@ -25,6 +26,7 @@
             z-index: 1000;
         }
 
+
         .nav-button {
             color: white;
             text-decoration: none;
@@ -35,14 +37,17 @@
             transition: color 0.3s;
         }
 
+
         .nav-button:hover {
             color: #ffa500;
         }
+
 
         h1 {
             text-align: center;
             margin-bottom: 30px;
         }
+
 
         .filters {
             display: flex;
@@ -51,6 +56,7 @@
             margin: 20px;
         }
 
+
         .filters input[type="text"] {
             padding: 10px;
             font-size: 14px;
@@ -58,6 +64,7 @@
             border-radius: 5px;
             border: 1px solid #ccc;
         }
+
 
         .filters button {
             padding: 10px 15px;
@@ -69,9 +76,11 @@
             cursor: pointer;
         }
 
+
         .filters button:hover {
             background-color: #45a049;
         }
+
 
         .ingredients-dropdown {
             display: none;
@@ -84,10 +93,12 @@
             width: 200px;
         }
 
+
         .ingredients-dropdown ul {
             list-style-type: none;
             padding: 0;
         }
+
 
         .ingredients-dropdown li {
             display: flex;
@@ -96,6 +107,7 @@
             font-size: 14px;
             padding: 4px 0;
         }
+
 
         .recipe-card {
             background-color: #fff;
@@ -108,10 +120,12 @@
             cursor: pointer;
         }
 
+
         .recipe-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 16px rgba(0,0,0,0.15);
         }
+
 
         .recipes-container {
             display: flex;
@@ -123,6 +137,7 @@
 </head>
 <body>
 
+
 <!-- Навигационная панель -->
 <div class="navbar">
     <a class="nav-button" href="/main"><i class="fas fa-home"></i> Главная</a>
@@ -130,6 +145,7 @@
     <a class="nav-button" href="/favourite_recipes"><i class="fas fa-heart"></i> Любимые рецепты</a>
     <a class="nav-button" href="/profile"><i class="fas fa-user"></i> Профиль</a>
 </div>
+
 
 <!-- Фильтры -->
 <div class="filters">
@@ -145,19 +161,23 @@
     <button onclick="searchByTitle()">Найти</button>
 </div>
 
+
 <h1 id="categoryTitle">Рецепты категории</h1>
+
 
 <div class="recipes-container" id="recipesContainer">
     <!-- Рецепты отобразятся здесь -->
 </div>
 
+
 <script>
     const categoryId = window.location.pathname.split('/')[3];
-const urlParams = new URLSearchParams(window.location.search);
-const categoryName = urlParams.get('name');
-if (categoryName) {
+ const urlParams = new URLSearchParams(window.location.search);
+ const categoryName = urlParams.get('name');
+ if (categoryName) {
     document.getElementById('categoryTitle').textContent = `Рецепты категории "${categoryName}"`;
-}
+ }
+
 
     async function fetchRecipesByCategory() {
         try {
@@ -165,6 +185,7 @@ if (categoryName) {
             const recipes = await response.json();
             const container = document.getElementById('recipesContainer');
             container.innerHTML = '';
+
 
             recipes.forEach(recipe => {
                 const card = document.createElement('div');
@@ -183,16 +204,19 @@ if (categoryName) {
         }
     }
 
+
     function toggleIngredients() {
         const dropdown = document.getElementById('ingredientsDropdown');
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
     }
+
 
     async function fetchIngredients() {
         try {
             const response = await fetch('/api/ingredients');
             const ingredients = await response.json();
             const list = document.getElementById('ingredientList');
+
 
             ingredients.forEach(ing => {
                 const li = document.createElement('li');
@@ -207,15 +231,18 @@ if (categoryName) {
         }
     }
 
+
     async function searchByTitle() {
         const title = document.getElementById('titleInput').value;
         const selectedIngredients = Array.from(document.querySelectorAll('#ingredientList input:checked'))
             .map(cb => cb.value);
 
+
         const params = new URLSearchParams();
         if (title) params.append('title', title);
         if (categoryId) params.append('categoryId', categoryId);
         selectedIngredients.forEach(ing => params.append('ingredients', ing));
+
 
         try {
             const response = await fetch(`/api/recipes/search?${params.toString()}`);
@@ -223,10 +250,12 @@ if (categoryName) {
             const container = document.getElementById('recipesContainer');
             container.innerHTML = '';
 
+
             if (recipes.length === 0) {
                 container.innerHTML = '<p style="text-align:center; color: gray;">Рецепты не найдены</p>';
                 return;
             }
+
 
             recipes.forEach(recipe => {
                 const card = document.createElement('div');
@@ -244,6 +273,7 @@ if (categoryName) {
             console.error("Ошибка поиска рецептов:", error);
         }
     }
+
 
     // Инициализация
     window.onload = () => {

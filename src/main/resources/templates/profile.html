@@ -1,4 +1,5 @@
 
+
 <!-- profile.html -->
 <!DOCTYPE html>
 <html lang="ru">
@@ -15,6 +16,7 @@
             background-color: #f0f4f8;
         }
 
+
         .navbar {
             position: fixed;
             top: 0;
@@ -27,6 +29,7 @@
             z-index: 1000;
         }
 
+
         .nav-button {
             color: white;
             text-decoration: none;
@@ -37,9 +40,11 @@
             transition: color 0.3s;
         }
 
+
         .nav-button:hover {
             color: #ffa500;
         }
+
 
         .container {
             display: flex;
@@ -52,16 +57,19 @@
             padding: 20px;
         }
 
+
         .left-panel {
             flex: 0 0 35%;
             padding-right: 20px;
             border-right: 2px solid #f0f0f0;
         }
 
+
         .right-panel {
             flex: 1;
             padding-left: 20px;
         }
+
 
         .profile-header {
             display: flex;
@@ -70,12 +78,14 @@
             text-align: center;
         }
 
+
         .profile-header img {
             width: 100px;
             height: 100px;
             border-radius: 50%;
             object-fit: cover;
         }
+
 
         .profile-info h1 {
             font-size: 24px;
@@ -84,15 +94,18 @@
             color: #333;
         }
 
+
         .profile-item {
             margin: 10px 0;
             font-size: 18px;
             color: #555;
         }
 
+
         .recipe-list {
             margin-top: 40px;
         }
+
 
         .recipe-list h2 {
             font-size: 22px;
@@ -100,6 +113,7 @@
             margin-bottom: 20px;
             color: #333;
         }
+
 
         .recipe-item {
             background-color: #fff;
@@ -110,15 +124,18 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
+
         .recipe-item strong {
             font-size: 20px;
             color: #333;
         }
 
+
         .recipe-item span {
             color: #888;
             font-size: 16px;
         }
+
 
         .btn {
             padding: 8px 16px;
@@ -131,6 +148,7 @@
             margin-top: 10px;
             display: inline-block;
         }
+
 
         .btn:hover {
             background-color: #e55d00;
@@ -146,6 +164,7 @@
     <a class="nav-button" href="/profile"><i class="fas fa-user"></i> Профиль</a>
 </div>
 
+
 <!-- Профиль -->
 <div class="container">
     <div class="left-panel">
@@ -157,15 +176,17 @@
                 <div class="profile-item"><strong>Дата рождения:</strong> <span id="bday">Загрузка...</span></div>
             </div>
 
+
             <button class="btn" id="createRecipeButton" style="margin-top: 20px;">Создать рецепт</button>
             <button class="btn" style="margin-top: 15px;" onclick="openPasswordModal()">Сменить пароль</button>
             <button id="logoutButton" style="margin-top: 20px; background-color: #d9534f; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
                 Выйти из профиля
             </button>
 
+
             <!-- Модальное окно -->
             <div id="passwordModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; align-items: center;">
+   background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; align-items: center;">
                 <div style="background: #fff; padding: 30px; border-radius: 10px; max-width: 400px; width: 100%; position: relative;">
                     <h3>Сменить пароль</h3>
                     <label>Старый пароль:</label>
@@ -186,6 +207,7 @@
                 <button class="btn" style="margin-top: 15px;" onclick="openIngredientModal()">Создать ингредиент</button>
             </div>
 
+
             <!-- Модальное окно для создания ингредиента -->
             <div id="ingredientModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
 background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; align-items: center;">
@@ -202,6 +224,7 @@ background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; al
                     </div>
                 </div>
             </div>
+
 
             <!-- Модальное окно для создания категории -->
             <div id="categoryModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -224,28 +247,36 @@ background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; al
                     <label>Название рецепта:</label>
                     <input type="text" id="recipeTitle" placeholder="Введите название рецепта" style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;"><br/><br/>
 
+
                     <label>Описание:</label>
                     <textarea id="recipeDescription" placeholder="Введите описание рецепта" style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;"></textarea><br/><br/>
+
 
                     <label>Инструкция:</label>
                     <textarea id="recipeManual" placeholder="Введите инструкцию" style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;"></textarea><br/><br/>
 
+
                     <label>Время приготовления (в минутах):</label>
                     <input type="number" id="recipeTime" placeholder="Введите время приготовления" style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;"><br/><br/>
+
 
                     <label>Категория:</label>
                     <select id="categorySelect" style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;">
                         <option disabled selected>Загрузка...</option>
                     </select><br/><br/>
 
+
                     <label>Ингредиенты:</label>
                     <div id="ingredientsList">
                         <!-- Ингредиенты будут добавляться сюда -->
                     </div>
 
+
                     <button class="btn" style="margin-top: 15px;" onclick="addIngredientField()">Добавить ингредиент</button><br/><br/>
 
+
                     <div id="recipeError" style="color: red; margin-bottom: 10px;"></div>
+
 
                     <div style="display: flex; justify-content: space-between;">
                         <button class="btn" onclick="submitRecipe()">Создать</button>
@@ -256,9 +287,12 @@ background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; al
 
 
 
+
+
+
         </div>
     </div>
-<!-----Мои рецепты--->
+    <!-----Мои рецепты--->
     <div class="right-panel">
         <div class="recipe-list">
             <h2>Мои рецепты</h2>
@@ -266,11 +300,14 @@ background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; al
         </div>
     </div>
 
+
 </div>
+
 
 <script>
     // Получаем токен из localStorage
     const token = localStorage.getItem("accessToken");
+
 
     // Если токена нет, перенаправляем на страницу входа
     if (!token) {
@@ -287,10 +324,13 @@ background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; al
     document.getElementById('phone').textContent = data.phone;
     document.getElementById('bday').textContent = data.bday;
 
+
     if (data.role === "ADMIN") {
         document.getElementById("adminSection").style.display = "block";
     }
     });
+
+
 
 
         fetch('/api/users/myRecipe', {
@@ -309,12 +349,14 @@ background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; al
         <a href="/getRecipe/${recipe.id}" class="btn">Перейти к рецепту</a>
     </div>`;
 
+
                 });
             } else {
                 recipeList.innerHTML = '<p>У вас нет созданных рецептов.</p>';
             }
         });
     }
+
 
     // Обработчик для выхода из профиля
     document.getElementById("logoutButton").addEventListener("click", () => {
@@ -329,26 +371,32 @@ background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; al
         });
     });
 
+
     function openPasswordModal() {
     document.getElementById("passwordModal").style.display = "flex";
-}
+ }
 
-function closePasswordModal() {
+
+ function closePasswordModal() {
     document.getElementById("passwordModal").style.display = "none";
     document.getElementById("passwordError").textContent = "";
-}
+ }
 
-async function submitPasswordChange() {
+
+ async function submitPasswordChange() {
     const oldPassword = document.getElementById("oldPassword").value;
     const newPassword = document.getElementById("newPassword").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
 
+
     const errorDiv = document.getElementById("passwordError");
+
 
     if (newPassword !== confirmPassword) {
         errorDiv.textContent = "Новые пароли не совпадают!";
         return;
     }
+
 
     const response = await fetch("/a/password_change", {
         method: "POST",
@@ -362,7 +410,9 @@ async function submitPasswordChange() {
         })
     });
 
+
     const message = await response.text();
+
 
     if (response.ok) {
         alert("Пароль успешно изменён!");
@@ -370,24 +420,27 @@ async function submitPasswordChange() {
     } else {
         errorDiv.textContent = message;
     }
-}
-function openCategoryModal() {
+ }
+ function openCategoryModal() {
     document.getElementById("categoryModal").style.display = "flex";
-}
+ }
 
-function closeCategoryModal() {
+
+ function closeCategoryModal() {
     document.getElementById("categoryModal").style.display = "none";
     document.getElementById("categoryError").textContent = "";
     document.getElementById("title").value = "";
-}
+ }
     async function submitCategory() {
     const title = document.getElementById("title").value.trim();  // Получаем значение поля "title"
     const errorDiv = document.getElementById("categoryError");
+
 
     if (!title) {
         errorDiv.textContent = "Название категории не может быть пустым.";
         return;
     }
+
 
     const response = await fetch("/api/categories/create", {
         method: "POST",
@@ -398,6 +451,7 @@ function closeCategoryModal() {
         body: JSON.stringify({ title })  // передаем в запросе только title
     });
 
+
     if (response.ok) {
         alert("Категория успешно создана!");
         closeCategoryModal();
@@ -405,31 +459,35 @@ function closeCategoryModal() {
         const message = await response.text();
         errorDiv.textContent = message || "Ошибка при создании категории.";
     }
-}
-// Функция для открытия модального окна для ингредиента
-function openIngredientModal() {
+ }
+ // Функция для открытия модального окна для ингредиента
+ function openIngredientModal() {
     document.getElementById("ingredientModal").style.display = "flex";
-}
+ }
 
-// Функция для закрытия модального окна для ингредиента
-function closeIngredientModal() {
+
+ // Функция для закрытия модального окна для ингредиента
+ function closeIngredientModal() {
     document.getElementById("ingredientModal").style.display = "none";
     document.getElementById("ingredientError").textContent = "";
     document.getElementById("ingredientTitle").value = "";
     document.getElementById("unitMeasure").value = "";
-}
+ }
 
-// Функция для отправки данных на сервер для создания ингредиента
-async function submitIngredient() {
+
+ // Функция для отправки данных на сервер для создания ингредиента
+ async function submitIngredient() {
     const title = document.getElementById("ingredientTitle").value.trim();  // Получаем значение поля "ingredientTitle"
     const unitMeasure = document.getElementById("unitMeasure").value.trim();  // Получаем значение поля "unitMeasure"
     const errorDiv = document.getElementById("ingredientError");
+
 
     // Проверяем, чтобы оба поля не были пустыми
     if (!title || !unitMeasure) {
         errorDiv.textContent = "Название ингредиента и единица измерения не могут быть пустыми.";
         return;
     }
+
 
     const response = await fetch("/api/ingredients/create", {
         method: "POST",
@@ -440,6 +498,7 @@ async function submitIngredient() {
         body: JSON.stringify({ title, unitMeasure })  // передаем в запросе title и unitMeasure
     });
 
+
     if (response.ok) {
         alert("Ингредиент успешно создан!");
         closeIngredientModal();
@@ -447,18 +506,21 @@ async function submitIngredient() {
         const message = await response.text();
         errorDiv.textContent = message || "Ошибка при создании ингредиента.";
     }
-}
+ }
 
 
-///////////////////////////////////////////////////////////////////////////////////////
-// Открыть модальное окно для создания рецепта
-document.getElementById("createRecipeButton").addEventListener("click", async () => {
+
+
+ ///////////////////////////////////////////////////////////////////////////////////////
+ // Открыть модальное окно для создания рецепта
+ document.getElementById("createRecipeButton").addEventListener("click", async () => {
     await fetchCategories(); // Ждем загрузки категорий
     document.getElementById("recipeModal").style.display = "flex";
-});
+ });
 
-// Закрыть модальное окно для создания рецепта
-function closeRecipeModal() {
+
+ // Закрыть модальное окно для создания рецепта
+ function closeRecipeModal() {
     document.getElementById("recipeModal").style.display = "none";
     document.getElementById("recipeError").textContent = "";
     document.getElementById("recipeTitle").value = "";
@@ -467,16 +529,19 @@ function closeRecipeModal() {
     document.getElementById("recipeTime").value = "";
     document.getElementById("categorySelect").value = "";
     document.getElementById("ingredientsList").innerHTML = "";
-}
+ }
 
-// Загрузка категорий для выпадающего списка
-async function fetchCategories() {
+
+ // Загрузка категорий для выпадающего списка
+ async function fetchCategories() {
     try {
         const response = await fetch('/api/categories'); // <-- путь к твоему контроллеру
         const categories = await response.json();
 
+
         const select = document.getElementById('categorySelect');
         select.innerHTML = ''; // очищаем старые опции
+
 
         categories.forEach(cat => {
             const option = document.createElement('option');
@@ -485,17 +550,20 @@ async function fetchCategories() {
             select.appendChild(option);
         });
 
+
     } catch (error) {
         console.error("Ошибка при загрузке категорий:", error);
         const select = document.getElementById('categorySelect');
         select.innerHTML = '<option disabled selected>Ошибка загрузки</option>';
     }
-}
+ }
 
-// Добавить поле для ингредиента
-function addIngredientField() {
+
+ // Добавить поле для ингредиента
+ function addIngredientField() {
     const ingredientDiv = document.createElement("div");
     ingredientDiv.style.marginBottom = "10px";
+
 
     const ingredientSelect = document.createElement("select");
     ingredientSelect.style.width = "100%";
@@ -505,6 +573,7 @@ function addIngredientField() {
     ingredientSelect.style.border = "1px solid #ccc";
     ingredientSelect.classList.add("ingredientSelect");
     ingredientDiv.appendChild(ingredientSelect);
+
 
     const quantityInput = document.createElement("input");
     quantityInput.type = "number";
@@ -516,16 +585,19 @@ function addIngredientField() {
     quantityInput.style.border = "1px solid #ccc";
     ingredientDiv.appendChild(quantityInput);
 
+
     document.getElementById("ingredientsList").appendChild(ingredientDiv);
     loadIngredients(ingredientSelect); // загружаем ингредиенты
-}
+ }
 
-// Загрузка ингредиентов для выбора
-async function loadIngredients(selectElement) {
+
+ // Загрузка ингредиентов для выбора
+ async function loadIngredients(selectElement) {
     const response = await fetch("/api/ingredients", {
         headers: { "Authorization": "Bearer " + token }
     });
     const ingredients = await response.json();
+
 
     ingredients.forEach(ingredient => {
         const option = document.createElement("option");
@@ -533,10 +605,11 @@ async function loadIngredients(selectElement) {
         option.textContent = ingredient.title;
         selectElement.appendChild(option);
     });
-}
+ }
 
-// Отправка данных рецепта на сервер
-async function submitRecipe() {
+
+ // Отправка данных рецепта на сервер
+ async function submitRecipe() {
     const title = document.getElementById("recipeTitle").value.trim();
     const description = document.getElementById("recipeDescription").value.trim();
     const manual = document.getElementById("recipeManual").value.trim();
@@ -546,10 +619,15 @@ async function submitRecipe() {
 
 
 
+
+
+
+
     if (!title || !description || !time || !categoryId || !manual) {
         document.getElementById("recipeError").textContent = "Пожалуйста, заполните все обязательные поля.";
         return;
     }
+
 
     const ingredients = [];
     const ingredientFields = document.querySelectorAll(".ingredientSelect");
@@ -562,12 +640,15 @@ async function submitRecipe() {
     });
 
 
-if (!categoryId) {
+
+
+ if (!categoryId) {
     document.getElementById("recipeError").textContent = "Пожалуйста, выберите категорию!";
     return;
-}
+ }
 
-const recipeData = {
+
+ const recipeData = {
     title,
     description,
     manual,
@@ -577,10 +658,12 @@ const recipeData = {
         ingredientId: parseInt(i.ingredientId),
         quantity: parseFloat(i.quantity)
     }))
-};
+ };
 
-console.log("рецепт:", recipeData);  // Это покажет выбранный ID категории
-console.log("отправляемый categoryId:", categoryId, "тип:", typeof category);
+
+ console.log("рецепт:", recipeData);  // Это покажет выбранный ID категории
+ console.log("отправляемый categoryId:", categoryId, "тип:", typeof category);
+
 
     const response = await fetch(`/api/recipes/create`, {
         method: "POST",
@@ -592,6 +675,8 @@ console.log("отправляемый categoryId:", categoryId, "тип:", typeo
     });
 
 
+
+
     if (response.ok) {
         alert("Рецепт успешно создан!");
         closeRecipeModal();
@@ -600,9 +685,11 @@ console.log("отправляемый categoryId:", categoryId, "тип:", typeo
         const message = await response.text();
         document.getElementById("recipeError").textContent = message || "Ошибка при создании рецепта.";
     }
-}
+ }
+
 
 </script>
+
 
 </body>
 </html>

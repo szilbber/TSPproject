@@ -8,14 +8,19 @@ import com.example.demo.Service.CategoryService;
 import com.example.demo.Service.IngredientService;
 import com.example.demo.Service.RecipeService;
 import com.example.demo.Service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartFile;
+import com.fasterxml.jackson.core.type.TypeReference;
+import java.io.IOException;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -95,6 +100,7 @@ public class RecipeController {
         return ResponseEntity.created(URI.create("/recipes/" + savedRecipe.getId()))
                 .body(savedRecipe);
     }
+
 
     @GetMapping("/search")
     public ResponseEntity<List<RecipeAnswerDTO>> searchRecipes(

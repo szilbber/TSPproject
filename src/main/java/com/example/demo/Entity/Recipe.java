@@ -51,9 +51,9 @@ public class Recipe {
     // Конструкторы
     public Recipe() {}
 
-   // @JsonCreator
+    // @JsonCreator
     public Recipe(User userId, Category category, String title, String description, String manual, String time//, byte[] picture
-                   ) {
+    ) {
         this.userId = userId;
         this.category = category;
         this.title = title;

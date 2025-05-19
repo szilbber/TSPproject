@@ -114,6 +114,7 @@
 
 <script>
     async function sendRegistration(event) {
+    localStorage.removeItem("accessToken");
         event.preventDefault();
 
         const data = {

@@ -13,6 +13,7 @@
             background-color: #f0f4f8;
         }
 
+
         .navbar {
             position: fixed;
             top: 0;
@@ -25,6 +26,7 @@
             z-index: 1000;
         }
 
+
         .nav-button {
             color: white;
             text-decoration: none;
@@ -35,14 +37,17 @@
             transition: color 0.3s;
         }
 
+
         .nav-button:hover {
             color: #ffa500;
         }
+
 
         h1 {
             text-align: center;
             margin-bottom: 30px;
         }
+
 
         .categories {
             display: flex;
@@ -50,6 +55,7 @@
             gap: 20px;
             justify-content: center;
         }
+
 
         .category-card {
             background-color: #fff;
@@ -62,10 +68,12 @@
             cursor: pointer;
         }
 
+
         .category-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 16px rgba(0,0,0,0.15);
         }
+
 
         .filters {
             display: flex;
@@ -74,6 +82,7 @@
             margin-bottom: 20px;
         }
 
+
         .filters input[type="text"] {
             padding: 10px;
             font-size: 14px;
@@ -81,6 +90,7 @@
             border-radius: 5px;
             border: 1px solid #ccc;
         }
+
 
         .filters button {
             padding: 10px 15px;
@@ -92,15 +102,18 @@
             cursor: pointer;
         }
 
+
         .filters button:hover {
             background-color: #45a049;
         }
+
 
         .filter-icon {
             cursor: pointer;
             font-size: 18px;
             margin-left: 10px;
         }
+
 
         /* Выпадающий список ингредиентов */
         .ingredients-dropdown {
@@ -114,30 +127,35 @@
             width: 200px;
         }
 
+
         .ingredients-dropdown ul {
             list-style-type: none;
             padding: 0;
         }
+
 
         .ingredients-dropdown li {
             padding: 5px;
             cursor: pointer;
         }
 
+
         .ingredients-dropdown li:hover {
             background-color: #f0f0f0;
         }
-#ingredientList li {
+ #ingredientList li {
     display: flex;
     align-items: center;
     gap: 8px;
     font-size: 14px;
     padding: 4px 0;
-}
+ }
+
 
     </style>
 </head>
 <body>
+
 
 <div class="filters">
     <input type="text" id="titleInput" placeholder="Введите название рецепта..." />
@@ -152,6 +170,7 @@
     <button onclick="searchByTitle()">Найти</button>
 </div>
 
+
 <div class="navbar">
     <a class="nav-button" href="/main"><i class="fas fa-home"></i> Главная</a>
     <a class="nav-button" href="/recipes"><i class="fas fa-book-open"></i> Рецепты</a>
@@ -159,7 +178,9 @@
     <a class="nav-button" href="/profile"><i class="fas fa-user"></i> Профиль</a>
 </div>
 
+
 <h1>Категории рецептов</h1>
+
 
 <div class="categories" id="categoriesContainer">
     <!-- Карточки категорий загрузятся сюда -->
@@ -169,24 +190,29 @@
     <!-- Результаты поиска будут здесь -->
 </div>
 
+
 <script>
     async function fetchCategories() {
         try {
             const response = await fetch('/api/categories');
             const categories = await response.json();
 
+
             const container = document.getElementById('categoriesContainer');
             container.innerHTML = '';
+
 
             categories.forEach(category => {
                 const card = document.createElement('div');
                 card.className = 'category-card';
                 card.textContent = category.title;
-<!--                card.onclick = () => window.location.href = `/recipes/category/${category.id_category}`;-->
+ <!--                card.onclick = () => window.location.href = `/recipes/category/${category.id_category}`;-->
                 card.onclick = () => window.location.href = `/recipes/category/${category.id_category}?name=${encodeURIComponent(category.title)}`;
+
 
                 container.appendChild(card);
             });
+
 
         } catch (error) {
             console.error("Ошибка загрузки категорий:", error);
@@ -194,13 +220,15 @@
         }
     }
 
+
     fetchCategories();
     ///////////////////////
-// Показать/скрыть список ингредиентов
+ // Показать/скрыть список ингредиентов
     function toggleIngredients() {
         const dropdown = document.getElementById('ingredientsDropdown');
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
     }
+
 
     // Загрузка ингредиентов с сервера
     async function fetchIngredients() {
@@ -208,6 +236,7 @@
         const response = await fetch('/api/ingredients');
         const ingredients = await response.json();
         const list = document.getElementById('ingredientList');
+
 
         ingredients.forEach(ing => {
             const li = document.createElement('li');
@@ -220,20 +249,25 @@
     } catch (e) {
         console.error('Ошибка при загрузке ингредиентов:', e);
     }
-}
+ }
+
+
 
 
     // Модифицированная функция поиска
     async function searchByTitle() {
         const title = document.getElementById('titleInput').value;
 
+
         // Собираем выбранные ингредиенты
         const selectedIngredients = Array.from(document.querySelectorAll('#ingredientList input:checked'))
             .map(cb => cb.value);
 
+
         const params = new URLSearchParams();
         if (title) params.append('title', title);
         selectedIngredients.forEach(ing => params.append('ingredients', ing));
+
 
         try {
             const response = await fetch(`/api/recipes/search?${params.toString()}`);
@@ -241,10 +275,12 @@
             const resultsContainer = document.getElementById('searchResultsContainer');
             resultsContainer.innerHTML = '';
 
+
             if (recipes.length === 0) {
                 resultsContainer.innerHTML = '<p style="text-align:center; color: gray;">Рецепты не найдены</p>';
                 return;
             }
+
 
             recipes.forEach(recipe => {
                 const card = document.createElement('div');
@@ -263,6 +299,7 @@
         }
     }
 
+
     // Загружаем ингредиенты при загрузке страницы
     window.onload = () => {
         fetchCategories();  // уже существующий вызов
@@ -270,5 +307,7 @@
     };
 </script>
 
+
 </body>
 </html>
+

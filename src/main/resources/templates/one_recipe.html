@@ -24,6 +24,7 @@
              z-index: 1000;
          }
 
+
          .nav-button {
              color: white;
              text-decoration: none;
@@ -34,9 +35,11 @@
              transition: color 0.3s;
          }
 
+
          .nav-button:hover {
              color: #ffa500;
          }
+
 
          h1 {
              text-align: center;
@@ -52,17 +55,20 @@
              position: relative;
          }
 
+
          h1 {
              font-size: 2.2rem;
              color: #333;
              margin-bottom: 10px;
          }
 
+
          .recipe-info {
              font-size: 1rem;
              color: #666;
              margin-bottom: 20px;
          }
+
 
          .section-title {
              margin-top: 25px;
@@ -71,11 +77,13 @@
              color: #444;
          }
 
+
          p {
              font-size: 1rem;
              line-height: 1.6;
              color: #555;
          }
+
 
          .heart-button {
              background: none;
@@ -88,18 +96,22 @@
              transition: transform 0.2s ease;
          }
 
+
          .heart-button:hover {
              transform: scale(1.1);
          }
+
 
          .heart {
              color: #ccc;
              transition: color 0.3s ease;
          }
 
+
          .heart.liked {
              color: red;
          }
+
 
          .back-button {
              position: absolute;
@@ -110,12 +122,14 @@
              cursor: pointer;
          }
 
+
          .back-button:hover {
              color: #ffa500;
          }
     </style>
 </head>
 <body>
+
 
 <div class="navbar">
     <a class="nav-button" href="/main"><i class="fas fa-home"></i> Главная</a>
@@ -124,11 +138,13 @@
     <a class="nav-button" href="/profile"><i class="fas fa-user"></i> Профиль</a>
 </div>
 
+
 <div class="recipe-container">
     <!-- Сердечко -->
     <button id="favouriteButton" class="heart-button">
         <span id="heartIcon" class="heart">&#9825;</span> <!-- ♡ пустое / ♥ закрашенное -->
     </button>
+
 
     <!-- Контейнер с текстом рецепта -->
     <div id="recipeContent">
@@ -136,9 +152,11 @@
     </div>
 </div>
 
+
 <script>
     const recipeId = window.location.pathname.split('/')[2];
     let liked = false;
+
 
     document.addEventListener("DOMContentLoaded", () => {
         fetchRecipe();
@@ -146,17 +164,23 @@
         document.getElementById("favouriteButton").addEventListener("click", toggleFavourite);
     });
 
+
     // Функция для загрузки рецепта
     async function fetchRecipe() {
         try {
             const response = await fetch(`/api/recipes/getRecipe/${recipeId}`);
             const recipe = await response.json();
 
+
             const categoryId =  parseInt(recipe.categoryId);
+
 
         console.log("Ответ от /getCategory:", categoryId);
           const response_c = await fetch(`/api/categories/getCategory/${categoryId}`);
             const category = await response_c.json();
+
+
+
 
 
 
@@ -180,6 +204,7 @@
         }
     }
 
+
     // Функция для проверки, добавлен ли рецепт в избранное
     async function checkIfFavourite() {
         try {
@@ -196,6 +221,7 @@
             console.error('Ошибка проверки избранного:', error);
         }
     }
+
 
     // Функция для добавления/удаления рецепта из избранного
     async function toggleFavourite() {
@@ -229,6 +255,7 @@
         }
     }
 
+
     // Функция для обновления иконки сердечка
     function updateHeartIcon() {
         const heart = document.getElementById('heartIcon');
@@ -242,5 +269,7 @@
     }
 </script>
 
+
 </body>
 </html>
+
