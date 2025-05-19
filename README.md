@@ -44,7 +44,8 @@
 | GET        | Получение выбранного рецепта      | /api/recipes/getRecipe/{id}         |                                                                                                                                                                                                                                              | {<br>  "id_recipe": 1,<br>  "title": "Паста с томатным соусом",<br>  "category": "суп",<br>  "description": "...",<br>  "ingredients": [...],<br>  "manual": "...",<br>  "time": "...",<br>  "picture": "<...>"<br>} |
                                                                                               | {<br>  "status": "success",<br>  "message": "Recipe deleted successfully"<br>}          |
 | POST       | Добавление в избранное        | /api/users/favourite-recipes/{recipeId}    |                                                                                                                                                                                                                                              | {<br>  "message": "Favourite recipe added successfully."<br>}                           |
-| DELETE     | Удаление из избранного        | /api/users/removeFavourite/{recipeId} |                                                                                                                                    
+| DELETE     | Удаление из избранного        | /api/users/removeFavourite/{recipeId} |   
+| DELETE     | Удаление из избранного        | /api/users/removeFavourite/{recipeId} | {<br>  "message": "Favourite recipe added successfully."<br>}                           |
 
 
 **Стек технологий**
